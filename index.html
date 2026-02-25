@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daniel Kep</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;700&family=Assistant:wght@300;400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<nav class="nnnn">
+  <span class="nav-logo" onclick="showPage('home')">Daniel Kep</span>
+  <ul class="nav-links">
+    <li><a onclick="showPage('works')" id="nav-works">Works</a></li>
+  </ul>
+  <div class="nav-right">
+    <a onclick="showPage('info')" id="nav-info">Info</a>
+  </div>
+  <div class="nav-hamburger" onclick="openMobileMenu()"></div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobile-menu">
+  <div class="mobile-menu-top">
+    <span class="mobile-menu-logo" onclick="mobileNav('home')">Daniel Kep</span>
+    <button class="mobile-menu-close" onclick="closeMobileMenu()">&#215;</button>
+  </div>
+  <ul class="mobile-menu-links">
+    <li><a onclick="mobileNav('works')">Works</a></li>
+    <li><a onclick="mobileNav('info')">Info</a></li>
+  </ul>
+</div>
+
+<!-- HOME -->
+<div id="home" class="page active">
+  <div class="slideshow" id="slideshow"></div>
+</div>
+
+<!-- WORKS -->
+<div id="works" class="page">
+  <div class="works-list" id="works-list"></div>
+</div>
+
+<!-- INFO -->
+<div id="info" class="page">
+  <div class="info-photo">
+    <div class="img-wrapper" data-key="portrait">
+      <img class="stored-img" src="" alt="Portrait">
+      <div class="img-placeholder">Portrait</div>
+      <button class="admin-edit-btn" onclick="editImage(event,'portrait')">edit</button>
+    </div>
+  </div>
+  <div class="info-bio">
+    <p>Daniel Kep is a visual artist based in Tel Aviv. His work explores the relationship between memory and materiality, drawing on everyday objects and intimate spaces.</p>
+    <p>He has exhibited in galleries across Israel and Europe.</p>
+  </div>
+  <div class="info-contact">
+    <a href="mailto:danielkep@gmail.com">danielkep@gmail.com</a>
+    <a href="https://instagram.com/danielkep" target="_blank">instagram.com/danielkep</a>
+  </div>
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-back" onclick="closeLightbox()">&#8592; Back</button>
+  <button class="lb-edit-btn" onclick="editLightboxImage()">edit image</button>
+  <div class="lightbox-zone lightbox-zone-left"  onclick="lbNavigate(-1)"></div>
+  <div class="lightbox-zone lightbox-zone-right" onclick="lbNavigate(1)"></div>
+  <div class="lightbox-inner">
+    <div class="lightbox-img" id="lightbox-img"></div>
+  </div>
+  <div class="lightbox-caption" id="lightbox-caption"></div>
+</div>
+
+<div class="lb-cursor" id="lb-cursor"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
