@@ -13,7 +13,7 @@ var INFO_BIO = [
 var INFO_EMAIL     = 'danielkep@gmail.com';
 var INFO_INSTAGRAM = 'danielkep';  // just the username, without instagram.com/
 
-var SLIDE_DURATION   = 4000;  // ms — how long each slide stays visible
+var SLIDE_DURATION   = 6000;  // ms — how long each slide stays visible
 var SLIDE_TRANSITION = 1400;  // ms — fade duration between slides
 
 var WORKS = [
@@ -118,8 +118,18 @@ var WORKS = [
 ];
 
 var SLIDES = [
-  'https://i.imgur.com/E0VZ7vA.jpeg', // Slide 1,
-'https://i.imgur.com/AnjJBsK.jpeg', // Slide 2
+  'https://i.imgur.com/AnjJBsK.jpeg', // zirim
+'https://i.imgur.com/3DoFWV7.jpeg', // shemi
+'https://i.imgur.com/fbL1RQd.jpeg', // parpar
+'https://i.imgur.com/qNvRIlb.jpeg', // tomarkin
+'https://i.imgur.com/giReJN8.jpeg', // kidmat eden
+'https://i.imgur.com/E0VZ7vA.jpeg', // even varegel
+'https://i.imgur.com/8qCh6u1.jpeg', // kosot
+'https://i.imgur.com/faEHdFO.jpeg', // takriv kosot
+'https://i.imgur.com/UydPxyo.jpeg', // kadishman
+
+
+
 
  
 ];
