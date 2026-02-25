@@ -118,7 +118,7 @@ var WORKS = [
 ];
 
 var SLIDES = [
-  'https://i.imgur.com/3DoFWV7.jpeg',  // Slide 3
+  'https://www.prtfl.co.il/wp-content/uploads/2025/11/%D7%94%D7%99%D7%AA%D7%9C%D7%95%D7%AA-%D7%AA%D7%95%D7%9E%D7%A8%D7%A7%D7%99%D7%9F-%D7%94%D7%96%D7%A8%D7%A7%D7%AA-%D7%93%D7%99%D7%95-2025-70%D7%A2%D7%9C100.jpg',  // Slide 3
  
 ];
 
