@@ -4,6 +4,15 @@
 
 var PORTRAIT_URL = '';  // Info page portrait photo
 
+// INFO PAGE — edit here
+var INFO_BIO = [
+  'Daniel Kep is a visual artist based in Tel Aviv. His work explores the relationship between memory and materiality, drawing on everyday objects and intimate spaces.',
+  'He has exhibited in galleries across Israel and Europe.',
+];
+
+var INFO_EMAIL     = 'danielkep@gmail.com';
+var INFO_INSTAGRAM = 'danielkep';  // just the username, without instagram.com/
+
 var SLIDE_DURATION   = 4000;  // ms — how long each slide stays visible
 var SLIDE_TRANSITION = 1400;  // ms — fade duration between slides
 
@@ -166,6 +175,16 @@ function renderSlideshow() {
       '</div>'
     );
   }).join('');
+}
+
+function renderInfo() {
+  document.getElementById('info-bio').innerHTML = INFO_BIO.map(function(p) {
+    return '<p>' + p + '</p>';
+  }).join('');
+  document.getElementById('info-email').href        = 'mailto:' + INFO_EMAIL;
+  document.getElementById('info-email').textContent  = INFO_EMAIL;
+  document.getElementById('info-instagram').href        = 'https://instagram.com/' + INFO_INSTAGRAM;
+  document.getElementById('info-instagram').textContent = 'instagram.com/' + INFO_INSTAGRAM;
 }
 
 // ---- IMAGE STORE ----
@@ -350,6 +369,7 @@ function goToSlide(n) {
 
 renderWorks();
 renderSlideshow();
+renderInfo();
 slides = document.querySelectorAll('.slide');  // query after DOM is built
 
 checkAdminMode();
