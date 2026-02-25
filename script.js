@@ -118,12 +118,9 @@ var WORKS = [
 ];
 
 var SLIDES = [
-  'https://drive.google.com/uc?export=view&id=1_ffF1_XPj_VnVls2roC5_vEaGSGxaqg9',  // Slide 1
-  'https://drive.google.com/uc?export=view&id=1QK7M9YSFqx5rJJosJkWPza66E87yFxjn',  // Slide 2
-  'https://drive.google.com/uc?export=view&id=1nkN2oN1tuCJQ1PpX3WRqWqNi_jrYzzPL',  // Slide 3
-  'https://drive.google.com/uc?export=view&id=1ffEK_x7fBltP0fz6DtkrwrCHtR6hrgx5',  // Slide 4
-  'https://drive.google.com/uc?export=view&id=1gj86jXayWZb2EkFnk1qRh1L6KU-ovVlN',  // Slide 5
-  'https://drive.google.com/uc?export=view&id=1p7M5P0sNb2Cs5BTiaF4qOCEXpaj6sjhy',  // Slide 6
+  'https://photos.app.goo.gl/cE2oLH84GpwxfLHh8',  // Slide 3
+
+
 ];
 
 // =============================================================
