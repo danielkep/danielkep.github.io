@@ -118,7 +118,8 @@ var WORKS = [
 ];
 
 var SLIDES = [
-  'https://i.imgur.com/E0VZ7vA.jpeg' // Slide 1
+  'https://i.imgur.com/E0VZ7vA.jpeg', // Slide 1,
+'https://i.imgur.com/AnjJBsK.jpeg', // Slide 2
 
  
 ];
