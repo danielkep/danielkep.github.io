@@ -118,9 +118,16 @@ var WORKS = [
 ];
 
 var SLIDES = [
-  'https://www.prtfl.co.il/wp-content/uploads/2025/11/%D7%94%D7%99%D7%AA%D7%9C%D7%95%D7%AA-%D7%A9%D7%9E%D7%99-%D7%94%D7%96%D7%A8%D7%A7%D7%AA-%D7%93%D7%99%D7%95-2024-100%D7%A2%D7%9C70-%D7%A1%D7%9E.jpg',  // Slide 3
-  'https://www.prtfl.co.il/wp-content/uploads/2025/11/%D7%94%D7%99%D7%AA%D7%9C%D7%95%D7%AA-%D7%AA%D7%95%D7%9E%D7%A8%D7%A7%D7%99%D7%9F-%D7%94%D7%96%D7%A8%D7%A7%D7%AA-%D7%93%D7%99%D7%95-2025-70%D7%A2%D7%9C100.jpg',  // Slide 1
-  'https://www.prtfl.co.il/wp-content/uploads/2025/11/DanielKep_DanaGallery2025-DanielHanochPhotographer-6.jpg',  // Slide 2
+  'https://drive.google.com/file/d/1_ffF1_XPj_VnVls2roC5_vEaGSGxaqg9/view?usp=sharing',  // Slide 3
+  'https://drive.google.com/file/d/1QK7M9YSFqx5rJJosJkWPza66E87yFxjn/view?usp=sharing',  // Slide 1
+  'https://drive.google.com/file/d/1nkN2oN1tuCJQ1PpX3WRqWqNi_jrYzzPL/view?usp=sharing',  // Slide 2
+  'https://drive.google.com/file/d/1nkN2oN1tuCJQ1PpX3WRqWqNi_jrYzzPL/view?usp=sharing',  // Slide 4
+'https://drive.google.com/file/d/1ffEK_x7fBltP0fz6DtkrwrCHtR6hrgx5/view?usp=sharing',  // Slide 5
+'https://drive.google.com/file/d/1gj86jXayWZb2EkFnk1qRh1L6KU-ovVlN/view?usp=sharing',  // Slide 6
+'https://drive.google.com/file/d/1p7M5P0sNb2Cs5BTiaF4qOCEXpaj6sjhy/view?usp=sharing',  // Slide 7
+'https://drive.google.com/file/d/1gj86jXayWZb2EkFnk1qRh1L6KU-ovVlN/view?usp=sharing',  // Slide 8
+'https://drive.google.com/file/d/1nkN2oN1tuCJQ1PpX3WRqWqNi_jrYzzPL/view?usp=sharing',  // Slide 9
+
 ];
 
 // =============================================================
