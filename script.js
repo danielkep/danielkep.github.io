@@ -121,7 +121,6 @@ var SLIDES = [
   'https://drive.google.com/drive/u/0/folders/10TE6SFCkXM8EjCZu5i_mM_eIg6hryxAf',  // Slide 3
   'https://drive.google.com/drive/u/0/folders/10TE6SFCkXM8EjCZu5i_mM_eIg6hryxAf',  // Slide 1
   'https://drive.google.com/drive/u/0/folders/10TE6SFCkXM8EjCZu5i_mM_eIg6hryxAf',  // Slide 2
-,
 ];
 
 // =============================================================
