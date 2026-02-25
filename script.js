@@ -118,19 +118,8 @@ var WORKS = [
 ];
 
 var SLIDES = [
-  'https://imgur.com/AnjJBsK',  // Slide 3
- 'https://imgur.com/AnjJBsK',  // Slide 3
- 'https://imgur.com/AnjJBsK',  // Slide 3
- 'https://imgur.com/AnjJBsK',  // Slide 3
- 'https://imgur.com/AnjJBsK',  // Slide 3
- 'https://imgur.com/AnjJBsK',  // Slide 3
- 'https://imgur.com/AnjJBsK',  // Slide 3
- 'https://imgur.com/AnjJBsK',  // Slide 3
- 'https://imgur.com/AnjJBsK',  // Slide 3
- 'https://imgur.com/AnjJBsK',  // Slide 3
- 'https://imgur.com/AnjJBsK',  // Slide 3
-
-
+  'https://i.imgur.com/3DoFWV7.jpeg',  // Slide 3
+ 
 ];
 
 // =============================================================
