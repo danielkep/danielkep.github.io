@@ -2,16 +2,16 @@
 // CONTENT — edit here to update the site. Save + redeploy.
 // =============================================================
 
-var PORTRAIT_URL = '';  // Info page portrait photo
+var PORTRAIT_URL = 'https://i.imgur.com/fn6Pybq.jpeg';  // Info page portrait photo
 
 // INFO PAGE — edit here
 var INFO_BIO = [
-  'Daniel Kep is a visual artist based in Tel Aviv. His work explores the relationship between memory and materiality, drawing on everyday objects and intimate spaces.',
-  'He has exhibited in galleries across Israel and Europe.',
+  'Daniel Kep is a visual artist based in Jerusalem.',
+  '',
 ];
 
-var INFO_EMAIL     = 'danielkep@gmail.com';
-var INFO_INSTAGRAM = 'danielkep';  // just the username, without instagram.com/
+var INFO_EMAIL     = 'kep.dan@gmail.com';
+var INFO_INSTAGRAM = 'kep_daniel_';  // just the username, without instagram.com/
 
 var SLIDE_DURATION   = 6000;  // ms — how long each slide stays visible
 var SLIDE_TRANSITION = 1400;  // ms — fade duration between slides
