@@ -118,10 +118,10 @@ var WORKS = [
 ];
 
 var SLIDES = [
-  'https://orelvine.com/wp-content/uploads/2024/06/50-funny-memes-cover-image.jpg',  // Slide 3
-  'https://i.imgflip.com/9jqyru.jpg',  // Slide 1
-  'https://cdn.indiabioscience.org/imager/articles/411714/Aniruddha_feature-image_b2cf2921c9b71f66606f3c0854ade9b4.webp',  // Slide 2
-  'https://brobible.com/wp-content/uploads/2025/03/undertaker-meme-waking-up-from-dreams.jpg?resize=1536,865',
+  'https://drive.google.com/drive/u/0/folders/10TE6SFCkXM8EjCZu5i_mM_eIg6hryxAf',  // Slide 3
+  'https://drive.google.com/drive/u/0/folders/10TE6SFCkXM8EjCZu5i_mM_eIg6hryxAf',  // Slide 1
+  'https://drive.google.com/drive/u/0/folders/10TE6SFCkXM8EjCZu5i_mM_eIg6hryxAf,  // Slide 2
+,
 ];
 
 // =============================================================
