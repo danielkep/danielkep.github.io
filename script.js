@@ -27,17 +27,17 @@ Room (Artist-in-Residence concluding exhibition), HaMiffal Gallery, Jerusalem. C
 ];
 
 var INFO_EMAIL     = 'kep.dan@gmail.com';
-var INFO_INSTAGRAM = 'kep_daniel_';  // just the username, without instagram.com/
+var INFO_INSTAGRAM = '_kep_daniel';  // just the username, without instagram.com/
 var SLIDE_DURATION   = 6000;  // ms — how long each slide stays visible
 var SLIDE_TRANSITION = 1400;  // ms — fade duration between slides
 
 var WORKS = [
   {
-    title:  'Untitled I',
+    title:  '',
     year:   '2024',
-    medium: 'Oil on canvas',
-    size:   '120 × 90 cm',
-    url:    'https://i.imgflip.com/9jqyru.jpg',
+    medium: '',
+    size:   '',
+    url:    'https://i.imgur.com/FIL60lB.jpeg',
   },
   {
     title:  'Untitled II',
