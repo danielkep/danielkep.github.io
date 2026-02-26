@@ -597,6 +597,10 @@ function loupeHide() {
 
   function moveLoupe(e, imgEl) {
     if (!active || !loupe || !imgEl) return;
+    // always sync src so navigation updates work
+    if (loupeImg.src !== imgEl.src) {
+      loupeImg.src = imgEl.src;
+    }
     loupe.style.left = e.clientX + 'px';
     loupe.style.top  = e.clientY + 'px';
     var r   = imgEl.getBoundingClientRect();
@@ -604,10 +608,11 @@ function loupeHide() {
     var py  = (e.clientY - r.top)  / r.height;
     var imgW = r.width  * zoom;
     var imgH = r.height * zoom;
-    loupeImg.style.width  = imgW + 'px';
-    loupeImg.style.height = imgH + 'px';
-    loupeImg.style.left   = -(px * imgW - size / 2) + 'px';
-    loupeImg.style.top    = -(py * imgH - size / 2) + 'px';
+    loupeImg.style.width   = imgW + 'px';
+    loupeImg.style.height  = imgH + 'px';
+    loupeImg.style.left    = -(px * imgW - size / 2) + 'px';
+    loupeImg.style.top     = -(py * imgH - size / 2) + 'px';
+    loupeImg.style.filter  = 'contrast(1.15)';
   }
 
   function attachLoupe(el, getImg) {
