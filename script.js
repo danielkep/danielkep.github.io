@@ -427,6 +427,35 @@ function galleryRender(fade) {
     var creditHtml = (work.installationPhotos)
       ? '<div class="gallery-photo-credit">' + work.installationPhotos + '</div>' : '';
     galleryTextEl.innerHTML = titleHtml + mediumHtml + sizeHtml + yearHtml + creditHtml + counter;
+
+    // detect orientation after image loads
+    var tempImg = new Image();
+    tempImg.onload = function() {
+      var isLandscape = tempImg.naturalWidth > tempImg.naturalHeight;
+      galleryEl.classList.toggle('landscape', isLandscape);
+
+      if (isLandscape) {
+        // position text in white space left of image
+        var imgEl = document.getElementById('gallery-img');
+        var r = imgEl.getBoundingClientRect();
+        galleryTextEl.style.position = 'absolute';
+        galleryTextEl.style.left     = '0';
+        galleryTextEl.style.top      = '0';
+        galleryTextEl.style.bottom   = '0';
+        galleryTextEl.style.right    = (window.innerWidth - r.left) + 'px';
+        galleryTextEl.style.width    = 'auto';
+        galleryTextEl.style.padding  = '80px 40px 60px 60px';
+      } else {
+        galleryTextEl.style.position = '';
+        galleryTextEl.style.left     = '';
+        galleryTextEl.style.top      = '';
+        galleryTextEl.style.bottom   = '';
+        galleryTextEl.style.right    = '';
+        galleryTextEl.style.width    = '';
+        galleryTextEl.style.padding  = '';
+      }
+    };
+    tempImg.src = item.url;
   }
 
   if (fade) {

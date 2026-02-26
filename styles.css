@@ -640,12 +640,26 @@ body.admin-mode .lb-edit-btn {
   animation: lbFade 0.3s ease;
 }
 .gallery-left {
-  width: 260px;
+  width: 30%;
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 80px 48px 60px 60px;
+  align-items: flex-start;
+  padding: 80px 40px 60px 60px;
+}
+
+/* landscape: text centered in the white space LEFT of the image */
+#gallery-overlay.landscape .gallery-left {
+  width: auto;
+  flex: 0 0 auto;
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: var(--img-right-edge, 70%);
+  padding: 80px 40px 60px 60px;
+  justify-content: center;
 }
 .gallery-title {
   font-family: var(--font-display);
@@ -672,12 +686,19 @@ body.admin-mode .lb-edit-btn {
   color: #ccc;
 }
 .gallery-right {
-  flex: 1;
+  width: 70%;
+  flex-shrink: 0;
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: center;
   padding: 0;
   overflow: hidden;
+}
+
+/* landscape: image takes full remaining space, flush right */
+#gallery-overlay.landscape .gallery-right {
+  width: 100%;
+  justify-content: flex-end;
 }
 #gallery-img {
   max-width: 100%;
@@ -742,12 +763,26 @@ body.admin-mode .lb-edit-btn {
   animation: lbFade 0.3s ease;
 }
 .gallery-left {
-  width: 260px;
+  width: 30%;
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 80px 48px 60px 60px;
+  align-items: flex-start;
+  padding: 80px 40px 60px 60px;
+}
+
+/* landscape: text centered in the white space LEFT of the image */
+#gallery-overlay.landscape .gallery-left {
+  width: auto;
+  flex: 0 0 auto;
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: var(--img-right-edge, 70%);
+  padding: 80px 40px 60px 60px;
+  justify-content: center;
 }
 .gallery-title {
   font-family: var(--font-display);
@@ -779,12 +814,19 @@ body.admin-mode .lb-edit-btn {
   color: #ccc;
 }
 .gallery-right {
-  flex: 1;
+  width: 70%;
+  flex-shrink: 0;
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: center;
   padding: 0;
   overflow: hidden;
+}
+
+/* landscape: image takes full remaining space, flush right */
+#gallery-overlay.landscape .gallery-right {
+  width: 100%;
+  justify-content: flex-end;
 }
 #gallery-img {
   max-width: 100%;
@@ -830,8 +872,7 @@ body.admin-mode .lb-edit-btn {
 }
 
 /* ---- CUSTOM CURSOR ---- */
-body { cursor: none; }
-a, button, [onclick] { cursor: none; }
+body, a, button, [onclick], nav, nav * { cursor: none !important; }
 
 #site-cursor {
   position: fixed;
