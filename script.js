@@ -582,7 +582,7 @@ function loupeHide() {
 (function() {
   var loupe     = null;
   var loupeImg  = null;
-  var zoom      = 2.8;
+  var zoom      = 1.6;
   var size      = 160;
   var active    = false;
 
@@ -612,7 +612,7 @@ function loupeHide() {
     loupeImg.style.height  = imgH + 'px';
     loupeImg.style.left    = -(px * imgW - size / 2) + 'px';
     loupeImg.style.top     = -(py * imgH - size / 2) + 'px';
-    loupeImg.style.filter  = 'contrast(1.15)';
+    loupeImg.style.filter  = 'grayscale(1) contrast(1.15)';
   }
 
   function attachLoupe(el, getImg) {
