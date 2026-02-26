@@ -34,10 +34,10 @@ var SLIDE_TRANSITION = 1400;
 
 var WORKS = [
   {
-    title:  '',
+    title:  'Tzirim (Axes)',
     year:   '2024',
-    medium: '',
-    size:   '',
+    medium: 'Oak wood',
+    size:   '327  \u00d7 467 cm (Dimensions variable)',
     images: [
       'https://i.imgur.com/FIL60lB.jpeg',
       'https://i.imgur.com/VGxrsrb.jpeg',
