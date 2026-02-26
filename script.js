@@ -51,7 +51,7 @@ var WORKS = [
     medium: 'Archival Inkjet',
     size:   '70 \u00d7 100 cm',
     images: [
-      'https://i.imgur.com/3DoFWV7.jpeg',
+      'https://i.imgur.com/zIbKQfA.jpeg',
    ],
   },
   {
@@ -60,7 +60,7 @@ var WORKS = [
     medium: 'Archival Inkjet',
     size:   '70 \u00d7 100 cm',
     images: [
-      'https://i.imgur.com/qNvRIlb.jpeg',
+      'https://i.imgur.com/CnuMs10.jpeg',
     ],
   },
   {
@@ -69,7 +69,7 @@ var WORKS = [
     medium: 'Archival Inkjet',
     size:   '70 \u00d7 100 cm',
     images: [
-      'https://i.imgur.com/UydPxyo.jpeg',
+      'https://i.imgur.com/bWjd6Db.jpeg',
     ],
   },
   {
