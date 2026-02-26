@@ -363,7 +363,7 @@ function galleryBuild() {
   el.addEventListener('mousemove', function(e) {
     galleryCursor.style.left = e.clientX + 'px';
     galleryCursor.style.top  = e.clientY + 'px';
-    galleryCursor.textContent = e.clientX < window.innerWidth / 2 ? '\u2192' : '\u2190';
+    galleryCursor.textContent = e.clientX < window.innerWidth / 2 ? '\u2190' : '\u2192';
     galleryCursor.style.opacity = '1';
   });
   el.addEventListener('mouseleave', function() { galleryCursor.style.opacity = '0'; });
