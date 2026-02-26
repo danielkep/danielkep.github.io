@@ -41,6 +41,11 @@ var WORKS = [
     size:   '',
     images: [
       'https://i.imgur.com/FIL60lB.jpeg',
+      'https://i.imgur.com/VGxrsrb.jpeg',
+      'https://i.imgur.com/YRC5Q9E.jpeg',
+      'https://i.imgur.com/AnjJBsK.jpeg',
+
+
     ],
   },
   {
