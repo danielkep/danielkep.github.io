@@ -608,3 +608,31 @@ body.admin-mode .lb-edit-btn {
   background-color: rgb(255, 255, 255);
   margin: 0 2em;
 }
+
+/* ---- GALLERY BADGE (+N) ---- */
+.work-image-count {
+  position: absolute;
+  bottom: 10px;
+  right: 12px;
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  color: rgba(255,255,255,0.85);
+  background: rgba(0,0,0,0.35);
+  padding: 3px 7px;
+  pointer-events: none;
+}
+
+/* ---- LIGHTBOX COUNTER ---- */
+.lightbox-caption {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+}
+.lb-counter {
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: #bbb;
+}
