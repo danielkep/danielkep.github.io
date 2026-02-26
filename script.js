@@ -46,33 +46,43 @@ var WORKS = [
     ],
   },
   {
-    title:  'Untitled II',
-    year:   '2024',
-    medium: 'Mixed media on paper',
-    size:   '80 \u00d7 60 cm',
+    title:  'Clinging (Shemi)',
+    year:   '2023',
+    medium: 'Archival Inkjet',
+    size:   '70 \u00d7 100 cm',
     images: [
-      'https://i.imgflip.com/9jt6e7.jpg',
-      'https://i.imgflip.com/9juj6s.jpg',
-      'https://i.imgflip.com/288cnn.jpg',
+      'https://i.imgur.com/3DoFWV7.jpeg',
+   ],
+  },
+  {
+    title:  'Clinging (Tumarkin)',
+    year:   '2025',
+    medium: 'Archival Inkjet',
+    size:   '70 \u00d7 100 cm',
+    images: [
+      'https://i.imgur.com/qNvRIlb.jpeg',
     ],
   },
   {
-    title:  'Study III',
-    year:   '2023',
-    medium: 'Charcoal on paper',
-    size:   '100 \u00d7 70 cm',
+    title:  'Clinging (Kadishman)',
+    year:   '2025',
+    medium: 'Archival Inkjet',
+    size:   '70 \u00d7 100 cm',
     images: [
-      'https://i.imgflip.com/9juj6s.jpg',
+      'https://i.imgur.com/UydPxyo.jpeg',
     ],
   },
   {
-    title:  'Composition IV',
-    year:   '2023',
-    medium: 'Acrylic on canvas',
-    size:   '150 \u00d7 110 cm',
+    title:  'Golden Jackal',
+    year:   '2025',
+    medium: 'Umbrella, candle, taxidermied jackal leg',
+    size:   '90 \u00d7 90 cm',
     images: [
-      'https://i.imgflip.com/288cnn.jpg',
-      'https://i.imgflip.com/9jqyru.jpg',
+      'https://i.imgur.com/EUanBpY.jpeg',
+      'https://i.imgur.com/DQ0SwTQ.jpeg',
+      'https://i.imgur.com/TJKOuYw.jpeg',
+      'https://i.imgur.com/1eR59pN.jpeg',
+
     ],
   },
   {
@@ -81,7 +91,39 @@ var WORKS = [
     medium: 'Oil on linen',
     size:   '90 \u00d7 90 cm',
     images: [
-      'https://i.imgflip.com/9jqyru.jpg',
+      'https://i.imgur.com/EUanBpY.jpeg',
+      'https://i.imgur.com/DQ0SwTQ.jpeg',
+      'https://i.imgur.com/TJKOuYw.jpeg',
+      'https://i.imgur.com/1eR59pN.jpeg',
+
+    ],
+  },
+  {
+    title:  'Fragment V',
+    year:   '2022',
+    medium: 'Oil on linen',
+    size:   '90 \u00d7 90 cm',
+    images: [
+      'https://i.imgur.com/EUanBpY.jpeg',
+      'https://i.imgur.com/DQ0SwTQ.jpeg',
+      'https://i.imgur.com/TJKOuYw.jpeg',
+      'https://i.imgur.com/1eR59pN.jpeg',
+
+
+    ],
+  },
+  {
+    title:  'Fragment V',
+    year:   '2022',
+    medium: 'Oil on linen',
+    size:   '90 \u00d7 90 cm',
+    images: [
+      'https://i.imgur.com/EUanBpY.jpeg',
+      'https://i.imgur.com/DQ0SwTQ.jpeg',
+      'https://i.imgur.com/TJKOuYw.jpeg',
+      'https://i.imgur.com/1eR59pN.jpeg',
+
+
     ],
   },
 ];
