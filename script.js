@@ -13,7 +13,7 @@ var INFO_BIO = [
   'Clinging (Solo Exhibition), Dana Gallery, Kibbutz Yad Mordechai. Curator: Ravit Harari (2024; scheduled to travel to Tel Aviv later this year).',
   "Bad Root, Jerusalem Artists\u2019 House. Curator: Sally Haftel Naveh (2023).",
   'Untitled, Edmond de Rothschild Center, Tel Aviv. Curator: Hadas Maor (2022).',
-  'Slight Tremor (Solo Exhibition), Gallery of Contemporary Art, Ramat Hasharon (2021).',
+  'Slight Tremor (Solo Exhibition), Gallery of Contemporary Art, Ramat Hasharon (2021).Curator: Ravit Harari',
   'Room (Artist-in-Residence concluding exhibition), HaMiffal Gallery, Jerusalem. Curator: Meydad Eliyahu (2021).',
 ];
 
