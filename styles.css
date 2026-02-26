@@ -675,15 +675,16 @@ body.admin-mode .lb-edit-btn {
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  padding: 60px 60px 60px 0;
+  padding: 0;
   overflow: hidden;
 }
 #gallery-img {
   max-width: 100%;
-  max-height: 100%;
+  max-height: 100vh;
   width: auto;
-  height: auto;
+  height: 100vh;
   object-fit: contain;
+  object-position: right center;
   display: block;
   transition: opacity 0.2s ease;
 }
@@ -781,15 +782,16 @@ body.admin-mode .lb-edit-btn {
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  padding: 60px 60px 60px 0;
+  padding: 0;
   overflow: hidden;
 }
 #gallery-img {
   max-width: 100%;
-  max-height: 100%;
+  max-height: 100vh;
   width: auto;
-  height: auto;
+  height: 100vh;
   object-fit: contain;
+  object-position: right center;
   display: block;
   transition: opacity 0.2s ease;
 }
