@@ -582,7 +582,7 @@ function loupeHide() {
 (function() {
   var loupe     = null;
   var loupeImg  = null;
-  var zoom      = 1.0;
+  var zoom      = 0.7;
   var size      = 90;
   var active    = false;
 
@@ -612,7 +612,7 @@ function loupeHide() {
     loupeImg.style.height  = imgH + 'px';
     loupeImg.style.left    = -(px * imgW - size / 2) + 'px';
     loupeImg.style.top     = -(py * imgH - size / 2) + 'px';
-    loupeImg.style.filter  = 'grayscale(1) contrast(1.15)';
+    loupeImg.style.filter  = 'invert(1)';
   }
 
   function attachLoupe(el, getImg) {
@@ -649,10 +649,19 @@ function loupeHide() {
   }
 
   function attachToGallery() {
-    var overlay = document.getElementById('gallery-overlay');
-    if (!overlay) return;
-    attachLoupe(overlay, function() {
+    // attach only to the image area, not the whole overlay
+    var galleryRight = document.querySelector('.gallery-right');
+    if (!galleryRight) return;
+    attachLoupe(galleryRight, function() {
       return document.getElementById('gallery-img');
+    });
+  }
+
+  function attachToInfo() {
+    var infoPhoto = document.querySelector('.info-photo');
+    if (!infoPhoto) return;
+    attachLoupe(infoPhoto, function() {
+      return infoPhoto.querySelector('.stored-img');
     });
   }
 
@@ -661,6 +670,7 @@ function loupeHide() {
     setTimeout(function() {
       attachToWorks();
       attachToSlideshow();
+      attachToInfo();
     }, 300);
   });
 
@@ -677,6 +687,7 @@ function loupeHide() {
       origShowPage(id);
       if (id === 'works') setTimeout(attachToWorks, 100);
       if (id === 'home')  setTimeout(attachToSlideshow, 100);
+      if (id === 'info')  setTimeout(attachToInfo, 100);
     };
   }
 })();
