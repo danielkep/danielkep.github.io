@@ -6,24 +6,24 @@ var PORTRAIT_URL = 'https://i.imgur.com/fn6Pybq.jpeg';  // Info page portrait ph
 
 // INFO PAGE — edit here
 var INFO_BIO = [
-  'Daniel Kep (b. 1993) is an artist living and working in Jerusalem. He holds a BFA from the Department of Fine Arts at Bezalel Academy of Arts and Design (2020) and is currently an MFA candidate at Bezalel.
+ 'Daniel Kep (b. 1993) is an artist living and working in Jerusalem. He holds a BFA from the Department of Fine Arts at Bezalel Academy of Arts and Design (2020) and is currently an MFA candidate at Bezalel.'
 
-Kep’s work explores sculptural arrangements in which living bodies and inanimate objects are fused together. These imagery systems are stretched to the point of a tremor, struggling to maintain their stability and the integrity of their limbs. Through subtle movements, whiteness, and fragility in sculpture, still photography, and video, his works embody effort and physical presence.
+'Kep’s work explores sculptural arrangements in which living bodies and inanimate objects are fused together. These imagery systems are stretched to the point of a tremor, struggling to maintain their stability and the integrity of their limbs. Through subtle movements, whiteness, and fragility in sculpture, still photography, and video, his works embody effort and physical presence.'
 
-He is the recipient of the Eileen Cooper Award for Excellence from the Bezalel Art Department, the America-Israel Cultural Foundation (AICF) Prize, and the Michael and Pauline Lukman Excellence Scholarship as part of his MFA studies.
+'He is the recipient of the Eileen Cooper Award for Excellence from the Bezalel Art Department, the America-Israel Cultural Foundation (AICF) Prize, and the Michael and Pauline Lukman Excellence Scholarship as part of his MFA studies.'
 
-Selected Exhibitions:
+'Selected Exhibitions:'
 
-Clinging (Solo Exhibition), Dana Gallery, Kibbutz Yad Mordechai. Curator: Ravit Harari (2024; scheduled to travel to Tel Aviv later this year).
+'Clinging (Solo Exhibition), Dana Gallery, Kibbutz Yad Mordechai. Curator: Ravit Harari (2024; scheduled to travel to Tel Aviv later this year).'
 
-Bad Root, Jerusalem Artists’ House. Curator: Sally Haftel Naveh (2023).
+'Bad Root, Jerusalem Artists’ House. Curator: Sally Haftel Naveh (2023).'
 
-Untitled, Edmond de Rothschild Center, Tel Aviv. Curator: Hadas Maor (2022).
+'Untitled, Edmond de Rothschild Center, Tel Aviv. Curator: Hadas Maor (2022).'
 
-Slight Tremor (Solo Exhibition), Gallery of Contemporary Art, Ramat Hasharon (2021).
+'Slight Tremor (Solo Exhibition), Gallery of Contemporary Art, Ramat Hasharon (2021).'
 
-Room (Artist-in-Residence concluding exhibition), HaMiffal Gallery, Jerusalem. Curator: Meydad Eliyahu (2021).',
-  '',
+'Room (Artist-in-Residence concluding exhibition), HaMiffal Gallery, Jerusalem. Curator: Meydad Eliyahu (2021).',
+  
 ];
 
 var INFO_EMAIL     = 'kep.dan@gmail.com';
