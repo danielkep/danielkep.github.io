@@ -762,6 +762,14 @@ body.admin-mode .lb-edit-btn {
   line-height: 2;
 }
 .gallery-year { margin-top: 4px; color: #bbb; }
+.gallery-photo-credit {
+  margin-top: 20px;
+  font-size: 11px;
+  font-weight: 300;
+  color: #bbb;
+  letter-spacing: 0.03em;
+  line-height: 1.6;
+}
 .gallery-counter {
   margin-top: 28px;
   font-size: 11px;
@@ -790,7 +798,7 @@ body.admin-mode .lb-edit-btn {
   top: 0;
   bottom: 0;
   width: 50%;
-  z-index: 10;
+  z-index: 510;
   cursor: none;
 }
 .gallery-zone-left  { left: 0; }

@@ -32,97 +32,91 @@ var SLIDE_TRANSITION = 1400;
 //      - אם יש תמונה אחת בלבד: images: ['https://...']
 // =============================================================
 
+// =============================================================
+// HOW TO ADD A PROJECT — copy one block ({ ... },) to the bottom
+//
+//  title:              name of the work
+//  year:               year
+//  medium:             material
+//  size:               dimensions
+//  images:             list of image URLs (first = shown on page)
+//  installationPhotos: photographer credit (leave '' if none)
+//  vimeoID:            Vimeo video ID only (leave '' if none)
+// =============================================================
+
 var WORKS = [
   {
-    title:  'Tzirim (Axes)',
-    year:   '2024',
-    medium: 'Oak wood',
-    size:   '327 \u00d7 467 cm (Dimensions variable)',
+    title:              'Tzirim (Axes)',
+    year:               '2024',
+    medium:             'Oak wood',
+    size:               '327 × 467 cm (Dimensions variable)',
     images: [
       'https://i.imgur.com/FIL60lB.jpeg',
       'https://i.imgur.com/VGxrsrb.jpeg',
       'https://i.imgur.com/YRC5Q9E.jpeg',
       'https://i.imgur.com/AnjJBsK.jpeg',
     ],
+    installationPhotos: '',
+    vimeoID:            '',
   },
   {
-    title:  'Clinging (Shemi)',
-    year:   '2023',
-    medium: 'Archival Inkjet',
-    size:   '70 \u00d7 100 cm',
+    title:              'Clinging (Shemi)',
+    year:               '2023',
+    medium:             'Archival Inkjet',
+    size:               '70 × 100 cm',
     images: [
       'https://i.imgur.com/zIbKQfA.jpeg',
-   ],
+    ],
+    installationPhotos: '',
+    vimeoID:            '',
   },
   {
-    title:  'Clinging (Tumarkin)',
-    year:   '2025',
-    medium: 'Archival Inkjet',
-    size:   '70 \u00d7 100 cm',
+    title:              'Clinging (Tumarkin)',
+    year:               '2025',
+    medium:             'Archival Inkjet',
+    size:               '70 × 100 cm',
     images: [
       'https://i.imgur.com/CnuMs10.jpeg',
     ],
+    installationPhotos: '',
+    vimeoID:            '',
   },
   {
-    title:  'Clinging (Kadishman)',
-    year:   '2025',
-    medium: 'Archival Inkjet',
-    size:   '70 \u00d7 100 cm',
+    title:              'Clinging (Kadishman)',
+    year:               '2025',
+    medium:             'Archival Inkjet',
+    size:               '70 × 100 cm',
     images: [
       'https://i.imgur.com/bWjd6Db.jpeg',
     ],
+    installationPhotos: '',
+    vimeoID:            '',
   },
   {
-    title:  'Golden Jackal',
-    year:   '2025',
-    medium: 'Umbrella, candle, taxidermied jackal leg',
-    size:   '90 \u00d7 90 cm',
+    title:              'Golden Jackal',
+    year:               '2025',
+    medium:             'Umbrella, candle, taxidermied jackal leg',
+    size:               '90 × 90 cm',
     images: [
       'https://i.imgur.com/EUanBpY.jpeg',
       'https://i.imgur.com/DQ0SwTQ.jpeg',
       'https://i.imgur.com/TJKOuYw.jpeg',
       'https://i.imgur.com/1eR59pN.jpeg',
-
     ],
+    installationPhotos: '',
+    vimeoID:            '',
   },
   {
-    title:  'Grey Heron',
-    year:   '2025',
-    medium: 'Bronze and wood (walking stick)',
-    size:   'Dimensions variable (according to ceiling height)',
+    title:              'Grey Heron',
+    year:               '2025',
+    medium:             'Bronze and wood (walking stick)',
+    size:               'Dimensions variable (according to ceiling height)',
     images: [
       'https://i.imgur.com/KFhxmpz.jpeg',
       'https://i.imgur.com/EDU4a3R.jpeg',
-
     ],
-  },
-  {
-    title:  'Fragment V',
-    year:   '2022',
-    medium: 'Oil on linen',
-    size:   '90 \u00d7 90 cm',
-    images: [
-      'https://i.imgur.com/EUanBpY.jpeg',
-      'https://i.imgur.com/DQ0SwTQ.jpeg',
-      'https://i.imgur.com/TJKOuYw.jpeg',
-      'https://i.imgur.com/1eR59pN.jpeg',
-
-
-    ],
-  },
-  {
-    title:  'Fragment V',
-    year:   '2022',
-    medium: 'Oil on linen',
-    size:   '90 \u00d7 90 cm',
-    images: [
-      'https://i.imgur.com/EUanBpY.jpeg',
-      'https://i.imgur.com/DQ0SwTQ.jpeg',
-      'https://i.imgur.com/TJKOuYw.jpeg',
-      'https://i.imgur.com/1eR59pN.jpeg',
-
-
-    ],
+    installationPhotos: '',
+    vimeoID:            '',
   },
 ];
 
@@ -339,10 +333,15 @@ function galleryBuild() {
       '<img id="gallery-img" src="" alt="">' +
     '</div>' +
     '<div class="gallery-zone gallery-zone-left"  id="gz-left"></div>' +
-    '<div class="gallery-zone gallery-zone-right" id="gz-right"></div>' +
-    '<div class="lb-cursor" id="gallery-cursor"></div>';
+    '<div class="gallery-zone gallery-zone-right" id="gz-right"></div>';
 
   document.body.appendChild(el);
+
+  // cursor lives outside overlay so z-index works cleanly
+  var cur = document.createElement('div');
+  cur.className = 'lb-cursor';
+  cur.id = 'gallery-cursor';
+  document.body.appendChild(cur);
 
   galleryEl     = el;
   galleryImgEl  = document.getElementById('gallery-img');
@@ -411,7 +410,9 @@ function galleryRender(fade) {
       ? '<div class="gallery-counter">' + (item.imgIndex + 1) + ' \u2014 ' + imgs.length + '</div>'
       : '';
 
-    galleryTextEl.innerHTML = titleHtml + mediumHtml + sizeHtml + yearHtml + counter;
+    var creditHtml = (work.installationPhotos)
+      ? '<div class="gallery-photo-credit">' + work.installationPhotos + '</div>' : '';
+    galleryTextEl.innerHTML = titleHtml + mediumHtml + sizeHtml + yearHtml + creditHtml + counter;
   }
 
   if (fade) {
