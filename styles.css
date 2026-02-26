@@ -624,10 +624,7 @@ body.admin-mode .lb-edit-btn {
   pointer-events: none;
 }
 
-/* =============================================================
-   גלריה — אל תיגע כאן
-   ============================================================= */
-
+/* ---- GALLERY OVERLAY ---- */
 #gallery-overlay {
   display: none;
   position: fixed;
@@ -641,8 +638,6 @@ body.admin-mode .lb-edit-btn {
   align-items: stretch;
   animation: lbFade 0.3s ease;
 }
-
-/* טקסט — שמאל */
 .gallery-left {
   width: 260px;
   flex-shrink: 0;
@@ -650,9 +645,7 @@ body.admin-mode .lb-edit-btn {
   flex-direction: column;
   justify-content: center;
   padding: 80px 48px 60px 60px;
-  gap: 0;
 }
-
 .gallery-title {
   font-family: var(--font-display);
   font-size: 17px;
@@ -661,27 +654,22 @@ body.admin-mode .lb-edit-btn {
   color: var(--black);
   margin-bottom: 14px;
 }
-
 .gallery-meta-line {
   font-size: 13px;
   font-weight: 300;
   color: var(--gray);
   line-height: 2;
 }
-
 .gallery-year {
   margin-top: 4px;
   color: #bbb;
 }
-
 .gallery-counter {
   margin-top: 28px;
   font-size: 11px;
   letter-spacing: 0.1em;
   color: #ccc;
 }
-
-/* תמונה — ימין, מקסימלית ללא חיתוך */
 .gallery-right {
   flex: 1;
   display: flex;
@@ -690,7 +678,6 @@ body.admin-mode .lb-edit-btn {
   padding: 60px 60px 60px 0;
   overflow: hidden;
 }
-
 #gallery-img {
   max-width: 100%;
   max-height: 100%;
@@ -700,8 +687,6 @@ body.admin-mode .lb-edit-btn {
   display: block;
   transition: opacity 0.2s ease;
 }
-
-/* אזורי לחיצה */
 .gallery-zone {
   position: fixed;
   top: 0;
@@ -712,33 +697,16 @@ body.admin-mode .lb-edit-btn {
 }
 .gallery-zone-left  { left: 0; }
 .gallery-zone-right { right: 0; }
-
-/* כפתור Back — ממוקם על ידי ה-HTML הקיים */
-
-/* מובייל */
 @media (max-width: 768px) {
-  #gallery-overlay.open {
-    flex-direction: column;
-  }
+  #gallery-overlay.open { flex-direction: column; }
   .gallery-left {
     width: 100%;
     padding: 70px 24px 16px;
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-items: baseline;
-    gap: 0 12px;
-    justify-content: flex-start;
   }
   .gallery-right {
     flex: 1;
     padding: 0 0 40px 0;
     justify-content: center;
   }
-  #gallery-img {
-    max-height: 60vh;
-  }
+  #gallery-img { max-height: 60vh; }
 }
-
-/* =============================================================
-   סוף הגלריה — אל תיגע כאן
-   ============================================================= */
