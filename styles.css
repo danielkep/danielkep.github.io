@@ -902,8 +902,8 @@ body.gallery-open #site-cursor { opacity: 0; }
 /* ---- CSS LOUPE (works with cross-origin images) ---- */
 #css-loupe {
   position: fixed;
-  width: 160px;
-  height: 160px;
+  width: 90px;
+  height: 90px;
   border-radius: 50%;
   overflow: hidden;
   pointer-events: none;
@@ -923,8 +923,8 @@ body.gallery-open #site-cursor { opacity: 0; }
 /* ---- CSS LOUPE ---- */
 #css-loupe {
   position: fixed;
-  width: 160px;
-  height: 160px;
+  width: 90px;
+  height: 90px;
   border-radius: 50%;
   overflow: hidden;
   pointer-events: none;
