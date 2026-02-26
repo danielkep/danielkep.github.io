@@ -1,5 +1,5 @@
 // =============================================================
-//  EDIT ZONE — only edit this section
+// CONTENT — edit here to update the site. Save + redeploy.
 // =============================================================
 
 var PORTRAIT_URL = 'https://i.imgur.com/fn6Pybq.jpeg';
@@ -21,85 +21,108 @@ var INFO_INSTAGRAM = '_kep_daniel';
 var SLIDE_DURATION   = 6000;
 var SLIDE_TRANSITION = 1400;
 
-// -------------------------------------------------------------
-//  HOW TO ADD A PROJECT:
+// =============================================================
+// WORKS — כך מוסיפים פרויקט חדש:
 //
-//  Copy one block (from { to },) and paste it at the bottom
-//  of the WORKS list. Then edit the values:
-//
-//  title:              name of the work
-//  year:               year (string)
-//  medium:             material / technique
-//  size:               dimensions
-//  images:             list of image URLs — first image shows
-//                      on the Works page; all are in gallery
-//  installationPhotos: (optional) photographer credit text
-//                      e.g. 'Installation photos: John Smith'
-//  vimeoID:            (optional) Vimeo video ID only
-//                      e.g. for vimeo.com/123456789 write '123456789'
-//                      leave as '' if no video
-// -------------------------------------------------------------
+//   1. העתק בלוק שלם (מ-{ עד },) לתחתית הרשימה
+//   2. שנה את הטקסט (title, year, medium, size)
+//   3. בתוך images: הכנס את כתובות התמונות שלך
+//      - תמונה ראשונה = מה שיוצג בדף
+//      - שאר התמונות = נגישות בגלריה בלחיצה
+//      - אם יש תמונה אחת בלבד: images: ['https://...']
+// =============================================================
 
 var WORKS = [
   {
-    title:              'Tzirim (Axes)',
-    year:               '2024',
-    medium:             'Oak wood',
-    size:               '327 \u00d7 467 cm (Dimensions variable)',
+    title:  'Tzirim (Axes)',
+    year:   '2024',
+    medium: 'Oak wood',
+    size:   '327 \u00d7 467 cm (Dimensions variable)',
     images: [
       'https://i.imgur.com/FIL60lB.jpeg',
       'https://i.imgur.com/VGxrsrb.jpeg',
       'https://i.imgur.com/YRC5Q9E.jpeg',
       'https://i.imgur.com/AnjJBsK.jpeg',
     ],
-    installationPhotos: 'Installation photos: Daniel Hanoch',
-    vimeoID:            '',
   },
   {
-    title:              'Untitled II',
-    year:               '2024',
-    medium:             'Mixed media on paper',
-    size:               '80 \u00d7 60 cm',
+    title:  'Clinging (Shemi)',
+    year:   '2023',
+    medium: 'Archival Inkjet',
+    size:   '70 \u00d7 100 cm',
     images: [
-      'https://i.imgflip.com/9jt6e7.jpg',
-      'https://i.imgflip.com/9juj6s.jpg',
-    ],
-    installationPhotos: '',
-    vimeoID:            '',
+      'https://i.imgur.com/zIbKQfA.jpeg',
+   ],
   },
   {
-    title:              'Study III',
-    year:               '2023',
-    medium:             'Charcoal on paper',
-    size:               '100 \u00d7 70 cm',
+    title:  'Clinging (Tumarkin)',
+    year:   '2025',
+    medium: 'Archival Inkjet',
+    size:   '70 \u00d7 100 cm',
     images: [
-      'https://i.imgflip.com/9juj6s.jpg',
+      'https://i.imgur.com/CnuMs10.jpeg',
     ],
-    installationPhotos: '',
-    vimeoID:            '',
   },
   {
-    title:              'Composition IV',
-    year:               '2023',
-    medium:             'Acrylic on canvas',
-    size:               '150 \u00d7 110 cm',
+    title:  'Clinging (Kadishman)',
+    year:   '2025',
+    medium: 'Archival Inkjet',
+    size:   '70 \u00d7 100 cm',
     images: [
-      'https://i.imgflip.com/288cnn.jpg',
-      'https://i.imgflip.com/9jqyru.jpg',
+      'https://i.imgur.com/bWjd6Db.jpeg',
     ],
-    installationPhotos: '',
-    vimeoID:            '76979871',
   },
   {
-    title:              'Fragment V',
-    year:               '2022',
-    medium:             'Oil on linen',
-    size:               '90 \u00d7 90 cm',
+    title:  'Golden Jackal',
+    year:   '2025',
+    medium: 'Umbrella, candle, taxidermied jackal leg',
+    size:   '90 \u00d7 90 cm',
     images: [
-      'https://i.imgflip.com/9jqyru.jpg',
+      'https://i.imgur.com/EUanBpY.jpeg',
+      'https://i.imgur.com/DQ0SwTQ.jpeg',
+      'https://i.imgur.com/TJKOuYw.jpeg',
+      'https://i.imgur.com/1eR59pN.jpeg',
+
     ],
-    installationPhotos: '',
-    vimeoID:            '',
+  },
+  {
+    title:  'Grey Heron',
+    year:   '2025',
+    medium: 'Bronze and wood (walking stick)',
+    size:   'Dimensions variable (according to ceiling height)',
+    images: [
+      'https://i.imgur.com/KFhxmpz.jpeg',
+      'https://i.imgur.com/EDU4a3R.jpeg',
+
+    ],
+  },
+  {
+    title:  'Fragment V',
+    year:   '2022',
+    medium: 'Oil on linen',
+    size:   '90 \u00d7 90 cm',
+    images: [
+      'https://i.imgur.com/EUanBpY.jpeg',
+      'https://i.imgur.com/DQ0SwTQ.jpeg',
+      'https://i.imgur.com/TJKOuYw.jpeg',
+      'https://i.imgur.com/1eR59pN.jpeg',
+
+
+    ],
+  },
+  {
+    title:  'Fragment V',
+    year:   '2022',
+    medium: 'Oil on linen',
+    size:   '90 \u00d7 90 cm',
+    images: [
+      'https://i.imgur.com/EUanBpY.jpeg',
+      'https://i.imgur.com/DQ0SwTQ.jpeg',
+      'https://i.imgur.com/TJKOuYw.jpeg',
+      'https://i.imgur.com/1eR59pN.jpeg',
+
+
+    ],
   },
 ];
 
@@ -116,17 +139,11 @@ var SLIDES = [
 ];
 
 // =============================================================
-//  END OF EDIT ZONE
+// FIREBASE (optional)
 // =============================================================
-
-
-
-
-// =============================================================
-// !! DO NOT TOUCH — rendering, gallery, video logic below !!
-// =============================================================
-
 var FIREBASE_URL = 'YOUR_FIREBASE_DATABASE_URL';
+
+// ---- HELPERS ----
 
 function getImages(work) {
   if (work.images && work.images.length > 0) return work.images;
@@ -134,9 +151,9 @@ function getImages(work) {
   return [];
 }
 
-var SLIDE_BG = ['#d9d6d0', '#ccc9c3', '#dddbd7', '#d2cfc9', '#e0ddd8'];
+// ---- RENDERING ----
 
-// ---- RENDER WORKS ----
+var SLIDE_BG = ['#d9d6d0', '#ccc9c3', '#dddbd7', '#d2cfc9', '#e0ddd8'];
 
 function renderWorks() {
   document.getElementById('works-list').innerHTML = WORKS.map(function(work, i) {
@@ -147,9 +164,6 @@ function renderWorks() {
     var countBadge = extraCount > 0
       ? '<span class="work-image-count">+' + extraCount + '</span>'
       : '';
-    var videoLink = work.vimeoID
-      ? '<div class="work-video-link" onclick="event.stopPropagation();videoOpen(\'' + work.vimeoID + '\')">View Here</div>'
-      : '';
     return (
       '<div class="work-item">' +
         '<div class="work-text">' +
@@ -159,7 +173,6 @@ function renderWorks() {
             '<span>' + work.size + '</span>' +
             '<span style="margin-top:6px;color:#bbb;">' + work.year + '</span>' +
           '</div>' +
-          videoLink +
         '</div>' +
         '<div class="work-image" onclick="galleryOpen(' + i + ', 0)">' +
           '<div class="img-wrapper" data-key="work-' + i + '">' +
@@ -172,8 +185,6 @@ function renderWorks() {
     );
   }).join('');
 }
-
-// ---- RENDER SLIDESHOW ----
 
 function renderSlideshow() {
   document.getElementById('slideshow').innerHTML = SLIDES.map(function(url, i) {
@@ -188,8 +199,6 @@ function renderSlideshow() {
     );
   }).join('');
 }
-
-// ---- RENDER INFO ----
 
 function renderInfo() {
   document.getElementById('info-bio').innerHTML = INFO_BIO.map(function(p) {
@@ -214,6 +223,7 @@ function loadImages() {
     if (url) imageStore['slide-' + i] = url;
   });
   if (PORTRAIT_URL) applyImage('portrait', PORTRAIT_URL);
+
   if (FIREBASE_URL === 'YOUR_FIREBASE_DATABASE_URL') return;
   fetch(FIREBASE_URL + '/images.json')
     .then(function(r) { return r.json(); })
@@ -247,10 +257,12 @@ function openMobileMenu() {
   document.getElementById('mobile-menu').classList.add('open');
   document.body.style.overflow = 'hidden';
 }
+
 function closeMobileMenu() {
   document.getElementById('mobile-menu').classList.remove('open');
   document.body.style.overflow = '';
 }
+
 function mobileNav(id) { closeMobileMenu(); showPage(id); }
 
 var navEl = document.querySelector('nav');
@@ -283,15 +295,21 @@ renderWorks();
 renderSlideshow();
 renderInfo();
 slides = document.querySelectorAll('.slide');
+
 checkAdminMode();
 loadImages();
+
 setInterval(function() { goToSlide((current + 1) % slides.length); }, SLIDE_DURATION);
 
 
 // =============================================================
-// !! DO NOT TOUCH — GALLERY !!
+// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+//   גלריה — אל תיגע כאן
+// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 // =============================================================
 
+// בונה רשימה שטוחה של כל התמונות מכל הפרויקטים ברצף
+// כל פריט: { url, workIndex, imgIndex }
 function buildFlatList() {
   var list = [];
   WORKS.forEach(function(work, wi) {
@@ -302,25 +320,28 @@ function buildFlatList() {
   return list;
 }
 
-var galleryEl     = null;
-var galleryImgEl  = null;
-var galleryTextEl = null;
-var galleryCursor = null;
-var galleryList   = [];
-var galleryIndex  = 0;
-var galleryTouchX = 0;
+var galleryEl      = null;
+var galleryImgEl   = null;
+var galleryTextEl  = null;
+var galleryCursor  = null;
+var galleryList    = [];
+var galleryIndex   = 0;
+var galleryTouchX  = 0;
 
 function galleryBuild() {
   if (document.getElementById('gallery-overlay')) return;
+
   var el = document.createElement('div');
   el.id = 'gallery-overlay';
   el.innerHTML =
-    '<button class="lightbox-back" id="gallery-back">&#8592; Back</button>' +
     '<div class="gallery-left" id="gallery-text"></div>' +
-    '<div class="gallery-right"><img id="gallery-img" src="" alt=""></div>' +
+    '<div class="gallery-right">' +
+      '<img id="gallery-img" src="" alt="">' +
+    '</div>' +
     '<div class="gallery-zone gallery-zone-left"  id="gz-left"></div>' +
     '<div class="gallery-zone gallery-zone-right" id="gz-right"></div>' +
     '<div class="lb-cursor" id="gallery-cursor"></div>';
+
   document.body.appendChild(el);
 
   galleryEl     = el;
@@ -328,37 +349,40 @@ function galleryBuild() {
   galleryTextEl = document.getElementById('gallery-text');
   galleryCursor = document.getElementById('gallery-cursor');
 
-  document.getElementById('gallery-back').addEventListener('click', galleryClose);
   document.getElementById('gz-left').addEventListener('click',  function() { galleryNav(1); });
   document.getElementById('gz-right').addEventListener('click', function() { galleryNav(-1); });
 
+  // keyboard
   document.addEventListener('keydown', function(e) {
     if (!galleryEl || !galleryEl.classList.contains('open')) return;
     if (e.key === 'Escape')     galleryClose();
-    if (e.key === 'ArrowRight') galleryNav(-1);
     if (e.key === 'ArrowLeft')  galleryNav(1);
+    if (e.key === 'ArrowRight') galleryNav(-1);
   });
 
+  // cursor
   el.addEventListener('mousemove', function(e) {
-    galleryCursor.style.left    = e.clientX + 'px';
-    galleryCursor.style.top     = e.clientY + 'px';
-    galleryCursor.textContent   = e.clientX < window.innerWidth / 2 ? '\u2192' : '\u2190';
+    galleryCursor.style.left = e.clientX + 'px';
+    galleryCursor.style.top  = e.clientY + 'px';
+    galleryCursor.textContent = e.clientX < window.innerWidth / 2 ? '\u2192' : '\u2190';
     galleryCursor.style.opacity = '1';
   });
   el.addEventListener('mouseleave', function() { galleryCursor.style.opacity = '0'; });
 
+  // swipe
   el.addEventListener('touchstart', function(e) {
     galleryTouchX = e.touches[0].clientX;
   }, { passive: true });
   el.addEventListener('touchend', function(e) {
     var diff = galleryTouchX - e.changedTouches[0].clientX;
-    if (Math.abs(diff) > 40) galleryNav(diff > 0 ? -1 : 1);
+    if (Math.abs(diff) > 40) galleryNav(diff > 0 ? 1 : -1);
   }, { passive: true });
 }
 
 function galleryOpen(workIndex, imgIndex) {
   galleryBuild();
   galleryList  = buildFlatList();
+  // מצא את האינדקס הגלובלי המתאים
   galleryIndex = 0;
   for (var k = 0; k < galleryList.length; k++) {
     if (galleryList[k].workIndex === workIndex && galleryList[k].imgIndex === (imgIndex || 0)) {
@@ -379,31 +403,25 @@ function galleryRender(fade) {
   function render() {
     galleryImgEl.src = item.url;
 
-    var html = '';
-    if (work.title)  html += '<div class="gallery-title">'     + work.title  + '</div>';
-    if (work.medium) html += '<div class="gallery-meta-line">' + work.medium + '</div>';
-    if (work.size)   html += '<div class="gallery-meta-line">' + work.size   + '</div>';
-    if (work.year)   html += '<div class="gallery-meta-line gallery-year">' + work.year + '</div>';
-    if (work.installationPhotos) {
-      html += '<div class="gallery-photo-credit">' + work.installationPhotos + '</div>';
-    }
-    if (work.vimeoID) {
-      html += '<div class="gallery-video-link" onclick="videoOpen(\'' + work.vimeoID + '\')">View Here</div>';
-    }
-    if (imgs.length > 1) {
-      html += '<div class="gallery-counter">' + (item.imgIndex + 1) + ' \u2014 ' + imgs.length + '</div>';
-    }
-    galleryTextEl.innerHTML = html;
+    var titleHtml  = work.title  ? '<div class="gallery-title">'  + work.title  + '</div>' : '';
+    var mediumHtml = work.medium ? '<div class="gallery-meta-line">' + work.medium + '</div>' : '';
+    var sizeHtml   = work.size   ? '<div class="gallery-meta-line">' + work.size   + '</div>' : '';
+    var yearHtml   = work.year   ? '<div class="gallery-meta-line gallery-year">' + work.year + '</div>' : '';
+    var counter    = imgs.length > 1
+      ? '<div class="gallery-counter">' + (item.imgIndex + 1) + ' \u2014 ' + imgs.length + '</div>'
+      : '';
+
+    galleryTextEl.innerHTML = titleHtml + mediumHtml + sizeHtml + yearHtml + counter;
   }
 
   if (fade) {
-    galleryImgEl.style.opacity  = '0';
+    galleryImgEl.style.opacity = '0';
     galleryTextEl.style.opacity = '0';
     setTimeout(function() {
       render();
       galleryImgEl.style.opacity  = '1';
       galleryTextEl.style.opacity = '1';
-    }, 180);
+    }, 200);
   } else {
     render();
   }
@@ -419,52 +437,103 @@ function galleryClose() {
   galleryEl.classList.remove('open');
   document.body.style.overflow = '';
   galleryCursor.style.opacity = '0';
+  loupeHide();
 }
 
-// closeLightbox from HTML Back button also closes gallery
-function closeLightbox() { galleryClose(); }
+// כפתור Back הקיים — עובד גם לסגירת הגלריה
+var origCloseLightbox = window.closeLightbox;
+window.closeLightbox = function() {
+  if (galleryEl && galleryEl.classList.contains('open')) {
+    galleryClose();
+  } else if (origCloseLightbox) {
+    origCloseLightbox();
+  }
+};
 
+
+// ---- LOUPE (magnifying glass) ----
+
+var loupeCanvas  = null;
+var loupeSize    = 180;
+var loupeZoom    = 3.0;
+
+function isOnImage(e) {
+  if (!galleryImgEl) return false;
+  var r = galleryImgEl.getBoundingClientRect();
+  return e.clientX >= r.left && e.clientX <= r.right &&
+         e.clientY >= r.top  && e.clientY <= r.bottom;
+}
+
+function loupeInit() {
+  if (loupeCanvas) return;
+  loupeCanvas = document.createElement('canvas');
+  loupeCanvas.id     = 'gallery-loupe';
+  loupeCanvas.width  = loupeSize;
+  loupeCanvas.height = loupeSize;
+  document.body.appendChild(loupeCanvas);
+}
+
+function loupeShow(e) {
+  loupeInit();
+  var r  = galleryImgEl.getBoundingClientRect();
+  var mx = e.clientX;
+  var my = e.clientY;
+
+  // position loupe offset from cursor
+  var half = loupeSize / 2;
+  var lx = mx + half + 16;
+  var ly = my - half - 16;
+  if (lx + loupeSize > window.innerWidth)  lx = mx - half - 16 - loupeSize;
+  if (ly < 0) ly = my + 16;
+
+  loupeCanvas.style.left    = lx + 'px';
+  loupeCanvas.style.top     = ly + 'px';
+  loupeCanvas.style.opacity = '1';
+
+  var ctx = loupeCanvas.getContext('2d');
+  ctx.clearRect(0, 0, loupeSize, loupeSize);
+
+  // clip circle
+  ctx.save();
+  ctx.beginPath();
+  ctx.arc(half, half, half, 0, Math.PI * 2);
+  ctx.clip();
+
+  // cursor relative position on displayed image
+  var px = (mx - r.left) / r.width;
+  var py = (my - r.top)  / r.height;
+
+  // source area size in natural pixels
+  var natW = galleryImgEl.naturalWidth;
+  var natH = galleryImgEl.naturalHeight;
+  var srcW = (r.width  / loupeZoom) * (natW / r.width);
+  var srcH = (r.height / loupeZoom) * (natH / r.height);
+
+  var sx = px * natW - srcW / 2;
+  var sy = py * natH - srcH / 2;
+  sx = Math.max(0, Math.min(sx, natW - srcW));
+  sy = Math.max(0, Math.min(sy, natH - srcH));
+
+  try {
+    ctx.drawImage(galleryImgEl, sx, sy, srcW, srcH, 0, 0, loupeSize, loupeSize);
+  } catch(err) {}
+
+  ctx.restore();
+
+  // draw circle border
+  ctx.beginPath();
+  ctx.arc(half, half, half - 1, 0, Math.PI * 2);
+  ctx.strokeStyle = 'rgba(0,0,0,0.15)';
+  ctx.lineWidth   = 1.5;
+  ctx.stroke();
+}
+
+function loupeHide() {
+  if (loupeCanvas) loupeCanvas.style.opacity = '0';
+}
 
 // =============================================================
-// !! DO NOT TOUCH — VIDEO PLAYER !!
-// =============================================================
-
-var videoEl    = null;
-var videoFrame = null;
-
-function videoBuild() {
-  if (document.getElementById('video-overlay')) return;
-  var el = document.createElement('div');
-  el.id = 'video-overlay';
-  el.innerHTML =
-    '<button class="lightbox-back" id="video-back">&#8592; Back</button>' +
-    '<div class="video-inner">' +
-      '<iframe id="video-frame" src="" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>' +
-    '</div>';
-  document.body.appendChild(el);
-  videoEl    = el;
-  videoFrame = document.getElementById('video-frame');
-  document.getElementById('video-back').addEventListener('click', videoClose);
-  document.addEventListener('keydown', function(e) {
-    if (!videoEl || !videoEl.classList.contains('open')) return;
-    if (e.key === 'Escape') videoClose();
-  });
-}
-
-function videoOpen(vimeoID) {
-  videoBuild();
-  videoFrame.src = 'https://player.vimeo.com/video/' + vimeoID + '?autoplay=1';
-  videoEl.classList.add('open');
-  document.body.style.overflow = 'hidden';
-}
-
-function videoClose() {
-  if (!videoEl) return;
-  videoFrame.src = '';
-  videoEl.classList.remove('open');
-  document.body.style.overflow = '';
-}
-
-// =============================================================
-// !! DO NOT TOUCH END !!
+// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+//   סוף הגלריה — אל תיגע כאן
+// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 // =============================================================
