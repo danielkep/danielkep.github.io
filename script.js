@@ -577,6 +577,80 @@ function loupeHide() {
   if (loupeCanvas) loupeCanvas.style.opacity = '0';
 }
 
+
+// ---- CSS LOUPE (works on works page, cross-origin safe) ----
+(function() {
+  var loupe     = null;
+  var loupeImg  = null;
+  var zoom      = 2.8;
+  var size      = 160;
+  var active    = false;
+
+  function init() {
+    if (loupe) return;
+    loupe = document.createElement('div');
+    loupe.id = 'css-loupe';
+    loupeImg = document.createElement('img');
+    loupe.appendChild(loupeImg);
+    document.body.appendChild(loupe);
+  }
+
+  function attachToWorks() {
+    document.querySelectorAll('.work-image').forEach(function(el) {
+      var img = el.querySelector('.stored-img');
+      if (!img) return;
+
+      el.addEventListener('mouseenter', function() {
+        if (document.body.classList.contains('gallery-open')) return;
+        init();
+        loupeImg.src = img.src;
+        active = true;
+        loupe.style.opacity = '1';
+      });
+
+      el.addEventListener('mouseleave', function() {
+        active = false;
+        if (loupe) loupe.style.opacity = '0';
+      });
+
+      el.addEventListener('mousemove', function(e) {
+        if (!active || !loupe) return;
+        // position loupe
+        loupe.style.left = e.clientX + 'px';
+        loupe.style.top  = e.clientY + 'px';
+
+        // calculate zoom offset
+        var r   = img.getBoundingClientRect();
+        var px  = (e.clientX - r.left) / r.width;
+        var py  = (e.clientY - r.top)  / r.height;
+
+        var imgW = r.width  * zoom;
+        var imgH = r.height * zoom;
+        var offX = -(px * imgW - size / 2);
+        var offY = -(py * imgH - size / 2);
+
+        loupeImg.style.width  = imgW + 'px';
+        loupeImg.style.height = imgH + 'px';
+        loupeImg.style.left   = offX + 'px';
+        loupeImg.style.top    = offY + 'px';
+      });
+    });
+  }
+
+  // attach after works are rendered
+  document.addEventListener('DOMContentLoaded', function() {
+    setTimeout(attachToWorks, 300);
+  });
+  // also re-attach after showPage
+  var origShowPage = window.showPage;
+  if (origShowPage) {
+    window.showPage = function(id) {
+      origShowPage(id);
+      if (id === 'works') setTimeout(attachToWorks, 100);
+    };
+  }
+})();
+
 // =============================================================
 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //   סוף הגלריה — אל תיגע כאן

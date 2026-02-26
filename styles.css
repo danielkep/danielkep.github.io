@@ -179,9 +179,17 @@ nav.transparent .nav-right a:hover {
 
 .work-item {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 80px;
+  grid-template-columns: 40% 60%;
+  gap: 0;
   align-items: center;
+}
+
+.work-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 0 60px;
 }
 
 .work-title {
@@ -890,3 +898,47 @@ body, a, button, [onclick], nav, nav * { cursor: none !important; }
 
 /* hide global cursor when gallery is open (gallery has arrows) */
 body.gallery-open #site-cursor { opacity: 0; }
+
+/* ---- CSS LOUPE (works with cross-origin images) ---- */
+#css-loupe {
+  position: fixed;
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 9998;
+  opacity: 0;
+  transition: opacity 0.15s;
+  box-shadow: 0 2px 20px rgba(0,0,0,0.15);
+  border: 1px solid rgba(0,0,0,0.12);
+  transform: translate(-50%, -50%);
+}
+#css-loupe img {
+  position: absolute;
+  pointer-events: none;
+  transform-origin: 0 0;
+}
+
+/* ---- CSS LOUPE ---- */
+#css-loupe {
+  position: fixed;
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 9998;
+  opacity: 0;
+  transition: opacity 0.12s;
+  box-shadow: 0 2px 20px rgba(0,0,0,0.13);
+  border: 1px solid rgba(0,0,0,0.1);
+  transform: translate(-50%, -50%);
+}
+#css-loupe img {
+  position: absolute;
+  pointer-events: none;
+  transform-origin: 0 0;
+  top: 0;
+  left: 0;
+}
