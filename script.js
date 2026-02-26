@@ -582,7 +582,7 @@ function loupeHide() {
 (function() {
   var loupe     = null;
   var loupeImg  = null;
-  var zoom      = 0.7;
+  var zoom      = 1.0;
   var size      = 90;
   var active    = false;
 
