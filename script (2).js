@@ -6,24 +6,15 @@ var PORTRAIT_URL = 'https://i.imgur.com/fn6Pybq.jpeg';  // Info page portrait ph
 
 // INFO PAGE — edit here
 var INFO_BIO = [
- 'Daniel Kep (b. 1993) is an artist living and working in Jerusalem. He holds a BFA from the Department of Fine Arts at Bezalel Academy of Arts and Design (2020) and is currently an MFA candidate at Bezalel.'
-
-'Kep’s work explores sculptural arrangements in which living bodies and inanimate objects are fused together. These imagery systems are stretched to the point of a tremor, struggling to maintain their stability and the integrity of their limbs. Through subtle movements, whiteness, and fragility in sculpture, still photography, and video, his works embody effort and physical presence.'
-
-'He is the recipient of the Eileen Cooper Award for Excellence from the Bezalel Art Department, the America-Israel Cultural Foundation (AICF) Prize, and the Michael and Pauline Lukman Excellence Scholarship as part of his MFA studies.'
-
-'Selected Exhibitions:'
-
-'Clinging (Solo Exhibition), Dana Gallery, Kibbutz Yad Mordechai. Curator: Ravit Harari (2024; scheduled to travel to Tel Aviv later this year).'
-
-'Bad Root, Jerusalem Artists’ House. Curator: Sally Haftel Naveh (2023).'
-
-'Untitled, Edmond de Rothschild Center, Tel Aviv. Curator: Hadas Maor (2022).'
-
-'Slight Tremor (Solo Exhibition), Gallery of Contemporary Art, Ramat Hasharon (2021).'
-
-'Room (Artist-in-Residence concluding exhibition), HaMiffal Gallery, Jerusalem. Curator: Meydad Eliyahu (2021).',
-  
+  'Daniel Kep (b. 1993) is an artist living and working in Jerusalem. He holds a BFA from the Department of Fine Arts at Bezalel Academy of Arts and Design (2020) and is currently an MFA candidate at Bezalel.',
+  "Kep\u2019s work explores sculptural arrangements in which living bodies and inanimate objects are fused together. These imagery systems are stretched to the point of a tremor, struggling to maintain their stability and the integrity of their limbs. Through subtle movements, whiteness, and fragility in sculpture, still photography, and video, his works embody effort and physical presence.",
+  'He is the recipient of the Eileen Cooper Award for Excellence from the Bezalel Art Department, the America-Israel Cultural Foundation (AICF) Prize, and the Michael and Pauline Lukman Excellence Scholarship as part of his MFA studies.',
+  'Selected Exhibitions:',
+  'Clinging (Solo Exhibition), Dana Gallery, Kibbutz Yad Mordechai. Curator: Ravit Harari (2024; scheduled to travel to Tel Aviv later this year).',
+  "Bad Root, Jerusalem Artists\u2019 House. Curator: Sally Haftel Naveh (2023).",
+  'Untitled, Edmond de Rothschild Center, Tel Aviv. Curator: Hadas Maor (2022).',
+  'Slight Tremor (Solo Exhibition), Gallery of Contemporary Art, Ramat Hasharon (2021).',
+  'Room (Artist-in-Residence concluding exhibition), HaMiffal Gallery, Jerusalem. Curator: Meydad Eliyahu (2021).',
 ];
 
 var INFO_EMAIL     = 'kep.dan@gmail.com';
@@ -43,110 +34,105 @@ var WORKS = [
     title:  'Untitled II',
     year:   '2024',
     medium: 'Mixed media on paper',
-    size:   '80 × 60 cm',
+    size:   '80 \u00d7 60 cm',
     url:    'https://i.imgflip.com/9jt6e7.jpg',
   },
   {
     title:  'Study III',
     year:   '2023',
     medium: 'Charcoal on paper',
-    size:   '100 × 70 cm',
+    size:   '100 \u00d7 70 cm',
     url:    'https://i.imgflip.com/9juj6s.jpg',
   },
   {
     title:  'Composition IV',
     year:   '2023',
     medium: 'Acrylic on canvas',
-    size:   '150 × 110 cm',
+    size:   '150 \u00d7 110 cm',
     url:    'https://i.imgflip.com/288cnn.jpg',
   },
   {
     title:  'Fragment V',
     year:   '2022',
     medium: 'Oil on linen',
-    size:   '90 × 90 cm',
+    size:   '90 \u00d7 90 cm',
     url:    'https://i.imgflip.com/9jqyru.jpg',
   },
   {
     title:  'Fragment V',
     year:   '2022',
     medium: 'Oil on linen',
-    size:   '90 × 90 cm',
+    size:   '90 \u00d7 90 cm',
     url:    'https://i.imgflip.com/9jqyru.jpg',
   },
   {
     title:  'Fragment V',
     year:   '2022',
     medium: 'Oil on linen',
-    size:   '90 × 90 cm',
+    size:   '90 \u00d7 90 cm',
     url:    'https://i.imgflip.com/9jqyru.jpg',
   },
   {
     title:  'Fragment V',
     year:   '2022',
     medium: 'Oil on linen',
-    size:   '90 × 90 cm',
+    size:   '90 \u00d7 90 cm',
     url:    'https://i.imgflip.com/9jqyru.jpg',
   },
   {
     title:  'Fragment V',
     year:   '2022',
     medium: 'Oil on linen',
-    size:   '90 × 90 cm',
+    size:   '90 \u00d7 90 cm',
     url:    'https://i.imgflip.com/9jqyru.jpg',
   },
   {
     title:  'Fragment V',
     year:   '2022',
     medium: 'Oil on linen',
-    size:   '90 × 90 cm',
+    size:   '90 \u00d7 90 cm',
     url:    'https://i.imgflip.com/9jqyru.jpg',
   },
   {
     title:  'Fragment V',
     year:   '2022',
     medium: 'Oil on linen',
-    size:   '90 × 90 cm',
+    size:   '90 \u00d7 90 cm',
     url:    'https://i.imgflip.com/9jqyru.jpg',
   },
   {
     title:  'Fragment V',
     year:   '2022',
     medium: 'Oil on linen',
-    size:   '90 × 90 cm',
+    size:   '90 \u00d7 90 cm',
     url:    'https://i.imgflip.com/9jqyru.jpg',
   },
   {
     title:  'Fragment V',
     year:   '2022',
     medium: 'Oil on linen',
-    size:   '90 × 90 cm',
+    size:   '90 \u00d7 90 cm',
     url:    'https://i.imgflip.com/9jqyru.jpg',
   },
   {
     title:  'Fragment V',
     year:   '2022',
     medium: 'Oil on linen',
-    size:   '90 × 90 cm',
+    size:   '90 \u00d7 90 cm',
     url:    'https://i.imgflip.com/9jqyru.jpg',
   },
 ];
 
 var SLIDES = [
-  'https://i.imgur.com/AnjJBsK.jpeg', // zirim
-'https://i.imgur.com/3DoFWV7.jpeg', // shemi
-'https://i.imgur.com/fbL1RQd.jpeg', // parpar
-'https://i.imgur.com/qNvRIlb.jpeg', // tomarkin
-'https://i.imgur.com/giReJN8.jpeg', // kidmat eden
-'https://i.imgur.com/E0VZ7vA.jpeg', // even varegel
-'https://i.imgur.com/8qCh6u1.jpeg', // kosot
-'https://i.imgur.com/faEHdFO.jpeg', // takriv kosot
-'https://i.imgur.com/UydPxyo.jpeg', // kadishman
-
-
-
-
- 
+  'https://i.imgur.com/AnjJBsK.jpeg',
+  'https://i.imgur.com/3DoFWV7.jpeg',
+  'https://i.imgur.com/fbL1RQd.jpeg',
+  'https://i.imgur.com/qNvRIlb.jpeg',
+  'https://i.imgur.com/giReJN8.jpeg',
+  'https://i.imgur.com/E0VZ7vA.jpeg',
+  'https://i.imgur.com/8qCh6u1.jpeg',
+  'https://i.imgur.com/faEHdFO.jpeg',
+  'https://i.imgur.com/UydPxyo.jpeg',
 ];
 
 // =============================================================
@@ -217,7 +203,6 @@ function renderInfo() {
 var imageStore = {};
 
 function loadImages() {
-  // Pre-populate imageStore from WORKS and SLIDES
   WORKS.forEach(function(work, i) {
     if (work.url) imageStore['work-' + i] = work.url;
   });
@@ -226,7 +211,6 @@ function loadImages() {
   });
   if (PORTRAIT_URL) applyImage('portrait', PORTRAIT_URL);
 
-  // Firebase overrides (only runs if FIREBASE_URL is configured)
   if (FIREBASE_URL === 'YOUR_FIREBASE_DATABASE_URL') return;
   fetch(FIREBASE_URL + '/images.json')
     .then(function(r) { return r.json(); })
@@ -251,9 +235,9 @@ function applyImage(key, url) {
 }
 
 function saveImage(key, url) {
-  applyImage(key, url);  // always preview locally
+  applyImage(key, url);
   if (lbEl.classList.contains('open') && key === 'work-' + lbIndex) renderLightbox(false);
-  if (FIREBASE_URL === 'YOUR_FIREBASE_DATABASE_URL') return;  // no persistence without Firebase
+  if (FIREBASE_URL === 'YOUR_FIREBASE_DATABASE_URL') return;
   fetch(FIREBASE_URL + '/images/' + key + '.json', {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
@@ -279,7 +263,6 @@ function checkAdminMode() {
 
 // ---- LIGHTBOX ----
 
-// Derived from WORKS — no need to edit this directly
 var works = WORKS.map(function(w) {
   return { title: w.title, meta: w.medium + ' \u00b7 ' + w.size + ' \u00b7 ' + w.year };
 });
@@ -382,7 +365,7 @@ function showPage(id) {
 // ---- SLIDESHOW ----
 
 var current = 0;
-var slides;  // assigned after renderSlideshow() builds the DOM
+var slides;
 
 function goToSlide(n) {
   slides[current].classList.remove('active');
@@ -395,7 +378,7 @@ function goToSlide(n) {
 renderWorks();
 renderSlideshow();
 renderInfo();
-slides = document.querySelectorAll('.slide');  // query after DOM is built
+slides = document.querySelectorAll('.slide');
 
 checkAdminMode();
 loadImages();
