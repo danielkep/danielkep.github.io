@@ -725,25 +725,7 @@ body.admin-mode .lb-edit-btn {
   pointer-events: none;
 }
 
-/* ---- VIDEO LINK on works page ---- */
-.work-video-link {
-  margin-top: 16px;
-  font-size: 12px;
-  font-weight: 400;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--black);
-  cursor: pointer;
-  display: inline-block;
-  border-bottom: 1px solid var(--black);
-  padding-bottom: 2px;
-}
-.work-video-link:hover { color: var(--gray); border-color: var(--gray); }
-
-/* =============================================================
-   DO NOT TOUCH — GALLERY
-   ============================================================= */
-
+/* ---- GALLERY OVERLAY ---- */
 #gallery-overlay {
   display: none;
   position: fixed;
@@ -780,27 +762,6 @@ body.admin-mode .lb-edit-btn {
   line-height: 2;
 }
 .gallery-year { margin-top: 4px; color: #bbb; }
-.gallery-photo-credit {
-  margin-top: 20px;
-  font-size: 11px;
-  font-weight: 300;
-  color: #bbb;
-  letter-spacing: 0.03em;
-  line-height: 1.6;
-}
-.gallery-video-link {
-  margin-top: 20px;
-  font-size: 12px;
-  font-weight: 400;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--black);
-  cursor: pointer;
-  display: inline-block;
-  border-bottom: 1px solid var(--black);
-  padding-bottom: 2px;
-}
-.gallery-video-link:hover { color: var(--gray); border-color: var(--gray); }
 .gallery-counter {
   margin-top: 28px;
   font-size: 11px;
@@ -822,7 +783,7 @@ body.admin-mode .lb-edit-btn {
   height: auto;
   object-fit: contain;
   display: block;
-  transition: opacity 0.18s ease;
+  transition: opacity 0.2s ease;
 }
 .gallery-zone {
   position: fixed;
@@ -835,46 +796,24 @@ body.admin-mode .lb-edit-btn {
 .gallery-zone-left  { left: 0; }
 .gallery-zone-right { right: 0; }
 
-/* =============================================================
-   DO NOT TOUCH — VIDEO PLAYER
-   ============================================================= */
-
-#video-overlay {
-  display: none;
+/* ---- LOUPE ---- */
+#gallery-loupe {
   position: fixed;
-  inset: 0;
-  z-index: 600;
-  background: #fff;
-  align-items: center;
-  justify-content: center;
-}
-#video-overlay.open { display: flex; animation: lbFade 0.3s ease; }
-.video-inner {
-  width: 80vw;
-  max-width: 960px;
-  aspect-ratio: 16/9;
-  background: #000;
-}
-#video-frame {
-  width: 100%;
-  height: 100%;
-  display: block;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 700;
+  opacity: 0;
+  transition: opacity 0.1s;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.13);
 }
 
-/* =============================================================
-   MOBILE
-   ============================================================= */
+/* mobile */
 @media (max-width: 768px) {
   #gallery-overlay.open { flex-direction: column; }
-  .gallery-left {
-    width: 100%;
-    padding: 70px 24px 16px;
-  }
-  .gallery-right {
-    flex: 1;
-    padding: 0 0 40px 0;
-    justify-content: center;
-  }
+  .gallery-left { width: 100%; padding: 70px 24px 16px; }
+  .gallery-right { flex: 1; padding: 0 0 40px 0; justify-content: center; }
   #gallery-img { max-height: 55vh; }
-  .video-inner { width: 95vw; }
+  #gallery-loupe { display: none; }
 }
