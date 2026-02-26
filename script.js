@@ -56,7 +56,7 @@ var WORKS = [
       'https://i.imgur.com/YRC5Q9E.jpeg',
       'https://i.imgur.com/AnjJBsK.jpeg',
     ],
-    installationPhotos: 'daniel hanoch',
+    installationPhotos: '',
     vimeoID:            '',
   },
   {
