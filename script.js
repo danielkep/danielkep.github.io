@@ -37,7 +37,7 @@ var WORKS = [
     title:  'Tzirim (Axes)',
     year:   '2024',
     medium: 'Oak wood',
-    size:   '327  \u00d7 467 cm (Dimensions variable)',
+    size:   '327 \u00d7 467 cm (Dimensions variable)',
     images: [
       'https://i.imgur.com/FIL60lB.jpeg',
       'https://i.imgur.com/VGxrsrb.jpeg',
