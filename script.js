@@ -86,15 +86,13 @@ var WORKS = [
     ],
   },
   {
-    title:  'Fragment V',
-    year:   '2022',
-    medium: 'Oil on linen',
-    size:   '90 \u00d7 90 cm',
+    title:  'Grey Heron',
+    year:   '2025',
+    medium: 'Bronze and wood (walking stick)',
+    size:   'Dimensions variable (according to ceiling height)',
     images: [
-      'https://i.imgur.com/EUanBpY.jpeg',
-      'https://i.imgur.com/DQ0SwTQ.jpeg',
-      'https://i.imgur.com/TJKOuYw.jpeg',
-      'https://i.imgur.com/1eR59pN.jpeg',
+      'https://i.imgur.com/KFhxmpz.jpeg',
+      'https://i.imgur.com/EDU4a3R.jpeg',
 
     ],
   },
