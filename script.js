@@ -52,7 +52,7 @@ var WORKS = [
       'https://i.imgur.com/YRC5Q9E.jpeg',
       'https://i.imgur.com/AnjJBsK.jpeg',
     ],
-    installationPhotos: 'Installation photos: Elad Sarig',
+    installationPhotos: 'Installation photos: Daniel Hanoch',
     vimeoID:            '',
   },
   {
