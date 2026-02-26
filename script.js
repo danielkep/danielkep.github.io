@@ -296,6 +296,19 @@ loadImages();
 setInterval(function() { goToSlide((current + 1) % slides.length); }, SLIDE_DURATION);
 
 
+
+// ---- GLOBAL CIRCLE CURSOR ----
+(function() {
+  var cur = document.createElement('div');
+  cur.id = 'site-cursor';
+  document.body.appendChild(cur);
+
+  document.addEventListener('mousemove', function(e) {
+    cur.style.left = e.clientX + 'px';
+    cur.style.top  = e.clientY + 'px';
+  });
+})();
+
 // =============================================================
 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //   גלריה — אל תיגע כאן
@@ -391,6 +404,7 @@ function galleryOpen(workIndex, imgIndex) {
   }
   galleryRender(false);
   galleryEl.classList.add('open');
+  document.body.classList.add('gallery-open');
   document.body.style.overflow = 'hidden';
 }
 
@@ -436,6 +450,7 @@ function galleryNav(dir) {
 function galleryClose() {
   if (!galleryEl) return;
   galleryEl.classList.remove('open');
+  document.body.classList.remove('gallery-open');
   document.body.style.overflow = '';
   galleryCursor.style.opacity = '0';
   loupeHide();

@@ -410,6 +410,7 @@ nav.transparent .nav-right a:hover {
   user-select: none;
 }
 
+
 /* MOBILE MENU */
 .mobile-menu {
   display: none;
@@ -827,3 +828,24 @@ body.admin-mode .lb-edit-btn {
   #gallery-img { max-height: 55vh; }
   #gallery-loupe { display: none; }
 }
+
+/* ---- CUSTOM CURSOR ---- */
+body { cursor: none; }
+a, button, [onclick] { cursor: none; }
+
+#site-cursor {
+  position: fixed;
+  width: 28px;
+  height: 28px;
+  border: 1px solid rgba(0,0,0,0.4);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: opacity 0.2s;
+  top: -100px;
+  left: -100px;
+}
+
+/* hide global cursor when gallery is open (gallery has arrows) */
+body.gallery-open #site-cursor { opacity: 0; }
