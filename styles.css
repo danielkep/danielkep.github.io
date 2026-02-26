@@ -618,21 +618,127 @@ body.admin-mode .lb-edit-btn {
   font-size: 11px;
   font-weight: 400;
   letter-spacing: 0.08em;
-  color: rgba(255,255,255,0.85);
-  background: rgba(0,0,0,0.35);
+  color: rgba(255,255,255,0.9);
+  background: rgba(0,0,0,0.32);
   padding: 3px 7px;
   pointer-events: none;
 }
 
-/* ---- LIGHTBOX COUNTER ---- */
-.lightbox-caption {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 24px;
+/* =============================================================
+   גלריה — אל תיגע כאן
+   ============================================================= */
+
+#gallery-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  background: #fff;
+  cursor: none;
 }
-.lb-counter {
-  font-size: 11px;
-  letter-spacing: 0.1em;
+#gallery-overlay.open {
+  display: flex;
+  align-items: stretch;
+  animation: lbFade 0.3s ease;
+}
+
+/* טקסט — שמאל */
+.gallery-left {
+  width: 260px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 80px 48px 60px 60px;
+  gap: 0;
+}
+
+.gallery-title {
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: var(--black);
+  margin-bottom: 14px;
+}
+
+.gallery-meta-line {
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--gray);
+  line-height: 2;
+}
+
+.gallery-year {
+  margin-top: 4px;
   color: #bbb;
 }
+
+.gallery-counter {
+  margin-top: 28px;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: #ccc;
+}
+
+/* תמונה — ימין, מקסימלית ללא חיתוך */
+.gallery-right {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 60px 60px 60px 0;
+  overflow: hidden;
+}
+
+#gallery-img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  display: block;
+  transition: opacity 0.2s ease;
+}
+
+/* אזורי לחיצה */
+.gallery-zone {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  width: 50%;
+  z-index: 10;
+  cursor: none;
+}
+.gallery-zone-left  { left: 0; }
+.gallery-zone-right { right: 0; }
+
+/* כפתור Back — ממוקם על ידי ה-HTML הקיים */
+
+/* מובייל */
+@media (max-width: 768px) {
+  #gallery-overlay.open {
+    flex-direction: column;
+  }
+  .gallery-left {
+    width: 100%;
+    padding: 70px 24px 16px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0 12px;
+    justify-content: flex-start;
+  }
+  .gallery-right {
+    flex: 1;
+    padding: 0 0 40px 0;
+    justify-content: center;
+  }
+  #gallery-img {
+    max-height: 60vh;
+  }
+}
+
+/* =============================================================
+   סוף הגלריה — אל תיגע כאן
+   ============================================================= */

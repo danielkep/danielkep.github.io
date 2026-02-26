@@ -2,9 +2,8 @@
 // CONTENT — edit here to update the site. Save + redeploy.
 // =============================================================
 
-var PORTRAIT_URL = 'https://i.imgur.com/fn6Pybq.jpeg';  // Info page portrait photo
+var PORTRAIT_URL = 'https://i.imgur.com/fn6Pybq.jpeg';
 
-// INFO PAGE — edit here
 var INFO_BIO = [
   'Daniel Kep (b. 1993) is an artist living and working in Jerusalem. He holds a BFA from the Department of Fine Arts at Bezalel Academy of Arts and Design (2020) and is currently an MFA candidate at Bezalel.',
   "Kep\u2019s work explores sculptural arrangements in which living bodies and inanimate objects are fused together. These imagery systems are stretched to the point of a tremor, struggling to maintain their stability and the integrity of their limbs. Through subtle movements, whiteness, and fragility in sculpture, still photography, and video, his works embody effort and physical presence.",
@@ -18,9 +17,9 @@ var INFO_BIO = [
 ];
 
 var INFO_EMAIL     = 'kep.dan@gmail.com';
-var INFO_INSTAGRAM = '_kep_daniel';  // just the username, without instagram.com/
-var SLIDE_DURATION   = 6000;  // ms — how long each slide stays visible
-var SLIDE_TRANSITION = 1400;  // ms — fade duration between slides
+var INFO_INSTAGRAM = '_kep_daniel';
+var SLIDE_DURATION   = 6000;
+var SLIDE_TRANSITION = 1400;
 
 // =============================================================
 // WORKS — כך מוסיפים פרויקט חדש:
@@ -44,8 +43,6 @@ var WORKS = [
       'https://i.imgur.com/VGxrsrb.jpeg',
       'https://i.imgur.com/YRC5Q9E.jpeg',
       'https://i.imgur.com/AnjJBsK.jpeg',
-
-
     ],
   },
   {
@@ -137,7 +134,7 @@ function renderWorks() {
             '<span style="margin-top:6px;color:#bbb;">' + work.year + '</span>' +
           '</div>' +
         '</div>' +
-        '<div class="work-image" onclick="openLightbox(' + i + ')">' +
+        '<div class="work-image" onclick="galleryOpen(' + i + ', 0)">' +
           '<div class="img-wrapper" data-key="work-' + i + '">' +
             '<img class="stored-img" src="' + firstImg + '" alt="' + work.title + '">' +
             '<div class="img-placeholder"' + ph + '>Image</div>' +
@@ -214,97 +211,6 @@ function checkAdminMode() {
   document.body.classList.toggle('admin-mode', localStorage.getItem('kep_admin') === '1');
 }
 
-// ---- LIGHTBOX ----
-
-var lbWorkIndex = 0;
-var lbImgIndex  = 0;
-var lbEl   = document.getElementById('lightbox');
-var cursor = document.getElementById('lb-cursor');
-
-function openLightbox(workIndex) {
-  lbWorkIndex = workIndex;
-  lbImgIndex  = 0;
-  renderLightbox(false);
-  lbEl.classList.add('open');
-  document.body.style.overflow = 'hidden';
-}
-
-function renderLightbox(fade) {
-  var imgEl = document.getElementById('lightbox-img');
-  var cap   = document.getElementById('lightbox-caption');
-  var work  = WORKS[lbWorkIndex];
-  var imgs  = getImages(work);
-  var total = imgs.length;
-
-  function render() {
-    var url = imgs[lbImgIndex];
-    imgEl.innerHTML = '';
-    if (url) {
-      imgEl.style.position = 'relative';
-      var img = document.createElement('img');
-      img.src = url;
-      img.alt = work.title;
-      img.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;object-fit:contain;display:block;';
-      imgEl.appendChild(img);
-    } else {
-      imgEl.style.position = '';
-      imgEl.textContent = work.title;
-    }
-    var meta    = [work.medium, work.size, work.year].filter(Boolean).join(' \u00b7 ');
-    var counter = total > 1 ? (lbImgIndex + 1) + ' \u2014 ' + total : '';
-    cap.innerHTML =
-      (meta    ? '<span>' + meta + '</span>' : '') +
-      (counter ? '<span class="lb-counter">' + counter + '</span>' : '');
-  }
-
-  if (fade) {
-    imgEl.classList.add('fade');
-    setTimeout(function() { render(); imgEl.classList.remove('fade'); }, 200);
-  } else {
-    render();
-  }
-}
-
-function lbNavigate(dir) {
-  var imgs = getImages(WORKS[lbWorkIndex]);
-  lbImgIndex = (lbImgIndex + dir + imgs.length) % imgs.length;
-  renderLightbox(true);
-}
-
-function closeLightbox() {
-  lbEl.classList.remove('open');
-  document.body.style.overflow = '';
-  cursor.style.opacity = '0';
-}
-
-// Keyboard
-document.addEventListener('keydown', function(e) {
-  if (!lbEl.classList.contains('open')) return;
-  if (e.key === 'Escape')     closeLightbox();
-  if (e.key === 'ArrowRight') lbNavigate(1);
-  if (e.key === 'ArrowLeft')  lbNavigate(-1);
-});
-
-// Custom cursor
-document.addEventListener('mousemove', function(e) {
-  if (!lbEl.classList.contains('open')) return;
-  cursor.style.left = e.clientX + 'px';
-  cursor.style.top  = e.clientY + 'px';
-  cursor.textContent = e.clientX < window.innerWidth / 2 ? '\u2190' : '\u2192';
-  cursor.style.opacity = '1';
-});
-lbEl.addEventListener('mouseleave', function() { cursor.style.opacity = '0'; });
-
-// Touch / swipe
-var touchStartX = 0;
-lbEl.addEventListener('touchstart', function(e) {
-  touchStartX = e.touches[0].clientX;
-}, { passive: true });
-lbEl.addEventListener('touchend', function(e) {
-  var diff = touchStartX - e.changedTouches[0].clientX;
-  if (Math.abs(diff) > 40) lbNavigate(diff > 0 ? 1 : -1);
-}, { passive: true });
-
 // ---- NAV ----
 
 function openMobileMenu() {
@@ -354,3 +260,157 @@ checkAdminMode();
 loadImages();
 
 setInterval(function() { goToSlide((current + 1) % slides.length); }, SLIDE_DURATION);
+
+
+// =============================================================
+// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+//   גלריה — אל תיגע כאן
+// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+// =============================================================
+
+// בונה רשימה שטוחה של כל התמונות מכל הפרויקטים ברצף
+// כל פריט: { url, workIndex, imgIndex }
+function buildFlatList() {
+  var list = [];
+  WORKS.forEach(function(work, wi) {
+    getImages(work).forEach(function(url, ii) {
+      list.push({ url: url, workIndex: wi, imgIndex: ii });
+    });
+  });
+  return list;
+}
+
+var galleryEl      = null;
+var galleryImgEl   = null;
+var galleryTextEl  = null;
+var galleryCursor  = null;
+var galleryList    = [];
+var galleryIndex   = 0;
+var galleryTouchX  = 0;
+
+function galleryBuild() {
+  if (document.getElementById('gallery-overlay')) return;
+
+  var el = document.createElement('div');
+  el.id = 'gallery-overlay';
+  el.innerHTML =
+    '<div class="gallery-left" id="gallery-text"></div>' +
+    '<div class="gallery-right">' +
+      '<img id="gallery-img" src="" alt="">' +
+    '</div>' +
+    '<div class="gallery-zone gallery-zone-left"  id="gz-left"></div>' +
+    '<div class="gallery-zone gallery-zone-right" id="gz-right"></div>' +
+    '<div class="lb-cursor" id="gallery-cursor"></div>';
+
+  document.body.appendChild(el);
+
+  galleryEl     = el;
+  galleryImgEl  = document.getElementById('gallery-img');
+  galleryTextEl = document.getElementById('gallery-text');
+  galleryCursor = document.getElementById('gallery-cursor');
+
+  document.getElementById('gz-left').addEventListener('click',  function() { galleryNav(-1); });
+  document.getElementById('gz-right').addEventListener('click', function() { galleryNav(1); });
+
+  // keyboard
+  document.addEventListener('keydown', function(e) {
+    if (!galleryEl || !galleryEl.classList.contains('open')) return;
+    if (e.key === 'Escape')     galleryClose();
+    if (e.key === 'ArrowRight') galleryNav(1);
+    if (e.key === 'ArrowLeft')  galleryNav(-1);
+  });
+
+  // cursor
+  el.addEventListener('mousemove', function(e) {
+    galleryCursor.style.left = e.clientX + 'px';
+    galleryCursor.style.top  = e.clientY + 'px';
+    galleryCursor.textContent = e.clientX < window.innerWidth / 2 ? '\u2190' : '\u2192';
+    galleryCursor.style.opacity = '1';
+  });
+  el.addEventListener('mouseleave', function() { galleryCursor.style.opacity = '0'; });
+
+  // swipe
+  el.addEventListener('touchstart', function(e) {
+    galleryTouchX = e.touches[0].clientX;
+  }, { passive: true });
+  el.addEventListener('touchend', function(e) {
+    var diff = galleryTouchX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 40) galleryNav(diff > 0 ? 1 : -1);
+  }, { passive: true });
+}
+
+function galleryOpen(workIndex, imgIndex) {
+  galleryBuild();
+  galleryList  = buildFlatList();
+  // מצא את האינדקס הגלובלי המתאים
+  galleryIndex = 0;
+  for (var k = 0; k < galleryList.length; k++) {
+    if (galleryList[k].workIndex === workIndex && galleryList[k].imgIndex === (imgIndex || 0)) {
+      galleryIndex = k;
+      break;
+    }
+  }
+  galleryRender(false);
+  galleryEl.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function galleryRender(fade) {
+  var item = galleryList[galleryIndex];
+  var work = WORKS[item.workIndex];
+  var imgs = getImages(work);
+
+  function render() {
+    galleryImgEl.src = item.url;
+
+    var titleHtml  = work.title  ? '<div class="gallery-title">'  + work.title  + '</div>' : '';
+    var mediumHtml = work.medium ? '<div class="gallery-meta-line">' + work.medium + '</div>' : '';
+    var sizeHtml   = work.size   ? '<div class="gallery-meta-line">' + work.size   + '</div>' : '';
+    var yearHtml   = work.year   ? '<div class="gallery-meta-line gallery-year">' + work.year + '</div>' : '';
+    var counter    = imgs.length > 1
+      ? '<div class="gallery-counter">' + (item.imgIndex + 1) + ' \u2014 ' + imgs.length + '</div>'
+      : '';
+
+    galleryTextEl.innerHTML = titleHtml + mediumHtml + sizeHtml + yearHtml + counter;
+  }
+
+  if (fade) {
+    galleryImgEl.style.opacity = '0';
+    galleryTextEl.style.opacity = '0';
+    setTimeout(function() {
+      render();
+      galleryImgEl.style.opacity  = '1';
+      galleryTextEl.style.opacity = '1';
+    }, 200);
+  } else {
+    render();
+  }
+}
+
+function galleryNav(dir) {
+  galleryIndex = (galleryIndex + dir + galleryList.length) % galleryList.length;
+  galleryRender(true);
+}
+
+function galleryClose() {
+  if (!galleryEl) return;
+  galleryEl.classList.remove('open');
+  document.body.style.overflow = '';
+  galleryCursor.style.opacity = '0';
+}
+
+// כפתור Back הקיים — עובד גם לסגירת הגלריה
+var origCloseLightbox = window.closeLightbox;
+window.closeLightbox = function() {
+  if (galleryEl && galleryEl.classList.contains('open')) {
+    galleryClose();
+  } else if (origCloseLightbox) {
+    origCloseLightbox();
+  }
+};
+
+// =============================================================
+// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+//   סוף הגלריה — אל תיגע כאן
+// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+// =============================================================
