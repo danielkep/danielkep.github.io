@@ -595,58 +595,83 @@ function loupeHide() {
     document.body.appendChild(loupe);
   }
 
-  function attachToWorks() {
-    document.querySelectorAll('.work-image').forEach(function(el) {
-      var img = el.querySelector('.stored-img');
-      if (!img) return;
+  function moveLoupe(e, imgEl) {
+    if (!active || !loupe || !imgEl) return;
+    loupe.style.left = e.clientX + 'px';
+    loupe.style.top  = e.clientY + 'px';
+    var r   = imgEl.getBoundingClientRect();
+    var px  = (e.clientX - r.left) / r.width;
+    var py  = (e.clientY - r.top)  / r.height;
+    var imgW = r.width  * zoom;
+    var imgH = r.height * zoom;
+    loupeImg.style.width  = imgW + 'px';
+    loupeImg.style.height = imgH + 'px';
+    loupeImg.style.left   = -(px * imgW - size / 2) + 'px';
+    loupeImg.style.top    = -(py * imgH - size / 2) + 'px';
+  }
 
-      el.addEventListener('mouseenter', function() {
-        if (document.body.classList.contains('gallery-open')) return;
-        init();
-        loupeImg.src = img.src;
-        active = true;
-        loupe.style.opacity = '1';
-      });
-
-      el.addEventListener('mouseleave', function() {
-        active = false;
-        if (loupe) loupe.style.opacity = '0';
-      });
-
-      el.addEventListener('mousemove', function(e) {
-        if (!active || !loupe) return;
-        // position loupe
-        loupe.style.left = e.clientX + 'px';
-        loupe.style.top  = e.clientY + 'px';
-
-        // calculate zoom offset
-        var r   = img.getBoundingClientRect();
-        var px  = (e.clientX - r.left) / r.width;
-        var py  = (e.clientY - r.top)  / r.height;
-
-        var imgW = r.width  * zoom;
-        var imgH = r.height * zoom;
-        var offX = -(px * imgW - size / 2);
-        var offY = -(py * imgH - size / 2);
-
-        loupeImg.style.width  = imgW + 'px';
-        loupeImg.style.height = imgH + 'px';
-        loupeImg.style.left   = offX + 'px';
-        loupeImg.style.top    = offY + 'px';
-      });
+  function attachLoupe(el, getImg) {
+    el.addEventListener('mouseenter', function() {
+      var img = getImg();
+      if (!img || !img.src) return;
+      init();
+      loupeImg.src = img.src;
+      active = true;
+      loupe.style.opacity = '1';
+    });
+    el.addEventListener('mouseleave', function() {
+      active = false;
+      if (loupe) loupe.style.opacity = '0';
+    });
+    el.addEventListener('mousemove', function(e) {
+      moveLoupe(e, getImg());
     });
   }
 
-  // attach after works are rendered
+  function attachToWorks() {
+    document.querySelectorAll('.work-image').forEach(function(el) {
+      attachLoupe(el, function() { return el.querySelector('.stored-img'); });
+    });
+  }
+
+  function attachToSlideshow() {
+    var ss = document.getElementById('slideshow');
+    if (!ss) return;
+    attachLoupe(ss, function() {
+      var active = ss.querySelector('.slide.active .stored-img');
+      return active;
+    });
+  }
+
+  function attachToGallery() {
+    var overlay = document.getElementById('gallery-overlay');
+    if (!overlay) return;
+    attachLoupe(overlay, function() {
+      return document.getElementById('gallery-img');
+    });
+  }
+
+  // attach after render
   document.addEventListener('DOMContentLoaded', function() {
-    setTimeout(attachToWorks, 300);
+    setTimeout(function() {
+      attachToWorks();
+      attachToSlideshow();
+    }, 300);
   });
-  // also re-attach after showPage
+
+  // re-attach when gallery opens
+  var _origGalleryOpen = window.galleryOpen;
+  window.galleryOpen = function(wi, ii) {
+    _origGalleryOpen(wi, ii);
+    setTimeout(attachToGallery, 100);
+  };
+
   var origShowPage = window.showPage;
   if (origShowPage) {
     window.showPage = function(id) {
       origShowPage(id);
       if (id === 'works') setTimeout(attachToWorks, 100);
+      if (id === 'home')  setTimeout(attachToSlideshow, 100);
     };
   }
 })();
