@@ -583,7 +583,7 @@ function loupeHide() {
   var loupe     = null;
   var loupeImg  = null;
   var zoom      = 1.0;
-  var size      = 90;
+  var size      = 150;
   var active    = false;
 
   function init() {
@@ -597,22 +597,23 @@ function loupeHide() {
 
   function moveLoupe(e, imgEl) {
     if (!active || !loupe || !imgEl) return;
-    // always sync src so navigation updates work
     if (loupeImg.src !== imgEl.src) {
       loupeImg.src = imgEl.src;
     }
     loupe.style.left = e.clientX + 'px';
     loupe.style.top  = e.clientY + 'px';
-    var r   = imgEl.getBoundingClientRect();
-    var px  = (e.clientX - r.left) / r.width;
-    var py  = (e.clientY - r.top)  / r.height;
-    var imgW = r.width  * zoom;
-    var imgH = r.height * zoom;
-    loupeImg.style.width   = imgW + 'px';
-    loupeImg.style.height  = imgH + 'px';
-    loupeImg.style.left    = -(px * imgW - size / 2) + 'px';
-    loupeImg.style.top     = -(py * imgH - size / 2) + 'px';
-    loupeImg.style.filter  = 'invert(1)';
+
+    var r  = imgEl.getBoundingClientRect();
+    var px = (e.clientX - r.left);
+    var py = (e.clientY - r.top);
+
+    // image is exactly the same size as displayed — 1:1
+    loupeImg.style.width  = r.width  + 'px';
+    loupeImg.style.height = r.height + 'px';
+    // offset so the cursor position aligns with center of loupe
+    loupeImg.style.left   = -(px - size / 2) + 'px';
+    loupeImg.style.top    = -(py - size / 2) + 'px';
+    loupeImg.style.filter = 'invert(1)';
   }
 
   function attachLoupe(el, getImg) {
