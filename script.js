@@ -301,11 +301,22 @@ setInterval(function() { goToSlide((current + 1) % slides.length); }, SLIDE_DURA
 (function() {
   var cur = document.createElement('div');
   cur.id = 'site-cursor';
+  cur.style.cssText = [
+    'position:fixed','pointer-events:none','z-index:9999',
+    'width:28px','height:28px','border-radius:50%',
+    'border:1px solid rgba(0,0,0,0.4)','background:transparent',
+    'transform:translate(-50%,-50%)','transition:opacity 0.15s',
+    'top:-100px','left:-100px'
+  ].join(';');
   document.body.appendChild(cur);
 
   document.addEventListener('mousemove', function(e) {
     cur.style.left = e.clientX + 'px';
     cur.style.top  = e.clientY + 'px';
+    cur.style.opacity = '1';
+  });
+  document.addEventListener('mouseleave', function() {
+    cur.style.opacity = '0';
   });
 })();
 
@@ -375,10 +386,13 @@ function galleryBuild() {
   // cursor
   el.addEventListener('mousemove', function(e) {
     var onImg = isOnImage(e);
-    galleryCursor.style.left = e.clientX + 'px';
-    galleryCursor.style.top  = e.clientY + 'px';
-    galleryCursor.textContent = onImg ? '' : (e.clientX < window.innerWidth / 2 ? '\u2190' : '\u2192');
+    galleryCursor.style.left    = e.clientX + 'px';
+    galleryCursor.style.top     = e.clientY + 'px';
+    galleryCursor.textContent   = onImg ? '' : (e.clientX < window.innerWidth / 2 ? '\u2190' : '\u2192');
     galleryCursor.style.opacity = onImg ? '0' : '1';
+    // move site cursor too (hidden in gallery but position tracks)
+    var sc = document.getElementById('site-cursor');
+    if (sc) { sc.style.left = e.clientX + 'px'; sc.style.top = e.clientY + 'px'; }
   });
   el.addEventListener('mouseleave', function() { galleryCursor.style.opacity = '0'; });
 
@@ -749,10 +763,13 @@ function galleryBuild() {
   // cursor
   el.addEventListener('mousemove', function(e) {
     var onImg = isOnImage(e);
-    galleryCursor.style.left = e.clientX + 'px';
-    galleryCursor.style.top  = e.clientY + 'px';
-    galleryCursor.textContent = onImg ? '' : (e.clientX < window.innerWidth / 2 ? '\u2190' : '\u2192');
+    galleryCursor.style.left    = e.clientX + 'px';
+    galleryCursor.style.top     = e.clientY + 'px';
+    galleryCursor.textContent   = onImg ? '' : (e.clientX < window.innerWidth / 2 ? '\u2190' : '\u2192');
     galleryCursor.style.opacity = onImg ? '0' : '1';
+    // move site cursor too (hidden in gallery but position tracks)
+    var sc = document.getElementById('site-cursor');
+    if (sc) { sc.style.left = e.clientX + 'px'; sc.style.top = e.clientY + 'px'; }
   });
   el.addEventListener('mouseleave', function() { galleryCursor.style.opacity = '0'; });
 
