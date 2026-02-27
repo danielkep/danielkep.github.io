@@ -580,56 +580,39 @@ function loupeHide() {
 
 // ---- INVERT LOUPE ----
 (function() {
-  var overlay  = null;
-  var size     = 150;
+  var size = 150;
+  var currentImg = null;
 
-  function init() {
-    if (overlay) return;
-    overlay = document.createElement('div');
-    overlay.id = 'invert-loupe';
-    document.body.appendChild(overlay);
+  function applyLoupe(e, imgEl) {
+    if (!imgEl) return;
+
+    // Apply clip-path circle + invert directly on the img element
+    if (currentImg && currentImg !== imgEl) {
+      currentImg.style.clipPath = '';
+      currentImg.style.filter  = '';
+    }
+    currentImg = imgEl;
+
+    var r      = imgEl.getBoundingClientRect();
+    var localX = e.clientX - r.left;
+    var localY = e.clientY - r.top;
+
+    imgEl.style.filter   = 'invert(1)';
+    imgEl.style.clipPath = 'circle(' + (size/2) + 'px at ' + localX + 'px ' + localY + 'px)';
+    imgEl.style.webkitClipPath = imgEl.style.clipPath;
   }
 
-  function show(e, imgEl) {
-    if (!imgEl || !imgEl.src) return;
-    init();
-
-    var r   = imgEl.getBoundingClientRect();
-    var cx  = e.clientX;
-    var cy  = e.clientY;
-    var half = size / 2;
-
-    // Position overlay exactly over the image
-    overlay.style.position   = 'fixed';
-    overlay.style.left       = r.left + 'px';
-    overlay.style.top        = r.top  + 'px';
-    overlay.style.width      = r.width  + 'px';
-    overlay.style.height     = r.height + 'px';
-    overlay.style.overflow   = 'hidden';
-    overlay.style.pointerEvents = 'none';
-    overlay.style.zIndex     = '9997';
-    overlay.style.opacity    = '1';
-
-    // Clip circle centered on cursor (relative to overlay)
-    var localX = cx - r.left;
-    var localY = cy - r.top;
-    overlay.style.backgroundImage    = 'url(' + imgEl.src + ')';
-    overlay.style.backgroundSize     = r.width + 'px ' + r.height + 'px';
-    overlay.style.backgroundPosition = '0 0';
-    overlay.style.filter             = 'invert(1)';
-    overlay.style.clipPath = 'circle(' + half + 'px at ' + localX + 'px ' + localY + 'px)';
-    overlay.style.webkitClipPath = overlay.style.clipPath;
-  }
-
-  function hide() {
-    if (overlay) overlay.style.opacity = '0';
+  function removeLoupe(imgEl) {
+    if (!imgEl) return;
+    imgEl.style.clipPath = '';
+    imgEl.style.webkitClipPath = '';
+    imgEl.style.filter  = '';
+    currentImg = null;
   }
 
   function attach(el, getImg) {
-    el.addEventListener('mouseleave', hide);
-    el.addEventListener('mousemove', function(e) {
-      show(e, getImg());
-    });
+    el.addEventListener('mouseleave', function() { removeLoupe(getImg()); });
+    el.addEventListener('mousemove',  function(e) { applyLoupe(e, getImg()); });
   }
 
   function attachToWorks() {
@@ -640,10 +623,17 @@ function loupeHide() {
 
   function attachToSlideshow() {
     var body = document.body;
-    attach(body, function() {
-      if (!document.getElementById('home').classList.contains('active')) return null;
-      var ss = document.getElementById('slideshow');
-      return ss ? ss.querySelector('.slide.active .stored-img') : null;
+    body.addEventListener('mousemove', function(e) {
+      if (!document.getElementById('home').classList.contains('active')) return;
+      var ss  = document.getElementById('slideshow');
+      var img = ss ? ss.querySelector('.slide.active .stored-img') : null;
+      if (!img) return;
+      var r = img.getBoundingClientRect();
+      if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom) {
+        removeLoupe(img);
+      } else {
+        applyLoupe(e, img);
+      }
     });
   }
 
@@ -677,7 +667,7 @@ function loupeHide() {
   if (origShowPage) {
     window.showPage = function(id) {
       origShowPage(id);
-      hide();
+      if (currentImg) removeLoupe(currentImg);
       if (id === 'works') setTimeout(attachToWorks, 100);
       if (id === 'home')  setTimeout(attachToSlideshow, 100);
       if (id === 'info')  setTimeout(attachToInfo, 100);
