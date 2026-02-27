@@ -4,6 +4,7 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  cursor: none !important;
 }
 
 :root {
@@ -64,7 +65,6 @@ nav.transparent .nav-right a:hover {
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--black);
-  cursor: pointer;
 }
 
 .nav-links {
@@ -80,7 +80,6 @@ nav.transparent .nav-right a:hover {
   text-transform: uppercase;
   color: var(--gray);
   text-decoration: none;
-  cursor: pointer;
   position: relative;
   padding-bottom: 3px;
   transition: color 0.2s;
@@ -216,7 +215,6 @@ nav.transparent .nav-right a:hover {
   aspect-ratio: 4/3;
   overflow: hidden;
   background: #e4e2de;
-  cursor: pointer;
 }
 
 .work-image .img-placeholder {
@@ -380,7 +378,6 @@ nav.transparent .nav-right a:hover {
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--gray);
-  cursor: pointer;
   background: none;
   border: none;
   padding-bottom: 3px;
@@ -464,12 +461,10 @@ nav.transparent .nav-right a:hover {
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--black);
-  cursor: pointer;
 }
 
 .mobile-menu-close {
   font-size: 24px;
-  cursor: pointer;
   color: var(--black);
   background: none;
   border: none;
@@ -491,7 +486,6 @@ nav.transparent .nav-right a:hover {
   letter-spacing: 0.05em;
   color: var(--black);
   text-decoration: none;
-  cursor: pointer;
 }
 
 /* RESPONSIVE */
@@ -510,7 +504,6 @@ nav.transparent .nav-right a:hover {
     display: flex;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
     width: 32px;
     height: 32px;
     border-radius: 50%;
@@ -583,7 +576,6 @@ nav.transparent .nav-right a:hover {
   background: rgba(0, 0, 0, 0.65);
   color: #fff;
   border: none;
-  cursor: pointer;
   font-family: var(--font-body);
   font-size: 10px;
   font-weight: 400;
@@ -610,7 +602,6 @@ body.admin-mode [data-key]:hover > .admin-edit-btn {
   background: rgba(0, 0, 0, 0.65);
   color: #fff;
   border: none;
-  cursor: pointer;
   font-family: var(--font-body);
   font-size: 10px;
   font-weight: 400;

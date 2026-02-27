@@ -421,6 +421,9 @@ function galleryOpen(workIndex, imgIndex) {
   galleryEl.classList.add('open');
   document.body.classList.add('gallery-open');
   document.body.style.overflow = 'hidden';
+  // hide site cursor in gallery
+  var sc = document.getElementById('site-cursor');
+  if (sc) sc.style.opacity = '0';
 }
 
 function galleryRender(fade) {
@@ -498,6 +501,8 @@ function galleryClose() {
   document.body.style.overflow = '';
   galleryCursor.style.opacity = '0';
   loupeHide();
+  var sc = document.getElementById('site-cursor');
+  if (sc) sc.style.opacity = '1';
 }
 
 // כפתור Back הקיים — עובד גם לסגירת הגלריה
@@ -682,8 +687,8 @@ function loupeHide() {
 
   var _origGalleryOpen = window.galleryOpen;
   window.galleryOpen = function(wi, ii) {
-    _origGalleryOpen(wi, ii);
-    setTimeout(attachToGallery, 150);
+    if (_origGalleryOpen) _origGalleryOpen(wi, ii);
+    setTimeout(attachToGallery, 200);
   };
 
   var origShowPage = window.showPage;
@@ -798,6 +803,9 @@ function galleryOpen(workIndex, imgIndex) {
   galleryEl.classList.add('open');
   document.body.classList.add('gallery-open');
   document.body.style.overflow = 'hidden';
+  // hide site cursor in gallery
+  var sc = document.getElementById('site-cursor');
+  if (sc) sc.style.opacity = '0';
 }
 
 function galleryRender(fade) {
@@ -875,6 +883,8 @@ function galleryClose() {
   document.body.style.overflow = '';
   galleryCursor.style.opacity = '0';
   loupeHide();
+  var sc = document.getElementById('site-cursor');
+  if (sc) sc.style.opacity = '1';
 }
 
 // כפתור Back הקיים — עובד גם לסגירת הגלריה
