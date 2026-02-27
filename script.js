@@ -578,115 +578,85 @@ function loupeHide() {
 }
 
 
-// ---- CSS LOUPE ----
+// ---- INVERT LOUPE ----
 (function() {
-  var loupe    = null;
-  var loupeImg = null;
+  var overlay  = null;
   var size     = 150;
-  var active   = false;
 
   function init() {
-    if (loupe) return;
-    loupe = document.createElement('div');
-    loupe.id = 'css-loupe';
-    loupeImg = document.createElement('img');
-    loupe.appendChild(loupeImg);
-    document.body.appendChild(loupe);
+    if (overlay) return;
+    overlay = document.createElement('div');
+    overlay.id = 'invert-loupe';
+    document.body.appendChild(overlay);
   }
 
-  // Get the actual rendered area of an img with object-fit:cover
-  function getRenderedRect(imgEl) {
-    var r       = imgEl.getBoundingClientRect();
-    var natW    = imgEl.naturalWidth  || r.width;
-    var natH    = imgEl.naturalHeight || r.height;
-    var dispW   = r.width;
-    var dispH   = r.height;
-    var natRatio = natW / natH;
-    var dispRatio = dispW / dispH;
-    var rendW, rendH, offX, offY;
-    if (natRatio > dispRatio) {
-      // image wider than container — top/bottom match, sides cropped
-      rendH = dispH;
-      rendW = dispH * natRatio;
-      offX  = (dispW - rendW) / 2;
-      offY  = 0;
-    } else {
-      // image taller than container — sides match, top/bottom cropped
-      rendW = dispW;
-      rendH = dispW / natRatio;
-      offX  = 0;
-      offY  = (dispH - rendH) / 2;
-    }
-    return { left: r.left + offX, top: r.top + offY, width: rendW, height: rendH };
+  function show(e, imgEl) {
+    if (!imgEl || !imgEl.src) return;
+    init();
+
+    var r   = imgEl.getBoundingClientRect();
+    var cx  = e.clientX;
+    var cy  = e.clientY;
+    var half = size / 2;
+
+    // Position overlay exactly over the image
+    overlay.style.position   = 'fixed';
+    overlay.style.left       = r.left + 'px';
+    overlay.style.top        = r.top  + 'px';
+    overlay.style.width      = r.width  + 'px';
+    overlay.style.height     = r.height + 'px';
+    overlay.style.overflow   = 'hidden';
+    overlay.style.pointerEvents = 'none';
+    overlay.style.zIndex     = '9997';
+    overlay.style.opacity    = '1';
+
+    // Clip circle centered on cursor (relative to overlay)
+    var localX = cx - r.left;
+    var localY = cy - r.top;
+    overlay.style.backgroundImage    = 'url(' + imgEl.src + ')';
+    overlay.style.backgroundSize     = r.width + 'px ' + r.height + 'px';
+    overlay.style.backgroundPosition = '0 0';
+    overlay.style.filter             = 'invert(1)';
+    overlay.style.clipPath = 'circle(' + half + 'px at ' + localX + 'px ' + localY + 'px)';
+    overlay.style.webkitClipPath = overlay.style.clipPath;
   }
 
-  function moveLoupe(e, imgEl) {
-    if (!active || !loupe || !imgEl) return;
-    if (loupeImg.src !== imgEl.src) loupeImg.src = imgEl.src;
-
-    loupe.style.left = e.clientX + 'px';
-    loupe.style.top  = e.clientY + 'px';
-
-    var rr  = getRenderedRect(imgEl);
-    var px  = e.clientX - rr.left;
-    var py  = e.clientY - rr.top;
-
-    loupeImg.style.width  = rr.width  + 'px';
-    loupeImg.style.height = rr.height + 'px';
-    loupeImg.style.left   = -(px - size / 2) + 'px';
-    loupeImg.style.top    = -(py - size / 2) + 'px';
-    loupeImg.style.filter = 'invert(1)';
+  function hide() {
+    if (overlay) overlay.style.opacity = '0';
   }
 
-  function attachLoupe(el, getImg) {
-    el.addEventListener('mouseenter', function() {
-      var img = getImg();
-      if (!img || !img.src) return;
-      init();
-      loupeImg.src = img.src;
-      active = true;
-      loupe.style.opacity = '1';
-      loupe.style.border  = 'none';
-    });
-    el.addEventListener('mouseleave', function() {
-      active = false;
-      if (loupe) loupe.style.opacity = '0';
-    });
+  function attach(el, getImg) {
+    el.addEventListener('mouseleave', hide);
     el.addEventListener('mousemove', function(e) {
-      moveLoupe(e, getImg());
+      show(e, getImg());
     });
   }
 
   function attachToWorks() {
     document.querySelectorAll('.work-image').forEach(function(el) {
-      attachLoupe(el, function() { return el.querySelector('.stored-img'); });
+      attach(el, function() { return el.querySelector('.stored-img'); });
     });
   }
 
   function attachToSlideshow() {
-    var ss = document.getElementById('slideshow');
-    if (!ss) return;
-    // on home page, also cover navbar
-    attachLoupe(document.body, function() {
+    var body = document.body;
+    attach(body, function() {
       if (!document.getElementById('home').classList.contains('active')) return null;
-      return ss.querySelector('.slide.active .stored-img');
+      var ss = document.getElementById('slideshow');
+      return ss ? ss.querySelector('.slide.active .stored-img') : null;
     });
   }
 
   function attachToGallery() {
-    var galleryRight = document.querySelector('.gallery-right');
-    if (!galleryRight) return;
-    attachLoupe(galleryRight, function() {
-      return document.getElementById('gallery-img');
-    });
+    var gr = document.querySelector('.gallery-right');
+    if (!gr) return;
+    attach(gr, function() { return document.getElementById('gallery-img'); });
   }
 
   function attachToInfo() {
-    var infoPhoto = document.querySelector('.info-photo');
-    if (!infoPhoto) return;
-    attachLoupe(infoPhoto, function() {
-      return infoPhoto.querySelector('.stored-img');
-    });
+    var ip = document.querySelector('.info-photo');
+    if (!ip) return;
+    attach(ip, function() { return ip.querySelector('.stored-img'); });
   }
 
   document.addEventListener('DOMContentLoaded', function() {
@@ -700,13 +670,14 @@ function loupeHide() {
   var _origGalleryOpen = window.galleryOpen;
   window.galleryOpen = function(wi, ii) {
     _origGalleryOpen(wi, ii);
-    setTimeout(attachToGallery, 100);
+    setTimeout(attachToGallery, 150);
   };
 
   var origShowPage = window.showPage;
   if (origShowPage) {
     window.showPage = function(id) {
       origShowPage(id);
+      hide();
       if (id === 'works') setTimeout(attachToWorks, 100);
       if (id === 'home')  setTimeout(attachToSlideshow, 100);
       if (id === 'info')  setTimeout(attachToInfo, 100);

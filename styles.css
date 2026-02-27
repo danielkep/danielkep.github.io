@@ -873,87 +873,16 @@ body.admin-mode .lb-edit-btn {
 .gallery-zone-left  { left: 0; }
 .gallery-zone-right { right: 0; }
 
-/* ---- LOUPE ---- */
-#gallery-loupe {
+
+
+
+
+/* ---- INVERT LOUPE ---- */
+#invert-loupe {
   position: fixed;
-  width: 180px;
-  height: 180px;
-  border-radius: 50%;
   pointer-events: none;
-  z-index: 700;
+  z-index: 9997;
   opacity: 0;
   transition: opacity 0.1s;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.13);
-}
-
-/* mobile */
-@media (max-width: 768px) {
-  #gallery-overlay.open { flex-direction: column; }
-  .gallery-left { width: 100%; padding: 70px 24px 16px; }
-  .gallery-right { flex: 1; padding: 0 0 40px 0; justify-content: center; }
-  #gallery-img { max-height: 55vh; }
-  #gallery-loupe { display: none; }
-}
-
-/* ---- CUSTOM CURSOR ---- */
-body, a, button, [onclick], nav, nav * { cursor: none !important; }
-
-#site-cursor {
-  position: fixed;
-  width: 28px;
-  height: 28px;
-  border: 1px solid rgba(0,0,0,0.4);
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 9999;
-  transform: translate(-50%, -50%);
-  transition: opacity 0.2s;
-  top: -100px;
-  left: -100px;
-}
-
-/* hide global cursor when gallery is open (gallery has arrows) */
-body.gallery-open #site-cursor { opacity: 0; }
-
-/* ---- CSS LOUPE (works with cross-origin images) ---- */
-#css-loupe {
-  position: fixed;
-  width: 150px;
-  height: 150px;
-  border-radius: 50%;
-  overflow: hidden;
-  pointer-events: none;
-  z-index: 9998;
-  opacity: 0;
-  transition: opacity 0.15s;
-  box-shadow: 0 2px 20px rgba(0,0,0,0.15);
-  border: 1px solid rgba(0,0,0,0.12);
-  transform: translate(-50%, -50%);
-}
-#css-loupe img {
-  position: absolute;
-  pointer-events: none;
-  transform-origin: 0 0;
-}
-
-/* ---- CSS LOUPE ---- */
-#css-loupe {
-  position: fixed;
-  width: 150px;
-  height: 150px;
-  border-radius: 50%;
-  overflow: hidden;
-  pointer-events: none;
-  z-index: 9998;
-  opacity: 0;
-  transition: opacity 0.12s;
-  border: 1px solid rgba(0,0,0,0.08);
-  transform: translate(-50%, -50%);
-}
-#css-loupe img {
-  position: absolute;
-  pointer-events: none;
-  transform-origin: 0 0;
-  top: 0;
-  left: 0;
+  background-repeat: no-repeat;
 }
