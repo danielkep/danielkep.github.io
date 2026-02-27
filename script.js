@@ -374,10 +374,11 @@ function galleryBuild() {
 
   // cursor
   el.addEventListener('mousemove', function(e) {
+    var onImg = isOnImage(e);
     galleryCursor.style.left = e.clientX + 'px';
     galleryCursor.style.top  = e.clientY + 'px';
-    galleryCursor.textContent = e.clientX < window.innerWidth / 2 ? '\u2190' : '\u2192';
-    galleryCursor.style.opacity = '1';
+    galleryCursor.textContent = onImg ? '' : (e.clientX < window.innerWidth / 2 ? '\u2190' : '\u2192');
+    galleryCursor.style.opacity = onImg ? '0' : '1';
   });
   el.addEventListener('mouseleave', function() { galleryCursor.style.opacity = '0'; });
 
@@ -580,7 +581,7 @@ function loupeHide() {
 
 // ---- INVERT LOUPE ----
 (function() {
-  var size = 150;
+  var size    = 150;
   var loupeEl = null;
 
   function init() {
@@ -588,87 +589,42 @@ function loupeHide() {
     loupeEl = document.createElement('div');
     loupeEl.id = 'invert-loupe';
     loupeEl.style.cssText = [
-      'position:fixed',
-      'pointer-events:none',
-      'z-index:9997',
-      'width:' + size + 'px',
-      'height:' + size + 'px',
-      'border-radius:50%',
-      'overflow:hidden',
-      'opacity:0',
-      'transform:translate(-50%,-50%)',
+      'position:fixed','pointer-events:none','z-index:9998',
+      'width:' + size + 'px','height:' + size + 'px',
+      'border-radius:50%','overflow:hidden','opacity:0',
+      'transform:translate(-50%,-50%)'
     ].join(';');
     document.body.appendChild(loupeEl);
   }
 
-  function showLoupeFullPage(e, imgEl) {
+  function showInvert(e, imgEl) {
     if (!imgEl || !imgEl.complete || !imgEl.naturalWidth) return;
     init();
-    // use image natural ratio but tile across full viewport
     var r    = imgEl.getBoundingClientRect();
-    var natW = imgEl.naturalWidth;
-    var natH = imgEl.naturalHeight;
+    var natW = imgEl.naturalWidth, natH = imgEl.naturalHeight;
     var dispW = r.width, dispH = r.height;
     var natR  = natW / natH, dispR = dispW / dispH;
     var rendW, rendH, offX, offY;
     if (natR > dispR) {
-      rendH = dispH; rendW = dispH * natR;
-      offX = (dispW - rendW) / 2; offY = 0;
+      rendH = dispH; rendW = dispH * natR; offX = (dispW - rendW) / 2; offY = 0;
     } else {
-      rendW = dispW; rendH = dispW / natR;
-      offX = 0; offY = (dispH - rendH) / 2;
+      rendW = dispW; rendH = dispW / natR; offX = 0; offY = (dispH - rendH) / 2;
     }
     var cx = e.clientX - r.left - offX;
     var cy = e.clientY - r.top  - offY;
-    loupeEl.style.left    = e.clientX + 'px';
-    loupeEl.style.top     = e.clientY + 'px';
-    loupeEl.style.opacity = '1';
-    loupeEl.style.backgroundImage    = 'url(' + imgEl.src + ')';
-    loupeEl.style.backgroundSize     = rendW + 'px ' + rendH + 'px';
+    loupeEl.style.left            = e.clientX + 'px';
+    loupeEl.style.top             = e.clientY + 'px';
+    loupeEl.style.opacity         = '1';
+    loupeEl.style.backgroundImage = 'url(' + imgEl.src + ')';
+    loupeEl.style.backgroundSize  = rendW + 'px ' + rendH + 'px';
     loupeEl.style.backgroundPosition = (size/2 - cx) + 'px ' + (size/2 - cy) + 'px';
-    loupeEl.style.filter             = 'invert(1)';
+    loupeEl.style.filter          = 'invert(1)';
     // hide site cursor
     var sc = document.getElementById('site-cursor');
     if (sc) sc.style.opacity = '0';
   }
 
-  function showLoupe(e, imgEl) {
-    if (!imgEl || !imgEl.complete || !imgEl.naturalWidth) return;
-    init();
-
-    var r    = imgEl.getBoundingClientRect();
-    var natW = imgEl.naturalWidth;
-    var natH = imgEl.naturalHeight;
-
-    // Calculate actual rendered size with object-fit:cover
-    var dispW = r.width, dispH = r.height;
-    var natR  = natW / natH, dispR = dispW / dispH;
-    var rendW, rendH, offX, offY;
-    if (natR > dispR) {
-      rendH = dispH; rendW = dispH * natR;
-      offX = (dispW - rendW) / 2; offY = 0;
-    } else {
-      rendW = dispW; rendH = dispW / natR;
-      offX = 0; offY = (dispH - rendH) / 2;
-    }
-
-    // cursor position relative to rendered image
-    var cx = e.clientX - r.left - offX;
-    var cy = e.clientY - r.top  - offY;
-
-    loupeEl.style.left    = e.clientX + 'px';
-    loupeEl.style.top     = e.clientY + 'px';
-    loupeEl.style.opacity = '1';
-    loupeEl.style.backgroundImage    = 'url(' + imgEl.src + ')';
-    loupeEl.style.backgroundSize     = rendW + 'px ' + rendH + 'px';
-    loupeEl.style.backgroundPosition = (size/2 - cx) + 'px ' + (size/2 - cy) + 'px';
-    loupeEl.style.filter             = 'invert(1)';
-    // hide site cursor while loupe active
-    var sc = document.getElementById('site-cursor');
-    if (sc) sc.style.opacity = '0';
-  }
-
-  function hideLoupe() {
+  function hideInvert() {
     if (loupeEl) loupeEl.style.opacity = '0';
     // restore site cursor
     var sc = document.getElementById('site-cursor');
@@ -676,37 +632,27 @@ function loupeHide() {
   }
 
   function attach(el, getImg) {
-    el.addEventListener('mouseleave', hideLoupe);
-    el.addEventListener('mousemove', function(e) { showLoupe(e, getImg()); });
+    el.addEventListener('mouseleave', hideInvert);
+    el.addEventListener('mousemove', function(e) { showInvert(e, getImg()); });
   }
 
+  // Works page — invert only on images
   function attachToWorks() {
     document.querySelectorAll('.work-image').forEach(function(el) {
       attach(el, function() { return el.querySelector('.stored-img'); });
     });
   }
 
-  function attachToSlideshow() {
-    document.body.addEventListener('mousemove', function(e) {
-      if (!document.getElementById('home').classList.contains('active')) return;
-      var ss  = document.getElementById('slideshow');
-      var img = ss ? ss.querySelector('.slide.active .stored-img') : null;
-      if (!img) return;
-      // on home page: invert covers entire page including navbar
-      showLoupeFullPage(e, img);
-    });
-    document.body.addEventListener('mouseleave', function() {
-      if (!document.getElementById('home').classList.contains('active')) return;
-      hideLoupe();
-    });
-  }
+  // Home page — NO invert (removed per request)
 
+  // Full gallery — invert on image area, arrows outside
   function attachToGallery() {
     var gr = document.querySelector('.gallery-right');
     if (!gr) return;
     attach(gr, function() { return document.getElementById('gallery-img'); });
   }
 
+  // Info page — invert on portrait
   function attachToInfo() {
     var ip = document.querySelector('.info-photo');
     if (!ip) return;
@@ -716,7 +662,6 @@ function loupeHide() {
   document.addEventListener('DOMContentLoaded', function() {
     setTimeout(function() {
       attachToWorks();
-      attachToSlideshow();
       attachToInfo();
     }, 300);
   });
@@ -731,9 +676,8 @@ function loupeHide() {
   if (origShowPage) {
     window.showPage = function(id) {
       origShowPage(id);
-      hideLoupe();
+      hideInvert();
       if (id === 'works') setTimeout(attachToWorks, 100);
-      if (id === 'home')  setTimeout(attachToSlideshow, 100);
       if (id === 'info')  setTimeout(attachToInfo, 100);
     };
   }
@@ -804,10 +748,11 @@ function galleryBuild() {
 
   // cursor
   el.addEventListener('mousemove', function(e) {
+    var onImg = isOnImage(e);
     galleryCursor.style.left = e.clientX + 'px';
     galleryCursor.style.top  = e.clientY + 'px';
-    galleryCursor.textContent = e.clientX < window.innerWidth / 2 ? '\u2190' : '\u2192';
-    galleryCursor.style.opacity = '1';
+    galleryCursor.textContent = onImg ? '' : (e.clientX < window.innerWidth / 2 ? '\u2190' : '\u2192');
+    galleryCursor.style.opacity = onImg ? '0' : '1';
   });
   el.addEventListener('mouseleave', function() { galleryCursor.style.opacity = '0'; });
 
