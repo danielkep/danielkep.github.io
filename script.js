@@ -386,15 +386,62 @@ function galleryBuild() {
   // cursor
   el.addEventListener('mousemove', function(e) {
     var onImg = isOnImage(e);
-    galleryCursor.style.left    = e.clientX + 'px';
-    galleryCursor.style.top     = e.clientY + 'px';
-    galleryCursor.textContent   = onImg ? '' : (e.clientX < window.innerWidth / 2 ? '\u2190' : '\u2192');
-    galleryCursor.style.opacity = onImg ? '0' : '1';
-    // move site cursor too (hidden in gallery but position tracks)
+    galleryCursor.style.left = e.clientX + 'px';
+    galleryCursor.style.top  = e.clientY + 'px';
+    // always hide the circle cursor in gallery
     var sc = document.getElementById('site-cursor');
-    if (sc) { sc.style.left = e.clientX + 'px'; sc.style.top = e.clientY + 'px'; }
+    if (sc) { sc.style.left = e.clientX + 'px'; sc.style.top = e.clientY + 'px'; sc.style.opacity = '0'; }
+
+    if (onImg) {
+      // on image: show invert loupe, hide arrow cursor
+      galleryCursor.style.opacity = '0';
+      var imgEl = document.getElementById('gallery-img');
+      if (imgEl && imgEl.complete && imgEl.naturalWidth) {
+        var invertEl = document.getElementById('invert-loupe');
+        if (!invertEl) {
+          invertEl = document.createElement('div');
+          invertEl.id = 'invert-loupe';
+          invertEl.style.cssText = [
+            'position:fixed','pointer-events:none','z-index:9998',
+            'width:150px','height:150px',
+            'border-radius:50%','overflow:hidden','opacity:0',
+            'transform:translate(-50%,-50%)'
+          ].join(';');
+          document.body.appendChild(invertEl);
+        }
+        var r    = imgEl.getBoundingClientRect();
+        var natW = imgEl.naturalWidth, natH = imgEl.naturalHeight;
+        var dispW = r.width, dispH = r.height;
+        var natR  = natW / natH, dispR = dispW / dispH;
+        var rendW, rendH, offX, offY;
+        if (natR > dispR) {
+          rendH = dispH; rendW = dispH * natR; offX = (dispW - rendW) / 2; offY = 0;
+        } else {
+          rendW = dispW; rendH = dispW / natR; offX = 0; offY = (dispH - rendH) / 2;
+        }
+        var cx = e.clientX - r.left - offX;
+        var cy = e.clientY - r.top  - offY;
+        invertEl.style.left               = e.clientX + 'px';
+        invertEl.style.top                = e.clientY + 'px';
+        invertEl.style.opacity            = '1';
+        invertEl.style.backgroundImage    = 'url(' + imgEl.src + ')';
+        invertEl.style.backgroundSize     = rendW + 'px ' + rendH + 'px';
+        invertEl.style.backgroundPosition = (75 - cx) + 'px ' + (75 - cy) + 'px';
+        invertEl.style.filter             = 'invert(1)';
+      }
+    } else {
+      // outside image: show arrow text cursor only (no circle)
+      galleryCursor.textContent   = e.clientX < window.innerWidth / 2 ? '\u2190' : '\u2192';
+      galleryCursor.style.opacity = '1';
+      var invertEl2 = document.getElementById('invert-loupe');
+      if (invertEl2) invertEl2.style.opacity = '0';
+    }
   });
-  el.addEventListener('mouseleave', function() { galleryCursor.style.opacity = '0'; });
+  el.addEventListener('mouseleave', function() {
+    galleryCursor.style.opacity = '0';
+    var invertEl = document.getElementById('invert-loupe');
+    if (invertEl) invertEl.style.opacity = '0';
+  });
 
   // swipe
   el.addEventListener('touchstart', function(e) {
@@ -768,15 +815,62 @@ function galleryBuild() {
   // cursor
   el.addEventListener('mousemove', function(e) {
     var onImg = isOnImage(e);
-    galleryCursor.style.left    = e.clientX + 'px';
-    galleryCursor.style.top     = e.clientY + 'px';
-    galleryCursor.textContent   = onImg ? '' : (e.clientX < window.innerWidth / 2 ? '\u2190' : '\u2192');
-    galleryCursor.style.opacity = onImg ? '0' : '1';
-    // move site cursor too (hidden in gallery but position tracks)
+    galleryCursor.style.left = e.clientX + 'px';
+    galleryCursor.style.top  = e.clientY + 'px';
+    // always hide the circle cursor in gallery
     var sc = document.getElementById('site-cursor');
-    if (sc) { sc.style.left = e.clientX + 'px'; sc.style.top = e.clientY + 'px'; }
+    if (sc) { sc.style.left = e.clientX + 'px'; sc.style.top = e.clientY + 'px'; sc.style.opacity = '0'; }
+
+    if (onImg) {
+      // on image: show invert loupe, hide arrow cursor
+      galleryCursor.style.opacity = '0';
+      var imgEl = document.getElementById('gallery-img');
+      if (imgEl && imgEl.complete && imgEl.naturalWidth) {
+        var invertEl = document.getElementById('invert-loupe');
+        if (!invertEl) {
+          invertEl = document.createElement('div');
+          invertEl.id = 'invert-loupe';
+          invertEl.style.cssText = [
+            'position:fixed','pointer-events:none','z-index:9998',
+            'width:150px','height:150px',
+            'border-radius:50%','overflow:hidden','opacity:0',
+            'transform:translate(-50%,-50%)'
+          ].join(';');
+          document.body.appendChild(invertEl);
+        }
+        var r    = imgEl.getBoundingClientRect();
+        var natW = imgEl.naturalWidth, natH = imgEl.naturalHeight;
+        var dispW = r.width, dispH = r.height;
+        var natR  = natW / natH, dispR = dispW / dispH;
+        var rendW, rendH, offX, offY;
+        if (natR > dispR) {
+          rendH = dispH; rendW = dispH * natR; offX = (dispW - rendW) / 2; offY = 0;
+        } else {
+          rendW = dispW; rendH = dispW / natR; offX = 0; offY = (dispH - rendH) / 2;
+        }
+        var cx = e.clientX - r.left - offX;
+        var cy = e.clientY - r.top  - offY;
+        invertEl.style.left               = e.clientX + 'px';
+        invertEl.style.top                = e.clientY + 'px';
+        invertEl.style.opacity            = '1';
+        invertEl.style.backgroundImage    = 'url(' + imgEl.src + ')';
+        invertEl.style.backgroundSize     = rendW + 'px ' + rendH + 'px';
+        invertEl.style.backgroundPosition = (75 - cx) + 'px ' + (75 - cy) + 'px';
+        invertEl.style.filter             = 'invert(1)';
+      }
+    } else {
+      // outside image: show arrow text cursor only (no circle)
+      galleryCursor.textContent   = e.clientX < window.innerWidth / 2 ? '\u2190' : '\u2192';
+      galleryCursor.style.opacity = '1';
+      var invertEl2 = document.getElementById('invert-loupe');
+      if (invertEl2) invertEl2.style.opacity = '0';
+    }
   });
-  el.addEventListener('mouseleave', function() { galleryCursor.style.opacity = '0'; });
+  el.addEventListener('mouseleave', function() {
+    galleryCursor.style.opacity = '0';
+    var invertEl = document.getElementById('invert-loupe');
+    if (invertEl) invertEl.style.opacity = '0';
+  });
 
   // swipe
   el.addEventListener('touchstart', function(e) {
