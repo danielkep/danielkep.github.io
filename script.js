@@ -697,8 +697,18 @@ function loupeHide() {
     if (sc) sc.style.opacity = '1';
   }
 
+  function hideCursor() {
+    var sc = document.getElementById('site-cursor');
+    if (sc) sc.style.opacity = '0';
+  }
+  function showCursor() {
+    var sc = document.getElementById('site-cursor');
+    if (sc) sc.style.opacity = '1';
+  }
+
   function attach(el, getImg) {
-    el.addEventListener('mouseleave', hideInvert);
+    el.addEventListener('mouseenter', hideCursor);
+    el.addEventListener('mouseleave', function() { hideInvert(); showCursor(); });
     el.addEventListener('mousemove', function(e) { showInvert(e, getImg()); });
   }
 
@@ -709,7 +719,13 @@ function loupeHide() {
     });
   }
 
-  // Home page — NO invert (removed per request)
+  // Home page — hide cursor on slideshow (no invert, just hide circle)
+  function attachToSlideshow() {
+    var ss = document.getElementById('slideshow');
+    if (!ss) return;
+    ss.addEventListener('mouseenter', hideCursor);
+    ss.addEventListener('mouseleave', showCursor);
+  }
 
   // Full gallery — invert on image area, arrows outside
   function attachToGallery() {
@@ -728,6 +744,7 @@ function loupeHide() {
   document.addEventListener('DOMContentLoaded', function() {
     setTimeout(function() {
       attachToWorks();
+      attachToSlideshow();
       attachToInfo();
     }, 300);
   });
@@ -743,7 +760,9 @@ function loupeHide() {
     window.showPage = function(id) {
       origShowPage(id);
       hideInvert();
+      showCursor();
       if (id === 'works') setTimeout(attachToWorks, 100);
+      if (id === 'home')  setTimeout(attachToSlideshow, 100);
       if (id === 'info')  setTimeout(attachToInfo, 100);
     };
   }
