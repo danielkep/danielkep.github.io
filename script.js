@@ -313,11 +313,14 @@ setInterval(function() { goToSlide((current + 1) % slides.length); }, SLIDE_DURA
   document.addEventListener('mousemove', function(e) {
     cur.style.left = e.clientX + 'px';
     cur.style.top  = e.clientY + 'px';
-    cur.style.opacity = '1';
+    if (!cur._hidden) cur.style.opacity = '1';
   });
   document.addEventListener('mouseleave', function() {
     cur.style.opacity = '0';
   });
+  // helpers used by other modules
+  cur.hide = function() { cur._hidden = true;  cur.style.opacity = '0'; };
+  cur.show = function() { cur._hidden = false; cur.style.opacity = '1'; };
 })();
 
 // =============================================================
@@ -390,7 +393,7 @@ function galleryBuild() {
     galleryCursor.style.top  = e.clientY + 'px';
     // always hide the circle cursor in gallery
     var sc = document.getElementById('site-cursor');
-    if (sc) { sc.style.left = e.clientX + 'px'; sc.style.top = e.clientY + 'px'; sc.style.opacity = '0'; }
+    if (sc) { sc.style.left = e.clientX + 'px'; sc.style.top = e.clientY + 'px'; if (sc.hide) sc.hide(); else sc.style.opacity = '0'; }
 
     if (onImg) {
       // on image: show invert loupe, hide arrow cursor
@@ -470,7 +473,7 @@ function galleryOpen(workIndex, imgIndex) {
   document.body.style.overflow = 'hidden';
   // hide site cursor in gallery
   var sc = document.getElementById('site-cursor');
-  if (sc) sc.style.opacity = '0';
+  if (sc && sc.hide) sc.hide(); else if (sc) sc.style.opacity = '0';
 }
 
 function galleryRender(fade) {
@@ -549,7 +552,7 @@ function galleryClose() {
   galleryCursor.style.opacity = '0';
   loupeHide();
   var sc = document.getElementById('site-cursor');
-  if (sc) sc.style.opacity = '1';
+  if (sc && sc.show) sc.show(); else if (sc) sc.style.opacity = '1';
 }
 
 // כפתור Back הקיים — עובד גם לסגירת הגלריה
@@ -687,23 +690,23 @@ function loupeHide() {
     loupeEl.style.filter          = 'invert(1)';
     // hide site cursor
     var sc = document.getElementById('site-cursor');
-    if (sc) sc.style.opacity = '0';
+    if (sc && sc.hide) sc.hide(); else if (sc) sc.style.opacity = '0';
   }
 
   function hideInvert() {
     if (loupeEl) loupeEl.style.opacity = '0';
     // restore site cursor
     var sc = document.getElementById('site-cursor');
-    if (sc) sc.style.opacity = '1';
+    if (sc && sc.show) sc.show(); else if (sc) sc.style.opacity = '1';
   }
 
   function hideCursor() {
     var sc = document.getElementById('site-cursor');
-    if (sc) sc.style.opacity = '0';
+    if (sc && sc.hide) sc.hide(); else if (sc) sc.style.opacity = '0';
   }
   function showCursor() {
     var sc = document.getElementById('site-cursor');
-    if (sc) sc.style.opacity = '1';
+    if (sc && sc.show) sc.show(); else if (sc) sc.style.opacity = '1';
   }
 
   function attach(el, getImg) {
@@ -727,12 +730,7 @@ function loupeHide() {
     ss.addEventListener('mouseleave', showCursor);
   }
 
-  // Full gallery — invert on image area, arrows outside
-  function attachToGallery() {
-    var gr = document.querySelector('.gallery-right');
-    if (!gr) return;
-    attach(gr, function() { return document.getElementById('gallery-img'); });
-  }
+  // Full gallery handled directly in galleryBuild mousemove — NOT here
 
   // Info page — invert on portrait
   function attachToInfo() {
@@ -749,11 +747,7 @@ function loupeHide() {
     }, 300);
   });
 
-  var _origGalleryOpen = window.galleryOpen;
-  window.galleryOpen = function(wi, ii) {
-    if (_origGalleryOpen) _origGalleryOpen(wi, ii);
-    setTimeout(attachToGallery, 200);
-  };
+  // gallery handled in galleryBuild — no wrapping needed here
 
   var origShowPage = window.showPage;
   if (origShowPage) {
@@ -838,7 +832,7 @@ function galleryBuild() {
     galleryCursor.style.top  = e.clientY + 'px';
     // always hide the circle cursor in gallery
     var sc = document.getElementById('site-cursor');
-    if (sc) { sc.style.left = e.clientX + 'px'; sc.style.top = e.clientY + 'px'; sc.style.opacity = '0'; }
+    if (sc) { sc.style.left = e.clientX + 'px'; sc.style.top = e.clientY + 'px'; if (sc.hide) sc.hide(); else sc.style.opacity = '0'; }
 
     if (onImg) {
       // on image: show invert loupe, hide arrow cursor
@@ -918,7 +912,7 @@ function galleryOpen(workIndex, imgIndex) {
   document.body.style.overflow = 'hidden';
   // hide site cursor in gallery
   var sc = document.getElementById('site-cursor');
-  if (sc) sc.style.opacity = '0';
+  if (sc && sc.hide) sc.hide(); else if (sc) sc.style.opacity = '0';
 }
 
 function galleryRender(fade) {
@@ -997,7 +991,7 @@ function galleryClose() {
   galleryCursor.style.opacity = '0';
   loupeHide();
   var sc = document.getElementById('site-cursor');
-  if (sc) sc.style.opacity = '1';
+  if (sc && sc.show) sc.show(); else if (sc) sc.style.opacity = '1';
 }
 
 // כפתור Back הקיים — עובד גם לסגירת הגלריה
@@ -1190,12 +1184,7 @@ function loupeHide() {
     }, 300);
   });
 
-  // re-attach when gallery opens
-  var _origGalleryOpen = window.galleryOpen;
-  window.galleryOpen = function(wi, ii) {
-    _origGalleryOpen(wi, ii);
-    setTimeout(attachToGallery, 100);
-  };
+  // gallery handled by invert-loupe module — css-loupe NOT attached to gallery
 
   var origShowPage = window.showPage;
   if (origShowPage) {
