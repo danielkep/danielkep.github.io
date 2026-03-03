@@ -136,6 +136,13 @@ var SLIDES = [
   'https://i.imgur.com/UydPxyo.jpeg',
 ];
 
+// ---- MOBILE SLIDESHOW IMAGES --- edit here ----
+// Leave empty [] to reuse desktop SLIDES. Use portrait-ratio images.
+var MOBILE_SLIDES = [
+  // 'https://i.imgur.com/example.jpeg',
+];
+// -----------------------------------------------
+
 // =============================================================
 // FIREBASE (optional)
 // =============================================================
@@ -185,7 +192,9 @@ function renderWorks() {
 }
 
 function renderSlideshow() {
-  document.getElementById('slideshow').innerHTML = SLIDES.map(function(url, i) {
+  var isMobile = window.innerWidth <= 768;
+  var src = (isMobile && MOBILE_SLIDES && MOBILE_SLIDES.length > 0) ? MOBILE_SLIDES : SLIDES;
+  document.getElementById('slideshow').innerHTML = src.map(function(url, i) {
     var ph = url ? ' style="display:none"' : '';
     return (
       '<div class="slide' + (i === 0 ? ' active' : '') + '">' +
@@ -264,7 +273,7 @@ function closeMobileMenu() {
 function mobileNav(id) { closeMobileMenu(); showPage(id); }
 
 var navEl = document.querySelector('nav');
-navEl.classList.add('transparent');
+// nav always shows white box
 
 function showPage(id) {
   document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
@@ -273,7 +282,7 @@ function showPage(id) {
   var link = document.getElementById('nav-' + id);
   if (link) link.classList.add('active');
   window.scrollTo(0, 0);
-  navEl.classList.toggle('transparent', id === 'home');
+  // nav always white — no transparent mode
 }
 
 // ---- SLIDESHOW ----
