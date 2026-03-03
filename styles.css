@@ -858,6 +858,40 @@ nav.transparent {
 .gallery-zone-left  { left: 0; }
 .gallery-zone-right { right: 0; }
 
+.gallery-back-btn {
+  position: fixed;
+  top: 20px;
+  left: 48px;
+  z-index: 600;
+  background: none;
+  border: none;
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gray);
+  cursor: none;
+  padding-bottom: 3px;
+  position: fixed;
+}
+.gallery-back-btn::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: currentColor;
+  transition: width 0.3s ease;
+}
+.gallery-back-btn:hover {
+  color: var(--black);
+}
+.gallery-back-btn:hover::after {
+  width: 100%;
+}
+
 @media (max-width: 768px) {
   /* ---- GALLERY MOBILE ---- */
   #gallery-overlay.open {
