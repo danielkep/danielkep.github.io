@@ -58,7 +58,6 @@ var WORKS = [
       'https://i.imgur.com/FIL60lB.jpeg',
       'https://i.imgur.com/VGxrsrb.jpeg',
       'https://i.imgur.com/YRC5Q9E.jpeg',
-      'https://i.imgur.com/AnjJBsK.jpeg',
     ],
     installationPhotos: '',
     vimeoID:            '',
@@ -139,7 +138,11 @@ var SLIDES = [
 // ---- MOBILE SLIDESHOW IMAGES --- edit here ----
 // Leave empty [] to reuse desktop SLIDES. Use portrait-ratio images.
 var MOBILE_SLIDES = [
-  // 'https://i.imgur.com/example.jpeg',
+  //'https://i.imgur.com/uCEToaz.jpeg',
+'https://i.imgur.com/uCEToaz.jpeg',
+'https://i.imgur.com/DQ0SwTQ.jpeg',
+'https://i.imgur.com/PAJwlx4.jpeg',
+'https://i.imgur.com/LqViV7T.jpeg',
 ];
 // -----------------------------------------------
 
