@@ -20,13 +20,10 @@ var INFO_EMAIL     = 'kep.dan@gmail.com';
 var INFO_INSTAGRAM = '_kep_daniel';
 var SLIDE_DURATION   = 6000;
 var SLIDE_TRANSITION = 1400;
-
-// ---- GALLERY TRANSITION DURATIONS (ms) --- edit here ----
-var GALLERY_FADE_SAME_PROJECT  = 300;   // fade-out ms: same project
-var GALLERY_FADE_DIFF_PROJECT  = 600;   // fade-out ms: different project
-var GALLERY_CROSS_SAME_PROJECT = 1500;  // cross-fade ms: same project
-var GALLERY_CROSS_DIFF_PROJECT = 4000;  // cross-fade ms: different project
-// -----------------------------------------------------------
+var GALLERY_FADE_SAME_PROJECT  = 300;
+var GALLERY_FADE_DIFF_PROJECT  = 600;
+var GALLERY_CROSS_SAME_PROJECT = 1500;
+var GALLERY_CROSS_DIFF_PROJECT = 4000;
 
 // =============================================================
 // WORKS — כך מוסיפים פרויקט חדש:
@@ -299,10 +296,6 @@ slides = document.querySelectorAll('.slide');
 
 checkAdminMode();
 loadImages();
-// backup: re-apply portrait after DOM fully ready
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', function() { loadImages(); });
-}
 
 setInterval(function() { goToSlide((current + 1) % slides.length); }, SLIDE_DURATION);
 
@@ -541,22 +534,21 @@ function galleryRender(fade) {
   if (fade === 'same' || fade === 'diff') {
     var fadeOut = fade === 'same' ? GALLERY_FADE_SAME_PROJECT : GALLERY_FADE_DIFF_PROJECT;
     var crossMs = fade === 'same' ? GALLERY_CROSS_SAME_PROJECT : GALLERY_CROSS_DIFF_PROJECT;
-    var cssTrans = 'opacity ' + (crossMs / 1000).toFixed(2) + 's ease';
-    galleryImgEl.style.transition  = cssTrans;
-    galleryTextEl.style.transition = cssTrans;
-    galleryImgEl.style.opacity  = '0';
+    galleryImgEl.style.transition = 'opacity ' + (crossMs/1000).toFixed(2) + 's ease';
+    galleryTextEl.style.transition = 'opacity ' + (crossMs/1000).toFixed(2) + 's ease';
+    galleryImgEl.style.opacity = '0';
     galleryTextEl.style.opacity = '0';
     setTimeout(function() {
       render();
-      galleryImgEl.offsetHeight; // reflow
-      galleryImgEl.style.opacity  = '1';
+      galleryImgEl.style.opacity = '1';
       galleryTextEl.style.opacity = '1';
     }, fadeOut);
   } else {
-    galleryImgEl.style.transition  = '';
+    galleryImgEl.style.transition = '';
     galleryTextEl.style.transition = '';
     render();
   }
+}
 
 function galleryNav(dir) {
   var prevWorkIndex = galleryList[galleryIndex].workIndex;
