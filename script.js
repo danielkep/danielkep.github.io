@@ -21,6 +21,13 @@ var INFO_INSTAGRAM = '_kep_daniel';
 var SLIDE_DURATION   = 6000;
 var SLIDE_TRANSITION = 1400;
 
+// ---- GALLERY TRANSITION DURATIONS (ms) --- edit here ----
+var GALLERY_FADE_SAME_PROJECT  = 300;   // fade-out ms: same project
+var GALLERY_FADE_DIFF_PROJECT  = 600;   // fade-out ms: different project
+var GALLERY_CROSS_SAME_PROJECT = 1500;  // cross-fade ms: same project
+var GALLERY_CROSS_DIFF_PROJECT = 4000;  // cross-fade ms: different project
+// -----------------------------------------------------------
+
 // =============================================================
 // WORKS — כך מוסיפים פרויקט חדש:
 //
@@ -531,22 +538,31 @@ function galleryRender(fade) {
     tempImg.src = item.url;
   }
 
-  if (fade) {
-    galleryImgEl.style.opacity = '0';
+  if (fade === 'same' || fade === 'diff') {
+    var fadeOut = fade === 'same' ? GALLERY_FADE_SAME_PROJECT : GALLERY_FADE_DIFF_PROJECT;
+    var crossMs = fade === 'same' ? GALLERY_CROSS_SAME_PROJECT : GALLERY_CROSS_DIFF_PROJECT;
+    var cssTrans = 'opacity ' + (crossMs / 1000).toFixed(2) + 's ease';
+    galleryImgEl.style.transition  = cssTrans;
+    galleryTextEl.style.transition = cssTrans;
+    galleryImgEl.style.opacity  = '0';
     galleryTextEl.style.opacity = '0';
     setTimeout(function() {
       render();
+      galleryImgEl.offsetHeight; // reflow
       galleryImgEl.style.opacity  = '1';
       galleryTextEl.style.opacity = '1';
-    }, 200);
+    }, fadeOut);
   } else {
+    galleryImgEl.style.transition  = '';
+    galleryTextEl.style.transition = '';
     render();
   }
-}
 
 function galleryNav(dir) {
+  var prevWorkIndex = galleryList[galleryIndex].workIndex;
   galleryIndex = (galleryIndex + dir + galleryList.length) % galleryList.length;
-  galleryRender(true);
+  var sameProject = galleryList[galleryIndex].workIndex === prevWorkIndex;
+  galleryRender(sameProject ? 'same' : 'diff');
 }
 
 function galleryClose() {

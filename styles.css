@@ -312,7 +312,22 @@ nav.transparent .nav-right a:hover {
   color: var(--gray);
   text-decoration: none;
   letter-spacing: 0.06em;
+  position: relative;
+  padding-bottom: 3px;
   transition: color 0.2s;
+}
+.info-contact a::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: currentColor;
+  transition: width 0.3s ease;
+}
+.info-contact a:hover::after {
+  width: 100%;
 }
 .info-contact a:hover {
   color: var(--black);
@@ -651,17 +666,16 @@ body.admin-mode .lb-edit-btn {
 
 .nnnn {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
+  top: 2em;
+  left: 2em;
+  right: 2em;
   margin: 0;
   background-color: rgb(255, 255, 255);
-  border-bottom: 1px solid var(--light-gray);
+  border-radius: 2px;
 }
 
 nav.transparent {
   background: transparent;
-  border-bottom-color: transparent;
 }
 
 /* ---- GALLERY BADGE (+N) ---- */
