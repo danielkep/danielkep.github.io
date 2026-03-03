@@ -862,50 +862,101 @@ nav.transparent {
   /* ---- GALLERY MOBILE ---- */
   #gallery-overlay.open {
     flex-direction: column;
+    overflow: hidden;
   }
+
+  /* Image area — takes most of the screen */
   .gallery-right {
     flex: 1;
+    min-height: 0;
     padding: 52px 0 0 0;
+    display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 0;
+    overflow: hidden;
   }
   #gallery-img {
-    max-height: 58vh;
+    max-height: 100%;
     max-width: 92vw;
     object-fit: contain;
   }
+
+  /* Text — hidden on mobile (shown in bottom bar instead) */
   .gallery-left {
-    width: 100%;
-    flex-shrink: 0;
-    padding: 20px 32px 32px;
+    display: none;
+  }
+
+  /* Bottom bar: arrows + text */
+  .gallery-mobile-nav {
+    display: flex;
     align-items: center;
-    text-align: center;
+    justify-content: space-between;
+    padding: 0 0 env(safe-area-inset-bottom, 12px);
+    flex-shrink: 0;
+    background: #fff;
+    border-top: 1px solid #f0f0f0;
   }
-  .gallery-title {
-    font-size: 15px;
-    margin-bottom: 10px;
-    text-align: center;
+
+  .gallery-mobile-prev,
+  .gallery-mobile-next {
+    width: 64px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    font-size: 20px;
+    color: #555;
+    cursor: pointer;
+    flex-shrink: 0;
+    -webkit-tap-highlight-color: transparent;
   }
-  .gallery-meta-line {
-    text-align: center;
-    line-height: 1.9;
+  .gallery-mobile-prev:active,
+  .gallery-mobile-next:active {
+    color: #000;
   }
-  .gallery-year {
+
+  .gallery-mobile-info {
+    flex: 1;
     text-align: center;
+    padding: 12px 8px;
+    min-width: 0;
   }
-  .gallery-counter {
-    text-align: center;
-    margin-top: 16px;
+  .gallery-mobile-title {
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    color: var(--black);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 3px;
   }
+  .gallery-mobile-meta {
+    font-size: 10px;
+    font-weight: 300;
+    color: #aaa;
+    letter-spacing: 0.05em;
+  }
+  .gallery-mobile-counter {
+    font-size: 10px;
+    color: #ccc;
+    letter-spacing: 0.08em;
+  }
+
+  /* Back button stays */
   .gallery-back-btn {
     top: 14px;
     left: 20px;
   }
+
+  /* Touch zones — full image area */
   .gallery-zone-left,
   .gallery-zone-right {
     top: 52px;
-    bottom: 30%;
+    bottom: 90px;
   }
 }
 

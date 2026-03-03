@@ -379,7 +379,12 @@ function galleryBuild() {
       '<img id="gallery-img" src="" alt="">' +
     '</div>' +
     '<div class="gallery-zone gallery-zone-left"  id="gz-left"></div>' +
-    '<div class="gallery-zone gallery-zone-right" id="gz-right"></div>';
+    '<div class="gallery-zone gallery-zone-right" id="gz-right"></div>' +
+    '<div class="gallery-mobile-nav">' +
+      '<button class="gallery-mobile-prev" onclick="galleryNav(-1)">&#8592;</button>' +
+      '<span class="gallery-mobile-counter" id="gallery-mobile-counter"></span>' +
+      '<button class="gallery-mobile-next" onclick="galleryNav(1)">&#8594;</button>' +
+    '</div>';
 
   document.body.appendChild(el);
 
@@ -514,6 +519,26 @@ function galleryRender(fade) {
     var creditHtml = (work.installationPhotos)
       ? '<div class="gallery-photo-credit">' + work.installationPhotos + '</div>' : '';
     galleryTextEl.innerHTML = titleHtml + mediumHtml + sizeHtml + yearHtml + creditHtml + counter;
+
+    // update mobile counter
+    var mc = document.getElementById('gallery-mobile-counter');
+    if (mc) mc.textContent = imgs.length > 1 ? (item.imgIndex + 1) + ' / ' + imgs.length : '';
+    // update mobile title+meta in bottom bar
+    var mobileNav = document.querySelector('.gallery-mobile-nav');
+    if (mobileNav) {
+      var infoEl = mobileNav.querySelector('.gallery-mobile-info');
+      if (!infoEl) {
+        infoEl = document.createElement('div');
+        infoEl.className = 'gallery-mobile-info';
+        var prevBtn = mobileNav.querySelector('.gallery-mobile-prev');
+        mobileNav.insertBefore(infoEl, mobileNav.querySelector('.gallery-mobile-counter'));
+      }
+      var titleStr = work.title || '';
+      var metaStr  = [work.medium, work.size, work.year].filter(Boolean).join(' · ');
+      infoEl.innerHTML =
+        (titleStr ? '<div class="gallery-mobile-title">' + titleStr + '</div>' : '') +
+        (metaStr  ? '<div class="gallery-mobile-meta">'  + metaStr  + '</div>' : '');
+    }
 
     // detect orientation after image loads
     var tempImg = new Image();
