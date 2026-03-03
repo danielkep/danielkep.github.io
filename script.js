@@ -1,53 +1,72 @@
 // =============================================================
-// CONTENT — edit here to update the site. Save + redeploy.
+// ██████╗  ██████╗ ███╗   ██╗███████╗██╗  ██╗    ██╗  ██╗███████╗██████╗
+// ██╔══██╗██╔═══██╗████╗  ██║██╔════╝██║  ██║    ██║ ██╔╝██╔════╝██╔══██╗
+// ██║  ██║██║   ██║██╔██╗ ██║█████╗  ███████║    █████╔╝ █████╗  ██████╔╝
+// ██║  ██║██║   ██║██║╚██╗██║██╔══╝  ██╔══██║    ██╔═██╗ ██╔══╝  ██╔═══╝
+// ██████╔╝╚██████╔╝██║ ╚████║███████╗██║  ██║    ██║  ██╗███████╗██║
+// ╚═════╝  ╚═════╝ ╚═╝  ╚═══╝╚══════╝╚═╝  ╚═╝    ╚═╝  ╚═╝╚══════╝╚═╝
+//
+//  כל השינויים בתוכן האתר נעשים כאן בלבד — שמור ופרוס מחדש.
 // =============================================================
 
-var PORTRAIT_URL = 'https://i.imgur.com/fn6Pybq.jpeg';
 
-var INFO_BIO = [
-  'Daniel Kep (b. 1993) is an artist living and working in Jerusalem. He holds a BFA from the Department of Fine Arts at Bezalel Academy of Arts and Design (2020) and is currently an MFA candidate at Bezalel.',
-  "Kep\u2019s work explores sculptural arrangements in which living bodies and inanimate objects are fused together. These imagery systems are stretched to the point of a tremor, struggling to maintain their stability and the integrity of their limbs. Through subtle movements, whiteness, and fragility in sculpture, still photography, and video, his works embody effort and physical presence.",
-  'He is the recipient of the Eileen Cooper Award for Excellence from the Bezalel Art Department, the America-Israel Cultural Foundation (AICF) Prize, and the Michael and Pauline Lukman Excellence Scholarship as part of his MFA studies.',
-  'Selected Exhibitions:',
-  'Clinging (Solo Exhibition), Dana Gallery, Kibbutz Yad Mordechai. Curator: Ravit Harari (2024; scheduled to travel to Tel Aviv later this year).',
-  "Bad Root, Jerusalem Artists\u2019 House. Curator: Sally Haftel Naveh (2023).",
-  'Untitled, Edmond de Rothschild Center, Tel Aviv. Curator: Hadas Maor (2022).',
-  'Slight Tremor (Solo Exhibition), Gallery of Contemporary Art, Ramat Hasharon (2021). Curator: Ravit Harari',
-  'Room (Artist-in-Residence concluding exhibition), HaMiffal Gallery, Jerusalem. Curator: Meydad Eliyahu (2021).',
+// =============================================================
+// ┌─────────────────────────────────────────────────────────┐
+// │                    דף הבית — מצגת                       │
+// └─────────────────────────────────────────────────────────┘
+// =============================================================
+
+// -- תמונות המצגת (דסקטופ) --
+// הוסף / הסר כתובות URL. הסדר = סדר ההצגה.
+var SLIDES = [
+  'https://i.imgur.com/AnjJBsK.jpeg',
+  'https://i.imgur.com/3DoFWV7.jpeg',
+  'https://i.imgur.com/fbL1RQd.jpeg',
+  'https://i.imgur.com/qNvRIlb.jpeg',
+  'https://i.imgur.com/giReJN8.jpeg',
+  'https://i.imgur.com/E0VZ7vA.jpeg',
+  'https://i.imgur.com/8qCh6u1.jpeg',
+  'https://i.imgur.com/faEHdFO.jpeg',
+  'https://i.imgur.com/UydPxyo.jpeg',
 ];
 
-var INFO_EMAIL     = 'kep.dan@gmail.com';
-var INFO_INSTAGRAM = '_kep_daniel';
-var SLIDE_DURATION   = 6000;
-var SLIDE_TRANSITION = 1400;
-var GALLERY_FADE_SAME_PROJECT  = 300;
-var GALLERY_FADE_DIFF_PROJECT  = 600;
-var GALLERY_CROSS_SAME_PROJECT = 1500;
-var GALLERY_CROSS_DIFF_PROJECT = 4000;
+// -- תמונות המצגת (פלאפון) --
+// השאר ריק [] כדי להשתמש באותן תמונות כמו בדסקטופ.
+// מומלץ: תמונות בפורמט אנכי (portrait) לתצוגה טובה יותר בנייד.
+var MOBILE_SLIDES = [
+  //'https://i.imgur.com/uCEToaz.jpeg',
+'https://i.imgur.com/uCEToaz.jpeg',
+'https://i.imgur.com/DQ0SwTQ.jpeg',
+'https://i.imgur.com/PAJwlx4.jpeg',
+'https://i.imgur.com/LqViV7T.jpeg',
+];
+
+// -- תזמון המצגת --
+var SLIDE_DURATION   = 6000;  // זמן הצגה לכל תמונה (אלפיות שנייה). ברירת מחדל: 6000
+var SLIDE_TRANSITION = 1400;  // זמן מעבר בין תמונות (אלפיות שנייה). ברירת מחדל: 1400
+
 
 // =============================================================
-// WORKS — כך מוסיפים פרויקט חדש:
+// ┌─────────────────────────────────────────────────────────┐
+// │                    עבודות — תוכן                        │
+// └─────────────────────────────────────────────────────────┘
+// =============================================================
+
+// -- כיצד להוסיף עבודה חדשה --
 //
 //   1. העתק בלוק שלם (מ-{ עד },) לתחתית הרשימה
-//   2. שנה את הטקסט (title, year, medium, size)
-//   3. בתוך images: הכנס את כתובות התמונות שלך
-//      - תמונה ראשונה = מה שיוצג בדף
-//      - שאר התמונות = נגישות בגלריה בלחיצה
-//      - אם יש תמונה אחת בלבד: images: ['https://...']
-// =============================================================
-
-// =============================================================
-// HOW TO ADD A PROJECT — copy one block ({ ... },) to the bottom
+//   2. מלא את הפרטים:
+//      title:              שם העבודה
+//      year:               שנה
+//      medium:             חומר / טכניקה
+//      size:               מידות
+//      images:             רשימת כתובות תמונות
+//                          - תמונה ראשונה = מה שיוצג בדף העבודות
+//                          - שאר התמונות = גלריה בלחיצה
+//                          - תמונה יחידה: images: ['https://...']
+//      installationPhotos: קרדיט צלם (השאר '' אם אין)
+//      vimeoID:            מספר הסרטון ב-Vimeo בלבד (השאר '' אם אין)
 //
-//  title:              name of the work
-//  year:               year
-//  medium:             material
-//  size:               dimensions
-//  images:             list of image URLs (first = shown on page)
-//  installationPhotos: photographer credit (leave '' if none)
-//  vimeoID:            Vimeo video ID only (leave '' if none)
-// =============================================================
-
 var WORKS = [
   {
     title:              'Tzirim (Axes)',
@@ -58,6 +77,7 @@ var WORKS = [
       'https://i.imgur.com/FIL60lB.jpeg',
       'https://i.imgur.com/VGxrsrb.jpeg',
       'https://i.imgur.com/YRC5Q9E.jpeg',
+      'https://i.imgur.com/AnjJBsK.jpeg',
     ],
     installationPhotos: '',
     vimeoID:            '',
@@ -123,35 +143,55 @@ var WORKS = [
   },
 ];
 
-var SLIDES = [
-  'https://i.imgur.com/AnjJBsK.jpeg',
-  'https://i.imgur.com/3DoFWV7.jpeg',
-  'https://i.imgur.com/fbL1RQd.jpeg',
-  'https://i.imgur.com/qNvRIlb.jpeg',
-  'https://i.imgur.com/giReJN8.jpeg',
-  'https://i.imgur.com/E0VZ7vA.jpeg',
-  'https://i.imgur.com/8qCh6u1.jpeg',
-  'https://i.imgur.com/faEHdFO.jpeg',
-  'https://i.imgur.com/UydPxyo.jpeg',
-];
+// -- מעברים בגלריה המלאה --
+// זמנים באלפיות שנייה
+var GALLERY_FADE_SAME_PROJECT  = 300;   // מהירות היעלמות — מעבר בין תמונות באותה עבודה
+var GALLERY_FADE_DIFF_PROJECT  = 600;   // מהירות היעלמות — מעבר בין עבודות שונות
+var GALLERY_CROSS_SAME_PROJECT = 1500;  // מהירות הופעה    — מעבר בין תמונות באותה עבודה
+var GALLERY_CROSS_DIFF_PROJECT = 4000;  // מהירות הופעה    — מעבר בין עבודות שונות
 
-// ---- MOBILE SLIDESHOW IMAGES --- edit here ----
-// Leave empty [] to reuse desktop SLIDES. Use portrait-ratio images.
-var MOBILE_SLIDES = [
-  //'https://i.imgur.com/uCEToaz.jpeg',
-'https://i.imgur.com/uCEToaz.jpeg',
-'https://i.imgur.com/DQ0SwTQ.jpeg',
-'https://i.imgur.com/PAJwlx4.jpeg',
-'https://i.imgur.com/LqViV7T.jpeg',
-];
-// -----------------------------------------------
 
 // =============================================================
-// FIREBASE (optional)
+// ┌─────────────────────────────────────────────────────────┐
+// │                    מידע — תוכן                          │
+// └─────────────────────────────────────────────────────────┘
 // =============================================================
+
+// -- תמונת הפורטרט --
+var PORTRAIT_URL = 'https://i.imgur.com/fn6Pybq.jpeg';
+
+// -- ביוגרפיה --
+// כל פריט ברשימה = פסקה אחת. הוסף פסקאות לפי הצורך.
+var INFO_BIO = [
+  'Daniel Kep (b. 1993) is an artist living and working in Jerusalem. He holds a BFA from the Department of Fine Arts at Bezalel Academy of Arts and Design (2020) and is currently an MFA candidate at Bezalel.',
+  "Kep\u2019s work explores sculptural arrangements in which living bodies and inanimate objects are fused together. These imagery systems are stretched to the point of a tremor, struggling to maintain their stability and the integrity of their limbs. Through subtle movements, whiteness, and fragility in sculpture, still photography, and video, his works embody effort and physical presence.",
+  'He is the recipient of the Eileen Cooper Award for Excellence from the Bezalel Art Department, the America-Israel Cultural Foundation (AICF) Prize, and the Michael and Pauline Lukman Excellence Scholarship as part of his MFA studies.',
+  'Selected Exhibitions:',
+  'Clinging (Solo Exhibition), Dana Gallery, Kibbutz Yad Mordechai. Curator: Ravit Harari (2024; scheduled to travel to Tel Aviv later this year).',
+  "Bad Root, Jerusalem Artists\u2019 House. Curator: Sally Haftel Naveh (2023).",
+  'Untitled, Edmond de Rothschild Center, Tel Aviv. Curator: Hadas Maor (2022).',
+  'Slight Tremor (Solo Exhibition), Gallery of Contemporary Art, Ramat Hasharon (2021). Curator: Ravit Harari',
+  'Room (Artist-in-Residence concluding exhibition), HaMiffal Gallery, Jerusalem. Curator: Meydad Eliyahu (2021).',
+];
+
+// -- פרטי קשר --
+var INFO_EMAIL     = 'kep.dan@gmail.com';
+var INFO_INSTAGRAM = '_kep_daniel';        // שם המשתמש בלבד, ללא @
+
+
+// =============================================================
+// ┌─────────────────────────────────────────────────────────┐
+// │              Firebase — אחסון תמונות (אופציונלי)        │
+// └─────────────────────────────────────────────────────────┘
+// =============================================================
+// אם אין Firebase — השאר כפי שהוא. האתר יעבוד מהכתובות למעלה.
 var FIREBASE_URL = 'YOUR_FIREBASE_DATABASE_URL';
 
-// ---- HELPERS ----
+
+// =============================================================
+//  קוד — אל תשנה מכאן ומטה
+// =============================================================
+
 
 function getImages(work) {
   if (work.images && work.images.length > 0) return work.images;
