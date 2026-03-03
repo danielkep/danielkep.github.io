@@ -899,10 +899,12 @@ nav.transparent {
     overflow: hidden;
   }
 
+
   /* Image area — takes most of the screen */
   .gallery-right {
     flex: 1;
     min-height: 0;
+    width: 100%;
     padding: 52px 0 0 0;
     display: flex;
     justify-content: center;
@@ -910,9 +912,12 @@ nav.transparent {
     overflow: hidden;
   }
   #gallery-img {
+    width: 100vw;
+    height: auto;
     max-height: 100%;
-    max-width: 92vw;
+    max-width: 100vw;
     object-fit: contain;
+    object-position: center center;
   }
 
   /* Text — hidden on mobile (shown in bottom bar instead) */
