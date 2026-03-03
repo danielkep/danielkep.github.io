@@ -211,6 +211,39 @@ function getImages(work) {
   return [];
 }
 
+function getVimeoId(v) {
+  if (!v) return '';
+  var m = v.match(/vimeo\.com\/(\d+)/);
+  return m ? m[1] : v.replace(/\D/g,'').slice(0,10);
+}
+
+function openVideoPlayer(vimeoId) {
+  var overlay = document.getElementById('video-player-overlay');
+  if (!overlay) {
+    overlay = document.createElement('div');
+    overlay.id = 'video-player-overlay';
+    overlay.innerHTML =
+      '<button class="video-back-btn" onclick="closeVideoPlayer()">← Back</button>' +
+      '<div class="video-player-inner"><iframe id="video-iframe" src="" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div>';
+    document.body.appendChild(overlay);
+    overlay.querySelector('.video-back-btn').addEventListener('click', closeVideoPlayer);
+  }
+  var iframe = overlay.querySelector('#video-iframe');
+  iframe.src = 'https://player.vimeo.com/video/' + vimeoId + '?autoplay=1';
+  overlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeVideoPlayer() {
+  var overlay = document.getElementById('video-player-overlay');
+  if (overlay) {
+    overlay.classList.remove('open');
+    var iframe = overlay.querySelector('#video-iframe');
+    if (iframe) iframe.src = '';
+  }
+  document.body.style.overflow = '';
+}
+
 // ---- RENDERING ----
 
 var SLIDE_BG = ['#d9d6d0', '#ccc9c3', '#dddbd7', '#d2cfc9', '#e0ddd8'];
@@ -224,6 +257,13 @@ function renderWorks() {
     var countBadge = extraCount > 0
       ? '<span class="work-image-count">+' + extraCount + '</span>'
       : '';
+    var vid = getVimeoId(work.vimeoID);
+    var videoBtn = vid
+      ? '<button class="work-video-btn" onclick="event.stopPropagation();openVideoPlayer(\'' + vid + '\')">' +
+          '<span class="work-video-play">&#9654;</span>' +
+          '<span class="work-video-label">Video</span>' +
+        '</button>'
+      : '';
     return (
       '<div class="work-item">' +
         '<div class="work-text">' +
@@ -233,6 +273,7 @@ function renderWorks() {
             '<span>' + work.size + '</span>' +
             '<span style="margin-top:6px;color:#bbb;">' + work.year + '</span>' +
           '</div>' +
+          videoBtn +
         '</div>' +
         '<div class="work-image" onclick="galleryOpen(' + i + ', 0)">' +
           '<div class="img-wrapper" data-key="work-' + i + '">' +
