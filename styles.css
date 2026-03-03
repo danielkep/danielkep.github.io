@@ -111,6 +111,7 @@ nav.transparent .nav-right a:hover {
 }
 .nav-right {
   display: flex;
+  align-items: center;
   justify-content: flex-end;
 }
 
@@ -254,6 +255,13 @@ nav.transparent .nav-right a:hover {
   flex-shrink: 0;
   background: #e4e2de;
   overflow: hidden;
+}
+
+.info-photo .img-wrapper {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: block;
 }
 
 .info-photo .img-placeholder {
@@ -643,9 +651,17 @@ body.admin-mode .lb-edit-btn {
 
 .nnnn {
   position: fixed;
-  top: 2em;
+  top: 0;
+  left: 0;
+  right: 0;
+  margin: 0;
   background-color: rgb(255, 255, 255);
-  margin: 0 2em;
+  border-bottom: 1px solid var(--light-gray);
+}
+
+nav.transparent {
+  background: transparent;
+  border-bottom-color: transparent;
 }
 
 /* ---- GALLERY BADGE (+N) ---- */
@@ -899,4 +915,39 @@ body.admin-mode .lb-edit-btn {
   opacity: 0;
   transition: opacity 0.1s;
   background-repeat: no-repeat;
+}
+
+/* ---- GALLERY BACK BUTTON ---- */
+.gallery-back-btn {
+  position: fixed;
+  top: 20px;
+  left: 48px;
+  z-index: 600;
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gray);
+  background: none;
+  border: none;
+  padding-bottom: 3px;
+  cursor: none;
+  transition: color 0.2s;
+}
+.gallery-back-btn::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: currentColor;
+  transition: width 0.3s ease;
+}
+.gallery-back-btn:hover {
+  color: var(--black);
+}
+.gallery-back-btn:hover::after {
+  width: 100%;
 }

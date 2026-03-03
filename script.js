@@ -292,6 +292,10 @@ slides = document.querySelectorAll('.slide');
 
 checkAdminMode();
 loadImages();
+// backup: re-apply portrait after DOM fully ready
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', function() { loadImages(); });
+}
 
 setInterval(function() { goToSlide((current + 1) % slides.length); }, SLIDE_DURATION);
 
@@ -355,6 +359,7 @@ function galleryBuild() {
   var el = document.createElement('div');
   el.id = 'gallery-overlay';
   el.innerHTML =
+    '<button class="gallery-back-btn" onclick="galleryClose()">← Back</button>' +
     '<div class="gallery-left" id="gallery-text"></div>' +
     '<div class="gallery-right">' +
       '<img id="gallery-img" src="" alt="">' +
