@@ -861,32 +861,51 @@ nav.transparent {
 @media (max-width: 768px) {
   /* ---- GALLERY MOBILE ---- */
   #gallery-overlay.open {
-    flex-direction: column-reverse;
-  }
-  .gallery-left {
-    width: 100%;
-    padding: 16px 24px 28px;
-    flex-shrink: 0;
+    flex-direction: column;
   }
   .gallery-right {
     flex: 1;
-    padding: 60px 0 0 0;
+    padding: 52px 0 0 0;
     justify-content: center;
     align-items: center;
+    min-height: 0;
   }
   #gallery-img {
-    max-height: 55vh;
-    max-width: 100%;
+    max-height: 58vh;
+    max-width: 92vw;
     object-fit: contain;
+  }
+  .gallery-left {
+    width: 100%;
+    flex-shrink: 0;
+    padding: 20px 32px 32px;
+    align-items: center;
+    text-align: center;
+  }
+  .gallery-title {
+    font-size: 15px;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+  .gallery-meta-line {
+    text-align: center;
+    line-height: 1.9;
+  }
+  .gallery-year {
+    text-align: center;
+  }
+  .gallery-counter {
+    text-align: center;
+    margin-top: 16px;
   }
   .gallery-back-btn {
     top: 14px;
-    left: 24px;
+    left: 20px;
   }
   .gallery-zone-left,
   .gallery-zone-right {
-    top: 60px;
-    bottom: 35%;
+    top: 52px;
+    bottom: 30%;
   }
 }
 
