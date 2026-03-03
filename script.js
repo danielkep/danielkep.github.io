@@ -141,13 +141,25 @@ var WORKS = [
     installationPhotos: '',
     vimeoID:            '',
   },
+{
+    title:              'Protome (Gehazi),
+    year:               '2023',
+    medium:             'Video (loop)',
+    size:               'Dimensions variable (according to ceiling height)',
+    images: [
+      'https://i.imgur.com/oV1Jn94.jpeg',
+    ],
+    installationPhotos: '',
+    vimeoID:            'https://vimeo.com/1055671442?fl=ip&fe=ec',
+  },
+
 ];
 
 // -- מעברים בגלריה המלאה --
 // זמנים באלפיות שנייה
-var GALLERY_FADE_SAME_PROJECT  = 300;   // מהירות היעלמות — מעבר בין תמונות באותה עבודה
-var GALLERY_FADE_DIFF_PROJECT  = 600;   // מהירות היעלמות — מעבר בין עבודות שונות
-var GALLERY_CROSS_SAME_PROJECT = 1500;  // מהירות הופעה    — מעבר בין תמונות באותה עבודה
+var GALLERY_FADE_SAME_PROJECT  = 0;   // מהירות היעלמות — מעבר בין תמונות באותה עבודה
+var GALLERY_FADE_DIFF_PROJECT  = 4000;   // מהירות היעלמות — מעבר בין עבודות שונות
+var GALLERY_CROSS_SAME_PROJECT = 0;  // מהירות הופעה    — מעבר בין תמונות באותה עבודה
 var GALLERY_CROSS_DIFF_PROJECT = 4000;  // מהירות הופעה    — מעבר בין עבודות שונות
 
 
