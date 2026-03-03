@@ -282,6 +282,11 @@ function showPage(id) {
   var link = document.getElementById('nav-' + id);
   if (link) link.classList.add('active');
   window.scrollTo(0, 0);
+  // hide loupe + restore cursor on page change
+  var _lp = document.getElementById('invert-loupe');
+  if (_lp) _lp.style.opacity = '0';
+  var _sc = document.getElementById('site-cursor');
+  if (_sc && _sc.show) _sc.show();
   // nav always white — no transparent mode
 }
 

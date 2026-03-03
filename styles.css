@@ -217,6 +217,15 @@ nav.transparent .nav-right a:hover {
   position: relative;
   overflow: hidden;
   background: #e4e2de;
+  display: block;
+}
+
+/* force img-wrapper to fill work-image via absolute positioning */
+.work-image .img-wrapper {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
 }
 
 .work-image .img-placeholder {
