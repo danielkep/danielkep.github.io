@@ -214,6 +214,7 @@ nav.transparent .nav-right a:hover {
 .work-image {
   width: 100%;
   aspect-ratio: 4/3;
+  position: relative;
   overflow: hidden;
   background: #e4e2de;
 }
@@ -537,6 +538,20 @@ nav.transparent .nav-right a:hover {
 /* RESPONSIVE */
 
 @media (max-width: 768px) {
+
+  /* ---- TOUCH DEVICE: restore cursor, hide custom cursors ---- */
+  *, *::before, *::after {
+    cursor: auto !important;
+  }
+  a, button, [onclick] {
+    cursor: pointer !important;
+  }
+  #site-cursor,
+  #invert-loupe,
+  #gallery-loupe,
+  .lb-cursor {
+    display: none !important;
+  }
 
   /* ---- NAV ---- */
   nav {
