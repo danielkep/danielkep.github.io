@@ -142,7 +142,7 @@ var WORKS = [
     vimeoID:            '',
   },
 {
-    title:              'Protome (Gehazi),
+    title:              'Protome (Gehazi)',
     year:               '2023',
     medium:             'Video (loop)',
     size:               'Dimensions variable (according to ceiling height)',
