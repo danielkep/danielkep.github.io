@@ -87,7 +87,9 @@ nav.transparent .nav-right a:hover {
   color: var(--black);
   text-decoration: none;
   position: relative;
-  padding-bottom: 3px;
+  display: inline-block;
+  line-height: 1;
+  padding-bottom: 4px;
   transition: color 0.2s;
 }
 
@@ -120,6 +122,7 @@ nav.transparent .nav-right a:hover {
   align-items: center;
   justify-content: flex-end;
 }
+
 
 /* Hamburger — hidden on desktop */
 .nav-hamburger {
