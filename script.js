@@ -16,7 +16,7 @@
 // └─────────────────────────────────────────────────────────┘
 // =============================================================
 
-// -- תמונות המצגת (דסקטופ) --
+// -- תמונות מצגת — מחשב --
 // הוסף / הסר כתובות URL. הסדר = סדר ההצגה.
 var SLIDES = [
   'https://i.imgur.com/AnjJBsK.jpeg',
@@ -30,20 +30,25 @@ var SLIDES = [
   'https://i.imgur.com/UydPxyo.jpeg',
 ];
 
-// -- תמונות המצגת (פלאפון) --
-// השאר ריק [] כדי להשתמש באותן תמונות כמו בדסקטופ.
-// מומלץ: תמונות בפורמט אנכי (portrait) לתצוגה טובה יותר בנייד.
+// זמן הצגה לכל תמונה במחשב (אלפיות שנייה)
+var SLIDE_DURATION = 5000;
+
+// זמן מעבר בין תמונות במחשב (אלפיות שנייה)
+var SLIDE_TRANSITION = 1400;
+
+
+// -- תמונות מצגת — פלאפון --
+// השאר ריק [] כדי להשתמש באותן תמונות כמו במחשב.
+// מומלץ: תמונות אנכיות לתצוגה טובה יותר בנייד.
 var MOBILE_SLIDES = [
-  //'https://i.imgur.com/uCEToaz.jpeg',
-'https://i.imgur.com/uCEToaz.jpeg',
-'https://i.imgur.com/DQ0SwTQ.jpeg',
-'https://i.imgur.com/PAJwlx4.jpeg',
-'https://i.imgur.com/LqViV7T.jpeg',
+  'https://i.imgur.com/uCEToaz.jpeg',
+  'https://i.imgur.com/DQ0SwTQ.jpeg',
+  'https://i.imgur.com/PAJwlx4.jpeg',
+  'https://i.imgur.com/LqViV7T.jpeg',
 ];
 
-// -- תזמון המצגת --
-var SLIDE_DURATION   = 6000;  // זמן הצגה לכל תמונה (אלפיות שנייה). ברירת מחדל: 6000
-var SLIDE_TRANSITION = 1400;  // זמן מעבר בין תמונות (אלפיות שנייה). ברירת מחדל: 1400
+// זמן הצגה לכל תמונה בפלאפון (אלפיות שנייה)
+var SLIDE_DURATION_MOBILE = 3500;
 
 
 // =============================================================
@@ -407,7 +412,7 @@ slides = document.querySelectorAll('.slide');
 checkAdminMode();
 loadImages();
 
-setInterval(function() { goToSlide((current + 1) % slides.length); }, SLIDE_DURATION);
+setInterval(function() { goToSlide((current + 1) % slides.length); }, window.innerWidth <= 768 ? SLIDE_DURATION_MOBILE : SLIDE_DURATION);
 
 
 
