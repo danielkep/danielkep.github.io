@@ -261,11 +261,8 @@ function renderWorks() {
     var videoBtn = vid
       ? '<button class="work-video-btn" onclick="event.stopPropagation();openVideoPlayer(\'' + vid + '\')">' +
           '<span class="work-video-play">&#9654;</span>' +
-          '<span class="work-video-label">Video</span>' +
+          '<span class="work-video-label">Watch here</span>' +
         '</button>'
-      : '';
-    var playIcon = vid
-      ? '<div class="work-image-play"></div>'
       : '';
     return (
       '<div class="work-item">' +
@@ -278,12 +275,11 @@ function renderWorks() {
           '</div>' +
           videoBtn +
         '</div>' +
-        '<div class="work-image" onclick="' + (vid ? 'openVideoPlayer(\'' + vid + '\')' : 'galleryOpen(' + i + ', 0)') + '">' +
+        '<div class="work-image" onclick="galleryOpen(' + i + ', 0)">' +
           '<div class="img-wrapper" data-key="work-' + i + '">' +
             '<img class="stored-img" src="' + firstImg + '" alt="' + work.title + '">' +
             '<div class="img-placeholder"' + ph + '>Image</div>' +
             countBadge +
-            playIcon +
           '</div>' +
         '</div>' +
       '</div>'
@@ -652,7 +648,12 @@ function galleryRender(fade) {
 
     var creditHtml = (work.installationPhotos)
       ? '<div class="gallery-photo-credit">' + work.installationPhotos + '</div>' : '';
-    galleryTextEl.innerHTML = titleHtml + mediumHtml + sizeHtml + yearHtml + creditHtml + counter;
+    var watchHtml = getVimeoId(work.vimeoID)
+      ? '<button class="gallery-watch-btn" onclick="openVideoPlayer(\'' + getVimeoId(work.vimeoID) + '\')">' +
+          '<span class="gallery-watch-play">&#9654;</span> Watch here' +
+        '</button>'
+      : '';
+    galleryTextEl.innerHTML = titleHtml + mediumHtml + sizeHtml + yearHtml + creditHtml + watchHtml + counter;
 
     // update mobile counter
     var mc = document.getElementById('gallery-mobile-counter');
