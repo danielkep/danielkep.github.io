@@ -423,22 +423,28 @@ setInterval(function() { goToSlide((current + 1) % slides.length); }, SLIDE_DURA
     'transition:opacity 0.15s',
     'mix-blend-mode:difference',
     'top:-100px','left:-100px',
-    'opacity:0'
+    'will-change:transform'
   ].join(';');
   document.body.appendChild(cur);
+
+  var visible = false;
 
   document.addEventListener('mousemove', function(e) {
     cur.style.left = e.clientX + 'px';
     cur.style.top  = e.clientY + 'px';
-    if (!cur._hidden) cur.style.opacity = '1';
+    if (!cur._hidden && !visible) {
+      cur.style.opacity = '1';
+      visible = true;
+    }
   });
   document.addEventListener('mouseleave', function() {
     cur.style.opacity = '0';
+    visible = false;
   });
 
   // helpers used by other modules
-  cur.hide = function() { cur._hidden = true;  cur.style.opacity = '0'; };
-  cur.show = function() { cur._hidden = false; cur.style.opacity = '1'; };
+  cur.hide = function() { cur._hidden = true;  cur.style.opacity = '0'; visible = false; };
+  cur.show = function() { cur._hidden = false; cur.style.opacity = '1'; visible = true; };
 })();
 
 // ---- HISTORY API: Fix mobile back button ----

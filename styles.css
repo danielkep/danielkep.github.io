@@ -19,7 +19,7 @@
 
 body {
   font-family: var(--font-body);
-  background: var(--white);
+  background: #ffffff;
   color: var(--black);
   font-weight: 300;
   line-height: 1.7;
