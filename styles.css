@@ -587,7 +587,7 @@ nav.transparent .nav-right a:hover {
     background: none;
     flex-shrink: 0;
   }
-  .nnnn {
+  .nav-bar {
     top: 12px;
     left: 12px;
     right: 12px;
@@ -746,7 +746,7 @@ body.admin-mode .lb-edit-btn {
   background: rgba(0, 0, 0, 0.9);
 }
 
-.nnnn {
+.nav-bar {
   position: fixed;
   top: 2em;
   left: 2em;
@@ -972,30 +972,35 @@ nav.transparent {
   .gallery-mobile-info {
     flex: 1;
     text-align: center;
-    padding: 12px 8px;
+    padding: 10px 8px;
     min-width: 0;
   }
   .gallery-mobile-title {
     font-family: var(--font-display);
-    font-size: 13px;
+    font-size: 15px;
     font-weight: 400;
     letter-spacing: 0.02em;
     color: var(--black);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    margin-bottom: 3px;
+    margin-bottom: 4px;
   }
   .gallery-mobile-meta {
-    font-size: 10px;
+    font-size: 11px;
     font-weight: 300;
-    color: #aaa;
+    color: #999;
     letter-spacing: 0.05em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   .gallery-mobile-counter {
     font-size: 10px;
     color: #ccc;
     letter-spacing: 0.08em;
+    display: block;
+    margin-top: 2px;
   }
 
   /* Back button stays */

@@ -157,10 +157,10 @@ var WORKS = [
 
 // -- מעברים בגלריה המלאה --
 // זמנים באלפיות שנייה
-var GALLERY_FADE_SAME_PROJECT  = 0;   // מהירות היעלמות — מעבר בין תמונות באותה עבודה
-var GALLERY_FADE_DIFF_PROJECT  = 4000;   // מהירות היעלמות — מעבר בין עבודות שונות
-var GALLERY_CROSS_SAME_PROJECT = 0;  // מהירות הופעה    — מעבר בין תמונות באותה עבודה
-var GALLERY_CROSS_DIFF_PROJECT = 4000;  // מהירות הופעה    — מעבר בין עבודות שונות
+var GALLERY_FADE_SAME_PROJECT  = 0;    // מהירות היעלמות — מעבר בין תמונות באותה עבודה
+var GALLERY_FADE_DIFF_PROJECT  = 400;  // מהירות היעלמות — מעבר בין עבודות שונות
+var GALLERY_CROSS_SAME_PROJECT = 0;   // מהירות הופעה    — מעבר בין תמונות באותה עבודה
+var GALLERY_CROSS_DIFF_PROJECT = 600; // מהירות הופעה    — מעבר בין עבודות שונות
 
 
 // =============================================================
@@ -419,10 +419,30 @@ setInterval(function() { goToSlide((current + 1) % slides.length); }, SLIDE_DURA
     'position:fixed','pointer-events:none','z-index:9999',
     'width:28px','height:28px','border-radius:50%',
     'border:1px solid rgba(0,0,0,0.4)','background:transparent',
-    'transform:translate(-50%,-50%)','transition:opacity 0.15s',
-    'top:-100px','left:-100px'
+    'transform:translate(-50%,-50%)','transition:opacity 0.15s, width 0.2s, height 0.2s, border-color 0.2s',
+    'top:-100px','left:-100px',
+    'display:flex','align-items:center','justify-content:center',
+    'font-size:0px','overflow:hidden'
   ].join(';');
   document.body.appendChild(cur);
+
+  // Eye SVG for hover state
+  var eyeSvg = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(0,0,0,0.55)" stroke-width="1.5" style="flex-shrink:0"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>';
+
+  function setHoverState() {
+    cur.style.width  = '36px';
+    cur.style.height = '36px';
+    cur.style.borderColor = 'rgba(0,0,0,0.25)';
+    cur.style.fontSize = '14px';
+    cur.innerHTML = eyeSvg;
+  }
+  function setNormalState() {
+    cur.style.width  = '28px';
+    cur.style.height = '28px';
+    cur.style.borderColor = 'rgba(0,0,0,0.4)';
+    cur.style.fontSize = '0px';
+    cur.innerHTML = '';
+  }
 
   document.addEventListener('mousemove', function(e) {
     cur.style.left = e.clientX + 'px';
@@ -432,9 +452,48 @@ setInterval(function() { goToSlide((current + 1) % slides.length); }, SLIDE_DURA
   document.addEventListener('mouseleave', function() {
     cur.style.opacity = '0';
   });
+
+  // Detect hovering over clickable elements
+  document.addEventListener('mouseover', function(e) {
+    var el = e.target.closest('a, button, [onclick], .work-image, .work-item');
+    if (el) setHoverState(); else setNormalState();
+  });
+
   // helpers used by other modules
   cur.hide = function() { cur._hidden = true;  cur.style.opacity = '0'; };
   cur.show = function() { cur._hidden = false; cur.style.opacity = '1'; };
+})();
+
+// ---- HISTORY API: Fix mobile back button ----
+(function() {
+  var galleryWasOpen = false;
+
+  function pushGalleryState() {
+    history.pushState({ gallery: true }, '');
+  }
+
+  // Intercept galleryOpen to push state
+  var origGalleryOpen = window.galleryOpen;
+  window.galleryOpen = function(workIndex, imgIndex) {
+    origGalleryOpen(workIndex, imgIndex);
+    pushGalleryState();
+    galleryWasOpen = true;
+  };
+
+  // Intercept galleryClose to clean up flag
+  var origGalleryClose = window.galleryClose;
+  window.galleryClose = function() {
+    origGalleryClose();
+    galleryWasOpen = false;
+  };
+
+  window.addEventListener('popstate', function(e) {
+    var go = document.getElementById('gallery-overlay');
+    if (go && go.classList.contains('open')) {
+      // Close gallery instead of navigating away
+      if (typeof galleryClose === 'function') galleryClose();
+    }
+  });
 })();
 
 // =============================================================
@@ -673,6 +732,31 @@ function galleryRender(fade) {
     galleryTextEl.style.transition = 'opacity ' + (crossMs/1000).toFixed(2) + 's ease';
     galleryImgEl.style.opacity = '0';
     galleryTextEl.style.opacity = '0';
+
+    // Show project title flash when switching between different projects
+    if (fade === 'diff') {
+      var flashEl = document.getElementById('gallery-project-flash');
+      if (!flashEl) {
+        flashEl = document.createElement('div');
+        flashEl.id = 'gallery-project-flash';
+        flashEl.style.cssText = [
+          'position:fixed','top:50%','left:50%',
+          'transform:translate(-50%,-50%)',
+          'font-family:var(--font-display)','font-size:15px',
+          'font-weight:400','letter-spacing:0.06em',
+          'color:rgba(0,0,0,0.35)',
+          'pointer-events:none','z-index:9000',
+          'opacity:0','transition:opacity 0.3s ease',
+          'text-align:center'
+        ].join(';');
+        document.body.appendChild(flashEl);
+      }
+      var nextWork = WORKS[galleryList[galleryIndex].workIndex];
+      flashEl.textContent = nextWork.title || '';
+      flashEl.style.opacity = '1';
+      setTimeout(function() { flashEl.style.opacity = '0'; }, fadeOut + crossMs * 0.6);
+    }
+
     setTimeout(function() {
       render();
       galleryImgEl.style.opacity = '1';
