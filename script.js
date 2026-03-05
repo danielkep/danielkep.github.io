@@ -411,40 +411,44 @@ setInterval(function() { goToSlide((current + 1) % slides.length); }, SLIDE_DURA
 
 
 
-// ---- GLOBAL CIRCLE CURSOR (mix-blend-mode: difference) ----
+// ---- GLOBAL CIRCLE CURSOR ----
 (function() {
   var cur = document.createElement('div');
   cur.id = 'site-cursor';
   cur.style.cssText = [
     'position:fixed','pointer-events:none','z-index:9999',
     'width:28px','height:28px','border-radius:50%',
-    'background:#000000',
+    'border:1.5px solid rgba(0,0,0,0.6)','background:transparent',
     'transform:translate(-50%,-50%)',
-    'transition:opacity 0.15s',
-    'mix-blend-mode:difference',
-    'top:-100px','left:-100px',
-    'will-change:transform'
+    'transition:opacity 0.15s, background 0.2s, border-color 0.2s',
+    'top:-100px','left:-100px'
   ].join(';');
   document.body.appendChild(cur);
-
-  var visible = false;
 
   document.addEventListener('mousemove', function(e) {
     cur.style.left = e.clientX + 'px';
     cur.style.top  = e.clientY + 'px';
-    if (!cur._hidden && !visible) {
-      cur.style.opacity = '1';
-      visible = true;
-    }
+    if (!cur._hidden) cur.style.opacity = '1';
   });
   document.addEventListener('mouseleave', function() {
     cur.style.opacity = '0';
-    visible = false;
+  });
+
+  // Fill on hover over clickable elements
+  document.addEventListener('mouseover', function(e) {
+    var el = e.target.closest('a, button, [onclick], .work-image');
+    if (el) {
+      cur.style.background = 'rgba(0,0,0,0.75)';
+      cur.style.borderColor = 'transparent';
+    } else {
+      cur.style.background = 'transparent';
+      cur.style.borderColor = 'rgba(0,0,0,0.6)';
+    }
   });
 
   // helpers used by other modules
-  cur.hide = function() { cur._hidden = true;  cur.style.opacity = '0'; visible = false; };
-  cur.show = function() { cur._hidden = false; cur.style.opacity = '1'; visible = true; };
+  cur.hide = function() { cur._hidden = true;  cur.style.opacity = '0'; };
+  cur.show = function() { cur._hidden = false; cur.style.opacity = '1'; };
 })();
 
 // ---- HISTORY API: Fix mobile back button ----
