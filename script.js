@@ -264,6 +264,9 @@ function renderWorks() {
           '<span class="work-video-label">Video</span>' +
         '</button>'
       : '';
+    var playIcon = vid
+      ? '<div class="work-image-play"></div>'
+      : '';
     return (
       '<div class="work-item">' +
         '<div class="work-text">' +
@@ -275,11 +278,12 @@ function renderWorks() {
           '</div>' +
           videoBtn +
         '</div>' +
-        '<div class="work-image" onclick="galleryOpen(' + i + ', 0)">' +
+        '<div class="work-image" onclick="' + (vid ? 'openVideoPlayer(\'' + vid + '\')' : 'galleryOpen(' + i + ', 0)') + '">' +
           '<div class="img-wrapper" data-key="work-' + i + '">' +
             '<img class="stored-img" src="' + firstImg + '" alt="' + work.title + '">' +
             '<div class="img-placeholder"' + ph + '>Image</div>' +
             countBadge +
+            playIcon +
           '</div>' +
         '</div>' +
       '</div>'
@@ -432,18 +436,6 @@ setInterval(function() { goToSlide((current + 1) % slides.length); }, SLIDE_DURA
   });
   document.addEventListener('mouseleave', function() {
     cur.style.opacity = '0';
-  });
-
-  // Fill on hover over clickable elements
-  document.addEventListener('mouseover', function(e) {
-    var el = e.target.closest('a, button, [onclick], .work-image');
-    if (el) {
-      cur.style.background = 'rgba(0,0,0,0.75)';
-      cur.style.borderColor = 'transparent';
-    } else {
-      cur.style.background = 'transparent';
-      cur.style.borderColor = 'rgba(0,0,0,0.6)';
-    }
   });
 
   // helpers used by other modules

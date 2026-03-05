@@ -65,6 +65,25 @@ nav.transparent .nav-right a:hover {
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--black);
+  position: relative;
+  display: inline-block;
+  padding-bottom: 4px;
+  line-height: 1;
+}
+
+.nav-logo::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: currentColor;
+  transition: width 0.3s ease;
+}
+
+.nav-logo:hover::after {
+  width: 100%;
 }
 
 .nav-links {
@@ -1032,8 +1051,39 @@ nav.transparent {
   pointer-events: none;
 }
 
+/* ---- VIDEO PLAY ICON ON IMAGE ---- */
+.work-image-play {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  background: rgba(0,0,0,0.18);
+}
 
-/* ---- VIDEO PLAYER OVERLAY ---- */
+.work-image-play::after {
+  content: '';
+  display: block;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 7px 0 7px 13px;
+  border-color: transparent transparent transparent rgba(255,255,255,0.9);
+  margin-left: 3px;
+}
+
+.work-item:hover .work-image-play {
+  opacity: 1;
+}
 #video-player-overlay {
   display: none;
   position: fixed;
