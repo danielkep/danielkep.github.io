@@ -217,6 +217,7 @@ nav.transparent .nav-right a:hover {
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
+  align-self: center;
   padding: 0 60px;
 }
 
@@ -815,7 +816,7 @@ nav.transparent {
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  padding: 80px 40px 60px 60px;
+  padding: 40px 40px 40px 60px;
 }
 
 /* landscape: text centered in the white space LEFT of the image */
@@ -827,7 +828,7 @@ nav.transparent {
   top: 0;
   bottom: 0;
   right: var(--img-right-edge, 70%);
-  padding: 80px 40px 60px 60px;
+  padding: 40px 40px 40px 60px;
   justify-content: center;
 }
 .gallery-title {
