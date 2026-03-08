@@ -65,10 +65,12 @@ var SLIDE_DURATION_MOBILE = 3500;
 //      year:               שנה
 //      medium:             חומר / טכניקה
 //      size:               מידות
-//      images:             רשימת כתובות תמונות
+//      images:             רשימת כתובות תמונות או GIF
 //                          - תמונה ראשונה = מה שיוצג בדף העבודות
 //                          - שאר התמונות = גלריה בלחיצה
 //                          - תמונה יחידה: images: ['https://...']
+//                          - GIF נתמך: פשוט הכנס כתובת של קובץ .gif
+//                            לדוגמה: images: ['https://i.imgur.com/xxxxx.gif']
 //      installationPhotos: קרדיט צלם (השאר '' אם אין)
 //      vimeoID:            מספר הסרטון ב-Vimeo בלבד (השאר '' אם אין)
 //
@@ -412,7 +414,59 @@ slides = document.querySelectorAll('.slide');
 checkAdminMode();
 loadImages();
 
-setInterval(function() { goToSlide((current + 1) % slides.length); }, window.innerWidth <= 768 ? SLIDE_DURATION_MOBILE : SLIDE_DURATION);
+// מצגת — שקופית ראשונה מהירה במובייל (שניה אחת), השאר בקצב רגיל
+(function() {
+  var isMobile = window.innerWidth <= 768;
+  var duration = isMobile ? SLIDE_DURATION_MOBILE : SLIDE_DURATION;
+
+  if (isMobile) {
+    // שקופית ראשונה — שניה אחת בלבד
+    setTimeout(function() {
+      goToSlide(1 % slides.length);
+      // המשך בקצב רגיל
+      setInterval(function() {
+        goToSlide((current + 1) % slides.length);
+      }, duration);
+    }, 1000);
+  } else {
+    setInterval(function() {
+      goToSlide((current + 1) % slides.length);
+    }, duration);
+  }
+})();
+
+// ---- HISTORY API — ניווט Back באנדרואיד לכל האתר ----
+(function() {
+  var pages = ['home', 'works', 'info'];
+  var currentPage = 'home';
+
+  // push state בכל מעבר דף
+  var origShowPage = window.showPage;
+  window.showPage = function(id) {
+    origShowPage(id);
+    if (id !== currentPage) {
+      history.pushState({ page: id }, '');
+      currentPage = id;
+    }
+  };
+
+  // push state ראשוני
+  history.replaceState({ page: 'home' }, '');
+
+  window.addEventListener('popstate', function(e) {
+    // אם גלריה פתוחה — סגור אותה
+    var go = document.getElementById('gallery-overlay');
+    if (go && go.classList.contains('open')) {
+      if (typeof galleryClose === 'function') galleryClose();
+      return;
+    }
+    // אחרת — חזור לדף הקודם
+    if (e.state && e.state.page) {
+      origShowPage(e.state.page);
+      currentPage = e.state.page;
+    }
+  });
+})();
 
 
 
