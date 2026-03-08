@@ -473,7 +473,7 @@ function renderWorks() {
           '<div class="work-meta">' +
             '<span>' + work.medium + '</span>' +
             '<span>' + work.size + '</span>' +
-            '<span style="margin-top:6px;color:#bbb;">' + work.year + '</span>' +
+            '<span style="margin-top:6px;">' + work.year + '</span>' +
           '</div>' +
           videoBtn +
         '</div>' +
@@ -574,18 +574,25 @@ var navEl = document.querySelector('nav');
 // nav always shows white box
 
 function showPage(id) {
-  document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
-  document.querySelectorAll('.nav-links a, .nav-right a').forEach(function(a) { a.classList.remove('active'); });
-  document.getElementById(id).classList.add('active');
-  var link = document.getElementById('nav-' + id);
-  if (link) link.classList.add('active');
-  window.scrollTo(0, 0);
-  // hide loupe + restore cursor on page change
-  var _lp = document.getElementById('invert-loupe');
-  if (_lp) _lp.style.opacity = '0';
-  var _sc = document.getElementById('site-cursor');
-  if (_sc && _sc.show) _sc.show();
-  // nav always white — no transparent mode
+  var current = document.querySelector('.page.active');
+  var next = document.getElementById(id);
+  if (current === next) return;
+
+  // fade out current
+  if (current) current.classList.remove('active');
+
+  // fade in next after brief delay
+  setTimeout(function() {
+    document.querySelectorAll('.nav-links a, .nav-right a').forEach(function(a) { a.classList.remove('active'); });
+    next.classList.add('active');
+    var link = document.getElementById('nav-' + id);
+    if (link) link.classList.add('active');
+    window.scrollTo(0, 0);
+    var _lp = document.getElementById('invert-loupe');
+    if (_lp) _lp.style.opacity = '0';
+    var _sc = document.getElementById('site-cursor');
+    if (_sc && _sc.show) _sc.show();
+  }, 300);
 }
 
 // ---- SLIDESHOW ----

@@ -150,12 +150,20 @@ nav.transparent .nav-right a:hover {
 
 /* PAGES */
 .page {
-  display: none;
+  opacity: 0;
+  visibility: hidden;
+  position: absolute;
+  top: 0; left: 0; right: 0;
   min-height: 100vh;
   padding-top: var(--nav-height);
+  transition: opacity 0.5s ease;
+  pointer-events: none;
 }
 .page.active {
-  display: block;
+  opacity: 1;
+  visibility: visible;
+  position: relative;
+  pointer-events: auto;
 }
 
 /* HOME */
@@ -231,9 +239,9 @@ nav.transparent .nav-right a:hover {
 }
 
 .work-meta {
-  font-size: 13px;
-  font-weight: 300;
-  color: var(--gray);
+  font-size: 14px;
+  font-weight: 400;
+  color: #666;
   line-height: 2;
 }
 .work-meta span {
@@ -246,12 +254,19 @@ nav.transparent .nav-right a:hover {
   background: #e4e2de;
   display: block;
   overflow: hidden;
+  cursor: pointer;
 }
 
 .work-image .img-wrapper {
   position: relative;
   width: 100%;
   height: auto;
+  transition: transform 0.4s ease, opacity 0.4s ease;
+}
+
+.work-image:hover .img-wrapper {
+  transform: scale(0.97);
+  opacity: 0.88;
 }
 
 .work-image .img-placeholder {
@@ -819,6 +834,12 @@ nav.transparent {
   padding: 40px 40px 40px 60px;
 }
 
+@media (max-width: 900px) and (min-width: 769px) {
+  .gallery-left {
+    display: none;
+  }
+}
+
 /* landscape: text centered in the white space LEFT of the image */
 #gallery-overlay.landscape .gallery-left {
   width: auto;
@@ -847,7 +868,7 @@ nav.transparent {
 }
 .gallery-year {
   margin-top: 4px;
-  color: #bbb;
+  color: #666;
 }
 .gallery-credit {
   margin-top: 4px;
