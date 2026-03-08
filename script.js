@@ -41,10 +41,13 @@ var SLIDE_TRANSITION = 1400;
 // השאר ריק [] כדי להשתמש באותן תמונות כמו במחשב.
 // מומלץ: תמונות אנכיות לתצוגה טובה יותר בנייד.
 var MOBILE_SLIDES = [
-  'https://i.imgur.com/uCEToaz.jpeg',
   'https://i.imgur.com/DQ0SwTQ.jpeg',
+'https://i.imgur.com/KYWT5qb.jpeg',
   'https://i.imgur.com/PAJwlx4.jpeg',
   'https://i.imgur.com/LqViV7T.jpeg',
+'https://i.imgur.com/0WA29yy.jpeg',
+  'https://i.imgur.com/uCEToaz.jpeg',
+
 ];
 
 // זמן הצגה לכל תמונה בפלאפון (אלפיות שנייה)
@@ -86,7 +89,7 @@ var WORKS = [
       'https://i.imgur.com/YRC5Q9E.jpeg',
       'https://i.imgur.com/AnjJBsK.jpeg',
     ],
-    installationPhotos: '',
+    installationPhotos: 'Daniel Hanoch',
     vimeoID:            '',
   },
   {
@@ -133,7 +136,7 @@ var WORKS = [
       'https://i.imgur.com/TJKOuYw.jpeg',
       'https://i.imgur.com/1eR59pN.jpeg',
     ],
-    installationPhotos: '',
+    installationPhotos: 'Daniel Hanoch',
     vimeoID:            '',
   },
   {
@@ -145,7 +148,7 @@ var WORKS = [
       'https://i.imgur.com/KFhxmpz.jpeg',
       'https://i.imgur.com/EDU4a3R.jpeg',
     ],
-    installationPhotos: '',
+    installationPhotos: 'Daniel Hanoch',
     vimeoID:            '',
   },
 {
@@ -155,9 +158,203 @@ var WORKS = [
     size:               'Dimensions variable (according to ceiling height)',
     images: [
       'https://i.imgur.com/oV1Jn94.jpeg',
+'https://i.imgur.com/ARlHTb7.jpeg',
+
+    ],
+    installationPhotos: 'Daniel Hanoch',
+    vimeoID:            'https://vimeo.com/1055671442?fl=ip&fe=ec',
+  },
+{
+    title:               'Butterfly',
+    year:               '2025',
+    medium:             'Silver-plated aluminum casting, knife blades, chair',
+    size:               '42 x 59 x 90',
+    images: [
+      'https://i.imgur.com/Wr8UomW.jpeg',
+'https://i.imgur.com/Mm9A9UU.jpeg',
+'https://i.imgur.com/tzpJAIX.jpeg',
+
+
+    ],
+    installationPhotos: 'Tziki Eisenberg',
+    vimeoID:            '',
+  },
+{, 
+    title:              'Leg and Stone'
+    year:               '202000',
+    medium:             'Inkjet print',
+    size:               '150 x 75 cm',
+    images: [
+      'https://i.imgur.com/a0usuHL.jpeg ',
+'https://i.imgur.com/uCEToaz.jpeg',
+    ],
+    installationPhotos: 'Tziki Eisenberg',
+    vimeoID:            '',
+  },
+{
+    title:                'Portrait of Father in a Car'
+    year:               '2021',
+    medium:             'Inkjet print, Citroën BX car window, dust, wood',
+    size:               '51 x 62 cm',
+    images: [
+      'https://i.imgur.com/3jEZMPT.jpeg',
+'https://i.imgur.com/5szztqc.jpeg',
+    ],
+    installationPhotos: 'Shai Halevi',
+    vimeoID:            '',
+  },
+{
+    title:              'East of Eden (Bezalel Gates)',
+    year:               '2024',
+    medium:             'inkjet print on archival paper
+(diptych)',
+    size:               '227 x 100 cm',
+    images: [
+      'https://i.imgur.com/9ZsOBCb.jpeg',
+'https://i.imgur.com/qKslWs5.jpeg',
+'https://i.imgur.com/v9RYTbT.jpeg',
+'https://i.imgur.com/PAJwlx4.jpeg',
+    ],
+    installationPhotos: 'Daniel Hanoch',
+    vimeoID:            '',
+  },
+{
+    title:             'Still Life'
+    year:               '2025',
+    medium:             'Inkjet print on vinyl, Dibond, wooden poles',
+    size:               'Dimensions variable',
+    images: [
+      'https://i.imgur.com/DBxF19V.jpeg',
+      'https://i.imgur.com/zQru6wX.jpeg',
+'https://i.imgur.com/1M3762Y.jpeg',
+
+    ],
+    installationPhotos: 'Noga Greenberg',
+    vimeoID:            '',
+  },
+{
+    title:              'Self-portrait with candles'
+    year:               '2021',
+    medium:             'video (4:25)',
+    size:               '',
+    images: [
+      'https://i.imgur.com/sabA0ce.jpeg',
     ],
     installationPhotos: '',
-    vimeoID:            'https://vimeo.com/1055671442?fl=ip&fe=ec',
+    vimeoID:            'https://vimeo.com/1059126078',
+  },
+{
+    title:              'Totem'
+    year:               '2021',
+    medium:             'Inkjet print',
+    size:               '290 x 107 cm',
+    images: ['https://i.imgur.com/KYWT5qb.jpeg',
+'https://i.imgur.com/lfx21ja.jpeg'
+'https://i.imgur.com/k2rH49r.jpeg'
+      'https://i.imgur.com/KYWT5qb.jpeg',
+    ],
+    installationPhotos: 
+    vimeoID:            'Neta Cones',
+  },
+{
+    title:              'Roof'
+    year:               '2021',
+    medium:             'Marseille roof tiles from HaMiffal roof, lichens, oil paint, motor oil, plastic wrap, and bucket',
+    size:               '420 x 120 x 300 cm',
+    images: [
+      'https://i.imgur.com/LqViV7T.jpeg',
+'https://i.imgur.com/SGkGsev.jpeg',
+'https://i.imgur.com/4bGt4oW.jpeg',
+    ],
+    installationPhotos: '',
+    vimeoID:            '',
+  },
+{
+    title:              'Hercules/Masking Tape'
+    year:               '2021',
+    medium:             'Inkjet print',
+    size:               '260 x 120 cm',
+    images: [
+      'https://i.imgur.com/kKOmIoV.jpeg',
+'https://i.imgur.com/M1n6fa3.jpeg',
+'https://i.imgur.com/L8qPljc.jpeg',
+    ],
+    installationPhotos: 'Ishay Halevy, Aharon Paz ',
+    vimeoID:            '',
+  },
+{
+    title:              'Untitled'
+    year:               '2019',
+    medium:             'Brass, electrical cables, plugs, and cable clips',
+    size:               '',
+    images: [
+      'https://i.imgur.com/OddXKhl.jpeg',
+'https://i.imgur.com/Hc7OJvZ.jpeg'
+    ],
+    installationPhotos: '',
+    vimeoID:            '',
+  },
+{
+    title:              'Ear'
+    year:               '2020',
+    medium:             'Silicone casting, helix earrings, metal, fabric',
+    size:               '',
+    images: [
+      'https://i.imgur.com/9Yye3v1.jpeg',
+'https://i.imgur.com/dXe5jJk.jpeg,=',
+'https://i.imgur.com/OXYMLWT.jpeg'
+    ],
+    installationPhotos: '',
+    vimeoID:            '',
+
+  },
+{
+    title:              'Self-Portrait with Pen'
+    year:               '2020',
+    medium:             'Inkjet print on paper, tissue, pen, and ink',
+    size:               '34 x 51 cm'
+    images: [
+      'https://i.imgur.com/L1qgTs3.jpeg',
+'https://i.imgur.com/Gw5QoTt.jpeg',
+    ],
+    installationPhotos: '',
+    vimeoID:            '',
+  },
+{
+    title:              'Bird'
+    year:               '2020',
+    medium:             'Silver-plated casting, Buteo talons, thread, and yellow balloons',
+    size:               '',
+    images: [
+      'https://i.imgur.com/R14AOWM.jpeg',
+'https://i.imgur.com/0WA29yy.jpeg',
+    ],
+    installationPhotos: 'Oded Yones',
+    vimeoID:            '',
+  },
+{
+    title:              'Mouse'
+    year:               '2020',
+    medium:             'Video installation on 43'' monitor,
+    size:               '',
+    images: [
+      'https://i.imgur.com/WGf7bTN.jpeg',
+'https://i.imgur.com/JK49WTw.jpeg',
+    ],
+    installationPhotos: 'Lena Gomon',
+    vimeoID:            'https://vimeo.com/manage/videos/458109823',
+  },
+{
+    title:              'Crutches'
+    year:               '2020',
+    medium:             'Inkjet print',
+    size:               'Dimensions variable',
+    images: ['https://i.imgur.com/zhhCSQw.jpeg',
+'https://i.imgur.com/rJpJ5Yg.jpeg'
+      '',
+    ],
+    installationPhotos: 'Tal Nisim',
+    vimeoID:            
   },
 
 ];
