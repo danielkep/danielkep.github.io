@@ -840,9 +840,9 @@ nav.transparent {
   margin-bottom: 14px;
 }
 .gallery-meta-line {
-  font-size: 13px;
-  font-weight: 300;
-  color: var(--gray);
+  font-size: 14px;
+  font-weight: 400;
+  color: #666;
   line-height: 2;
 }
 .gallery-year {

@@ -609,6 +609,23 @@ slides = document.querySelectorAll('.slide');
 checkAdminMode();
 loadImages();
 
+// לחיצה או גלילה בדף הבית — מעבר לעבודות
+(function() {
+  var homeEl = document.getElementById('home');
+  homeEl.addEventListener('click', function() {
+    showPage('works');
+  });
+  homeEl.addEventListener('wheel', function(e) {
+    if (e.deltaY > 0) showPage('works');
+  }, { passive: true });
+  homeEl.addEventListener('touchstart', function(e) {
+    homeEl._touchY = e.touches[0].clientY;
+  }, { passive: true });
+  homeEl.addEventListener('touchend', function(e) {
+    if (homeEl._touchY - e.changedTouches[0].clientY > 40) showPage('works');
+  }, { passive: true });
+})();
+
 // מצגת — שקופית ראשונה מהירה במובייל (שניה אחת), השאר בקצב רגיל
 (function() {
   var isMobile = window.innerWidth <= 768;
