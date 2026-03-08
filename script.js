@@ -901,7 +901,7 @@ function galleryRender(fade) {
       : '';
 
     var creditHtml = (work.installationPhotos)
-      ? '<div class="gallery-meta-line gallery-credit">Installation photography<br>' + work.installationPhotos + '</div>' : '';
+      ? '<div class="gallery-meta-line gallery-credit">Installation photography: ' + work.installationPhotos + '</div>' : '';
     var watchHtml = getVimeoId(work.vimeoID)
       ? '<button class="gallery-watch-btn" onclick="openVideoPlayer(\'' + getVimeoId(work.vimeoID) + '\')">' +
           '<span class="gallery-watch-play">&#9654;</span> Watch here' +
