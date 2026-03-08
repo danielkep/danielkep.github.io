@@ -849,6 +849,12 @@ nav.transparent {
   margin-top: 4px;
   color: #bbb;
 }
+.gallery-credit {
+  margin-top: 4px;
+}
+.gallery-credit-label {
+  color: #bbb;
+}
 .gallery-counter {
   margin-top: 28px;
   font-size: 11px;

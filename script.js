@@ -265,7 +265,7 @@ var WORKS = [
 'https://i.imgur.com/SGkGsev.jpeg',
 'https://i.imgur.com/4bGt4oW.jpeg',
     ],
-    installationPhotos: '',
+    installationPhotos: 'Ishai Halevy',
     vimeoID:            '',
   },
 {
@@ -901,7 +901,7 @@ function galleryRender(fade) {
       : '';
 
     var creditHtml = (work.installationPhotos)
-      ? '<div class="gallery-photo-credit">' + work.installationPhotos + '</div>' : '';
+      ? '<div class="gallery-meta-line gallery-credit">Installation photography<br>' + work.installationPhotos + '</div>' : '';
     var watchHtml = getVimeoId(work.vimeoID)
       ? '<button class="gallery-watch-btn" onclick="openVideoPlayer(\'' + getVimeoId(work.vimeoID) + '\')">' +
           '<span class="gallery-watch-play">&#9654;</span> Watch here' +
