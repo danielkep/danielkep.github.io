@@ -216,9 +216,10 @@ nav.transparent .nav-right a:hover {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: flex-start;
+  align-items: center;
   align-self: center;
-  padding: 0 60px;
+  padding: 0 40px;
+  text-align: center;
 }
 
 .work-title {
