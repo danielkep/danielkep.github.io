@@ -823,8 +823,19 @@ function galleryBuild() {
     var onImg = isOnImage(e);
     galleryCursor.style.left = e.clientX + 'px';
     galleryCursor.style.top  = e.clientY + 'px';
-    // always hide the circle cursor in gallery
     var sc = document.getElementById('site-cursor');
+
+    // show circle cursor when hovering over watch button
+    var overWatch = e.target && (e.target.classList.contains('gallery-watch-btn') || (e.target.closest && e.target.closest('.gallery-watch-btn')));
+    if (overWatch) {
+      if (sc) { sc.style.left = e.clientX + 'px'; sc.style.top = e.clientY + 'px'; if (sc.show) sc.show(); else sc.style.opacity = '1'; }
+      galleryCursor.style.opacity = '0';
+      var invertEl2 = document.getElementById('invert-loupe');
+      if (invertEl2) invertEl2.style.opacity = '0';
+      return;
+    }
+
+    // always hide the circle cursor in gallery
     if (sc) { sc.style.left = e.clientX + 'px'; sc.style.top = e.clientY + 'px'; if (sc.hide) sc.hide(); else sc.style.opacity = '0'; }
 
     if (onImg) {
