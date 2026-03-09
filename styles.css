@@ -388,6 +388,7 @@ nav.transparent .nav-right a:hover {
   #info { padding: 0 0 80px; }
   .info-layout {
     grid-template-columns: 1fr;
+    min-height: 0;
   }
   .info-photo {
     position: relative;
@@ -834,12 +835,6 @@ nav.transparent {
   padding: 40px 40px 40px 60px;
   position: relative;
   z-index: 20;
-  pointer-events: none;
-}
-
-.gallery-left button,
-.gallery-left a {
-  pointer-events: auto;
 }
 
 
@@ -952,8 +947,8 @@ nav.transparent {
   z-index: 10;
   cursor: none;
 }
-.gallery-zone-left  { left: 0;  width: 50%; }
-.gallery-zone-right { right: 0; width: 50%; }
+.gallery-zone-left  { left: 30%; width: 20%; }
+.gallery-zone-right { right: 0;  width: 50%; }
 
 .gallery-back-btn {
   position: fixed;
