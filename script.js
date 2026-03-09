@@ -574,25 +574,24 @@ var navEl = document.querySelector('nav');
 // nav always shows white box
 
 function showPage(id) {
-  var current = document.querySelector('.page.active');
+  var currentEl = document.querySelector('.page.active');
   var next = document.getElementById(id);
-  if (current === next) return;
+  if (currentEl === next) return;
 
-  // fade out current
-  if (current) current.classList.remove('active');
+  if (currentEl) currentEl.classList.remove('active');
 
-  // fade in next after brief delay
-  setTimeout(function() {
-    document.querySelectorAll('.nav-links a, .nav-right a').forEach(function(a) { a.classList.remove('active'); });
-    next.classList.add('active');
-    var link = document.getElementById('nav-' + id);
-    if (link) link.classList.add('active');
-    window.scrollTo(0, 0);
-    var _lp = document.getElementById('invert-loupe');
-    if (_lp) _lp.style.opacity = '0';
-    var _sc = document.getElementById('site-cursor');
-    if (_sc && _sc.show) _sc.show();
-  }, 300);
+  document.querySelectorAll('.nav-links a, .nav-right a').forEach(function(a) { a.classList.remove('active'); });
+  next.classList.add('active');
+  next.classList.remove('fading-in');
+  void next.offsetWidth; // reflow to restart animation
+  next.classList.add('fading-in');
+  var link = document.getElementById('nav-' + id);
+  if (link) link.classList.add('active');
+  window.scrollTo(0, 0);
+  var _lp = document.getElementById('invert-loupe');
+  if (_lp) _lp.style.opacity = '0';
+  var _sc = document.getElementById('site-cursor');
+  if (_sc && _sc.show) _sc.show();
 }
 
 // ---- SLIDESHOW ----
