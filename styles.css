@@ -290,13 +290,12 @@ nav.transparent .nav-right a:hover {
 
 /* INFO */
 #info {
-  padding: 80px 0 120px;
+  padding: 80px 0 40px;
 }
 
 .info-layout {
   display: grid;
   grid-template-columns: 42% 58%;
-  min-height: calc(100vh - 80px);
 }
 
 .info-photo {
@@ -385,7 +384,7 @@ nav.transparent .nav-right a:hover {
 }
 
 @media (max-width: 900px) {
-  #info { padding: 0 0 80px; }
+  #info { padding: 0 0 40px; }
   .info-layout {
     grid-template-columns: 1fr;
   }
