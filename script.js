@@ -819,6 +819,14 @@ function galleryBuild() {
   document.getElementById('gz-left').addEventListener('click',  function() { galleryNav(1); });
   document.getElementById('gz-right').addEventListener('click', function() { galleryNav(-1); });
 
+  // fallback: click anywhere on overlay navigates based on cursor X position
+  el.addEventListener('click', function(e) {
+    // ignore clicks on buttons or text panel
+    if (e.target.closest('button') || e.target.closest('.gallery-left')) return;
+    if (e.clientX < window.innerWidth / 2) galleryNav(1);
+    else galleryNav(-1);
+  });
+
   // keyboard
   document.addEventListener('keydown', function(e) {
     if (!galleryEl || !galleryEl.classList.contains('open')) return;

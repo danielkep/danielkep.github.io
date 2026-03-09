@@ -388,7 +388,6 @@ nav.transparent .nav-right a:hover {
   #info { padding: 0 0 80px; }
   .info-layout {
     grid-template-columns: 1fr;
-    min-height: 0;
   }
   .info-photo {
     position: relative;
@@ -940,15 +939,10 @@ nav.transparent {
   display: block;
   transition: opacity 0.2s ease;
 }
-.gallery-zone {
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  z-index: 10;
-  cursor: none;
-}
-.gallery-zone-left  { left: 30%; width: 20%; }
-.gallery-zone-right { right: 0;  width: 50%; }
+.gallery-zone { display: none; }
+.gallery-zone-left  { display: none; }
+.gallery-zone-right { display: none; }
+
 
 .gallery-back-btn {
   position: fixed;
