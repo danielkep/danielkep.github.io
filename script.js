@@ -970,14 +970,19 @@ function galleryRender(fade) {
         galleryTextEl.style.right    = (window.innerWidth - r.left) + 'px';
         galleryTextEl.style.width    = 'auto';
         galleryTextEl.style.padding  = '80px 40px 60px 60px';
+        // hide text if white space is too narrow
+        galleryTextEl.style.visibility = r.left < 180 ? 'hidden' : 'visible';
       } else {
-        galleryTextEl.style.position = '';
-        galleryTextEl.style.left     = '';
-        galleryTextEl.style.top      = '';
-        galleryTextEl.style.bottom   = '';
-        galleryTextEl.style.right    = '';
-        galleryTextEl.style.width    = '';
-        galleryTextEl.style.padding  = '';
+        galleryTextEl.style.position   = '';
+        galleryTextEl.style.left       = '';
+        galleryTextEl.style.top        = '';
+        galleryTextEl.style.bottom     = '';
+        galleryTextEl.style.right      = '';
+        galleryTextEl.style.width      = '';
+        galleryTextEl.style.padding    = '';
+        // hide text if the 30% panel is too narrow
+        var panelW = window.innerWidth * 0.3;
+        galleryTextEl.style.visibility = panelW < 180 ? 'hidden' : 'visible';
       }
     };
     tempImg.src = item.url;
@@ -992,6 +997,7 @@ function galleryRender(fade) {
     galleryTextEl.style.opacity = '0';
 
     setTimeout(function() {
+      galleryImgEl.src = '';  // clear old image so it doesn't flash
       render();
       galleryImgEl.style.opacity = '1';
       galleryTextEl.style.opacity = '1';

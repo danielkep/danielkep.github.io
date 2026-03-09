@@ -50,7 +50,7 @@ nav {
 nav.transparent .nav-logo,
 nav.transparent .nav-links a,
 nav.transparent .nav-right a {
-  color: #666;
+  color: #5f5f5f;
 }
 
 nav.transparent .nav-links a:hover,
@@ -241,7 +241,7 @@ nav.transparent .nav-right a:hover {
 .work-meta {
   font-size: 14px;
   font-weight: 400;
-  color: #666;
+  color: #5f5f5f;
   line-height: 2;
 }
 .work-meta span {
@@ -834,11 +834,7 @@ nav.transparent {
   padding: 40px 40px 40px 60px;
 }
 
-@media (max-width: 900px) and (min-width: 769px) {
-  .gallery-left {
-    display: none;
-  }
-}
+
 
 /* landscape: text centered in the white space LEFT of the image */
 #gallery-overlay.landscape .gallery-left {
@@ -863,12 +859,12 @@ nav.transparent {
 .gallery-meta-line {
   font-size: 14px;
   font-weight: 400;
-  color: #666;
+  color: #5f5f5f;
   line-height: 2;
 }
 .gallery-year {
   margin-top: 4px;
-  color: #666;
+  color: #5f5f5f;
 }
 .gallery-credit {
   margin-top: 4px;
@@ -945,12 +941,11 @@ nav.transparent {
   position: fixed;
   top: 0;
   bottom: 0;
-  width: 50%;
   z-index: 10;
   cursor: none;
 }
-.gallery-zone-left  { left: 0; }
-.gallery-zone-right { right: 0; }
+.gallery-zone-left  { left: 30%; width: 20%; }
+.gallery-zone-right { right: 0;  width: 50%; }
 
 .gallery-back-btn {
   position: fixed;
