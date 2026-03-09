@@ -222,11 +222,21 @@ nav.transparent .nav-right a:hover {
 }
 
 .work-item + .work-item {
-  border-top: 1px solid #e8e6e2;
+  position: relative;
   margin-left: -40px;
   margin-right: -40px;
   padding-left: 40px;
   padding-right: 40px;
+}
+
+.work-item + .work-item::before {
+  content: '';
+  position: absolute;
+  top: -55px;
+  left: 0;
+  right: 0;
+  height: 0.5px;
+  background: #5f5f5f;
 }
 
 .work-text {
