@@ -601,6 +601,7 @@ function showPage(id) {
     if (_lp) _lp.style.opacity = '0';
     var _sc = document.getElementById('site-cursor');
     if (_sc && _sc.show) _sc.show();
+    document.body.classList.toggle('page-works', id === 'works');
   }, 300);
 }
 
@@ -616,6 +617,11 @@ function goToSlide(n) {
 }
 
 // ---- INIT ----
+
+// קו תחתון בנאב בר כשגוללים
+window.addEventListener('scroll', function() {
+  document.querySelector('.nav-bar').classList.toggle('scrolled', window.scrollY > 10);
+}, { passive: true });
 
 renderWorks();
 renderSlideshow();
