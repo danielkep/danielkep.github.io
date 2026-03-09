@@ -150,19 +150,20 @@ nav.transparent .nav-right a:hover {
 
 /* PAGES */
 .page {
-  display: none;
+  opacity: 0;
+  visibility: hidden;
+  position: absolute;
+  top: 0; left: 0; right: 0;
   min-height: 100vh;
   padding-top: var(--nav-height);
+  transition: opacity 0.5s ease;
+  pointer-events: none;
 }
 .page.active {
-  display: block;
-}
-.page.fading-in {
-  animation: pageFadeIn 0.5s ease forwards;
-}
-@keyframes pageFadeIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+  opacity: 1;
+  visibility: visible;
+  position: relative;
+  pointer-events: auto;
 }
 
 /* HOME */
@@ -833,6 +834,12 @@ nav.transparent {
   padding: 40px 40px 40px 60px;
   position: relative;
   z-index: 20;
+  pointer-events: none;
+}
+
+.gallery-left button,
+.gallery-left a {
+  pointer-events: auto;
 }
 
 
@@ -945,8 +952,8 @@ nav.transparent {
   z-index: 10;
   cursor: none;
 }
-.gallery-zone-left  { left: 30%; width: 20%; }
-.gallery-zone-right { right: 0;  width: 50%; }
+.gallery-zone-left  { left: 0;  width: 50%; }
+.gallery-zone-right { right: 0; width: 50%; }
 
 .gallery-back-btn {
   position: fixed;
