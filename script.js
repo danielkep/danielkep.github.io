@@ -821,8 +821,8 @@ function galleryBuild() {
 
   // fallback: click anywhere on overlay navigates based on cursor X position
   el.addEventListener('click', function(e) {
-    // ignore clicks on buttons or text panel
-    if (e.target.closest('button') || e.target.closest('.gallery-left')) return;
+    // ignore clicks on buttons only
+    if (e.target.closest('button')) return;
     if (e.clientX < window.innerWidth / 2) galleryNav(1);
     else galleryNav(-1);
   });
