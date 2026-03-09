@@ -213,7 +213,7 @@ nav.transparent .nav-right a:hover {
 
 .work-item {
   display: grid;
-  grid-template-columns: 40% 60%;
+  grid-template-columns: 60% 40%;
   gap: 0;
   align-items: center;
 }
