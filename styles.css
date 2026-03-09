@@ -221,6 +221,14 @@ nav.transparent .nav-right a:hover {
   align-items: center;
 }
 
+.work-item + .work-item {
+  border-top: 1px solid #e8e6e2;
+  margin-left: -40px;
+  margin-right: -40px;
+  padding-left: 40px;
+  padding-right: 40px;
+}
+
 .work-text {
   display: flex;
   flex-direction: column;
@@ -647,6 +655,9 @@ nav.transparent .nav-right a:hover {
   }
   .works-list {
     gap: 0;
+    max-width: none;
+    padding: 0;
+    margin: 0;
   }
   .work-item {
     grid-template-columns: 1fr;
