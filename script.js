@@ -407,6 +407,12 @@ var FIREBASE_URL = 'YOUR_FIREBASE_DATABASE_URL';
 // =============================================================
 
 
+function imgurResize(url) {
+  if (!url) return url;
+  // add 'h' suffix for ~1024px max — e.g. AnjJBsK.jpeg → AnjJBsKh.jpeg
+  return url.replace(/(i\.imgur\.com\/[^.]+)(\.\w+)/, '$1h$2');
+}
+
 function getImages(work) {
   if (work.images && work.images.length > 0) return work.images;
   if (work.url) return [work.url];
@@ -479,7 +485,7 @@ function renderWorks() {
         '</div>' +
         '<div class="work-image" onclick="galleryOpen(' + i + ', 0)">' +
           '<div class="img-wrapper" data-key="work-' + i + '">' +
-            '<img class="stored-img" src="' + firstImg + '" alt="' + work.title + '">' +
+            '<img class="stored-img" src="' + imgurResize(firstImg) + '" alt="' + work.title + '">' +
             '<div class="img-placeholder"' + ph + '>Image</div>' +
             countBadge +
           '</div>' +
@@ -497,7 +503,7 @@ function renderSlideshow() {
     return (
       '<div class="slide' + (i === 0 ? ' active' : '') + '">' +
         '<div class="slide-inner" data-key="slide-' + i + '" style="background:' + (SLIDE_BG[i] || '#e0ddd9') + ';">' +
-          '<img class="stored-img" src="' + (url || '') + '" alt="">' +
+          '<img class="stored-img" src="' + imgurResize(url || '') + '" alt="">' +
           '<span class="img-placeholder"' + ph + '>Slide ' + (i + 1) + '</span>' +
         '</div>' +
       '</div>'
@@ -574,24 +580,25 @@ var navEl = document.querySelector('nav');
 // nav always shows white box
 
 function showPage(id) {
-  var currentEl = document.querySelector('.page.active');
+  var current = document.querySelector('.page.active');
   var next = document.getElementById(id);
-  if (currentEl === next) return;
+  if (current === next) return;
 
-  if (currentEl) currentEl.classList.remove('active');
+  // fade out current
+  if (current) current.classList.remove('active');
 
-  document.querySelectorAll('.nav-links a, .nav-right a').forEach(function(a) { a.classList.remove('active'); });
-  next.classList.add('active');
-  next.classList.remove('fading-in');
-  void next.offsetWidth; // reflow to restart animation
-  next.classList.add('fading-in');
-  var link = document.getElementById('nav-' + id);
-  if (link) link.classList.add('active');
-  window.scrollTo(0, 0);
-  var _lp = document.getElementById('invert-loupe');
-  if (_lp) _lp.style.opacity = '0';
-  var _sc = document.getElementById('site-cursor');
-  if (_sc && _sc.show) _sc.show();
+  // fade in next after brief delay
+  setTimeout(function() {
+    document.querySelectorAll('.nav-links a, .nav-right a').forEach(function(a) { a.classList.remove('active'); });
+    next.classList.add('active');
+    var link = document.getElementById('nav-' + id);
+    if (link) link.classList.add('active');
+    window.scrollTo(0, 0);
+    var _lp = document.getElementById('invert-loupe');
+    if (_lp) _lp.style.opacity = '0';
+    var _sc = document.getElementById('site-cursor');
+    if (_sc && _sc.show) _sc.show();
+  }, 300);
 }
 
 // ---- SLIDESHOW ----
@@ -910,6 +917,7 @@ function galleryOpen(workIndex, imgIndex) {
     }
   }
   galleryRender(false);
+  galleryPreload();
   galleryEl.classList.add('open');
   document.body.classList.add('gallery-open');
   document.body.style.overflow = 'hidden';
@@ -924,7 +932,7 @@ function galleryRender(fade) {
   var imgs = getImages(work);
 
   function render() {
-    galleryImgEl.src = item.url;
+    galleryImgEl.src = imgurResize(item.url);
 
     var titleHtml  = work.title  ? '<div class="gallery-title">'  + work.title  + '</div>' : '';
     var mediumHtml = work.medium ? '<div class="gallery-meta-line">' + work.medium + '</div>' : '';
@@ -1002,7 +1010,7 @@ function galleryRender(fade) {
         }
       });
     };
-    tempImg.src = item.url;
+    tempImg.src = imgurResize(item.url);
   }
 
   if (fade === 'same' || fade === 'diff') {
@@ -1026,11 +1034,24 @@ function galleryRender(fade) {
   }
 }
 
+function galleryPreload() {
+  var indices = [
+    (galleryIndex + 1) % galleryList.length,
+    (galleryIndex - 1 + galleryList.length) % galleryList.length,
+    (galleryIndex + 2) % galleryList.length,
+  ];
+  indices.forEach(function(i) {
+    var img = new Image();
+    img.src = imgurResize(galleryList[i].url);
+  });
+}
+
 function galleryNav(dir) {
   var prevWorkIndex = galleryList[galleryIndex].workIndex;
   galleryIndex = (galleryIndex + dir + galleryList.length) % galleryList.length;
   var sameProject = galleryList[galleryIndex].workIndex === prevWorkIndex;
   galleryRender(sameProject ? 'same' : 'diff');
+  galleryPreload();
 }
 
 function galleryClose() {
