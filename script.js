@@ -408,8 +408,11 @@ var FIREBASE_URL = 'YOUR_FIREBASE_DATABASE_URL';
 
 
 function imgurResize(url) {
+  return url; // full size
+}
+
+function imgurResizeThumb(url) {
   if (!url) return url;
-  // add 'h' suffix for ~1024px max — e.g. AnjJBsK.jpeg → AnjJBsKh.jpeg
   return url.replace(/(i\.imgur\.com\/[^.]+)(\.\w+)/, '$1h$2');
 }
 
@@ -485,7 +488,7 @@ function renderWorks() {
         '</div>' +
         '<div class="work-image" onclick="galleryOpen(' + i + ', 0)">' +
           '<div class="img-wrapper" data-key="work-' + i + '">' +
-            '<img class="stored-img" src="' + imgurResize(firstImg) + '" alt="' + work.title + '">' +
+            '<img class="stored-img" src="' + imgurResizeThumb(firstImg) + '" alt="' + work.title + '">' +
             '<div class="img-placeholder"' + ph + '>Image</div>' +
             countBadge +
           '</div>' +
