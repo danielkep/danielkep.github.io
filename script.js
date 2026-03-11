@@ -583,26 +583,27 @@ var navEl = document.querySelector('nav');
 // nav always shows white box
 
 function showPage(id) {
-  var current = document.querySelector('.page.active');
+  var currentEl = document.querySelector('.page.active');
   var next = document.getElementById(id);
-  if (current === next) return;
+  if (currentEl === next) return;
 
-  // fade out current
-  if (current) current.classList.remove('active');
+  var fromHome = currentEl && currentEl.id === 'home';
 
-  // fade in next after brief delay
-  setTimeout(function() {
-    document.querySelectorAll('.nav-links a, .nav-right a').forEach(function(a) { a.classList.remove('active'); });
-    next.classList.add('active');
-    var link = document.getElementById('nav-' + id);
-    if (link) link.classList.add('active');
-    window.scrollTo(0, 0);
-    var _lp = document.getElementById('invert-loupe');
-    if (_lp) _lp.style.opacity = '0';
-    var _sc = document.getElementById('site-cursor');
-    if (_sc && _sc.show) _sc.show();
-    document.body.classList.toggle('page-works', id === 'works');
-  }, 300);
+  if (currentEl) currentEl.classList.remove('active');
+
+  document.querySelectorAll('.nav-links a, .nav-right a').forEach(function(a) { a.classList.remove('active'); });
+  next.classList.add('active');
+  next.classList.remove('fading-in', 'fading-in-slow');
+  void next.offsetWidth;
+  next.classList.add(fromHome ? 'fading-in-slow' : 'fading-in');
+  var link = document.getElementById('nav-' + id);
+  if (link) link.classList.add('active');
+  window.scrollTo(0, 0);
+  var _lp = document.getElementById('invert-loupe');
+  if (_lp) _lp.style.opacity = '0';
+  var _sc = document.getElementById('site-cursor');
+  if (_sc && _sc.show) _sc.show();
+  document.body.classList.toggle('page-works', id === 'works');
 }
 
 // ---- SLIDESHOW ----
@@ -873,10 +874,10 @@ function galleryBuild() {
       galleryCursor.style.opacity = '0';
       var imgEl = document.getElementById('gallery-img');
       if (imgEl && imgEl.complete && imgEl.naturalWidth) {
-        var invertEl = document.getElementById('invert-loupe');
+        var invertEl = document.getElementById('gallery-invert-loupe');
         if (!invertEl) {
           invertEl = document.createElement('div');
-          invertEl.id = 'invert-loupe';
+          invertEl.id = 'gallery-invert-loupe';
           invertEl.style.cssText = [
             'position:fixed','pointer-events:none','z-index:9998',
             'width:150px','height:150px',
@@ -902,20 +903,20 @@ function galleryBuild() {
         invertEl.style.opacity            = '1';
         invertEl.style.backgroundImage    = 'url(' + imgEl.src + ')';
         invertEl.style.backgroundSize     = rendW + 'px ' + rendH + 'px';
-        invertEl.style.backgroundPosition = (75 - cx) + 'px ' + (75 - cy) + 'px';
+        invertEl.style.backgroundPosition = (150/2 - cx) + 'px ' + (150/2 - cy) + 'px';
         invertEl.style.filter             = 'invert(1)';
       }
     } else {
       // outside image: show arrow text cursor only (no circle)
       galleryCursor.textContent   = e.clientX < window.innerWidth / 2 ? '\u2190' : '\u2192';
       galleryCursor.style.opacity = '1';
-      var invertEl2 = document.getElementById('invert-loupe');
+      var invertEl2 = document.getElementById('gallery-invert-loupe');
       if (invertEl2) invertEl2.style.opacity = '0';
     }
   });
   el.addEventListener('mouseleave', function() {
     galleryCursor.style.opacity = '0';
-    var invertEl = document.getElementById('invert-loupe');
+    var invertEl = document.getElementById('gallery-invert-loupe');
     if (invertEl) invertEl.style.opacity = '0';
   });
 
