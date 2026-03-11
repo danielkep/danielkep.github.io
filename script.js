@@ -638,7 +638,13 @@ loadImages();
     showPage('works');
   });
   homeEl.addEventListener('wheel', function(e) {
-    if (e.deltaY > 0) showPage('works');
+    if (e.deltaY > 0) {
+      if (homeEl._scrollTimer) return;
+      homeEl._scrollTimer = setTimeout(function() {
+        showPage('works');
+        homeEl._scrollTimer = null;
+      }, 300);
+    }
   }, { passive: true });
   homeEl.addEventListener('touchstart', function(e) {
     homeEl._touchY = e.touches[0].clientY;
@@ -848,9 +854,10 @@ function galleryBuild() {
     galleryCursor.style.top  = e.clientY + 'px';
     var sc = document.getElementById('site-cursor');
 
-    // show circle cursor when hovering over watch button
+    // show circle cursor when hovering over watch button or back button
     var overWatch = e.target && (e.target.classList.contains('gallery-watch-btn') || (e.target.closest && e.target.closest('.gallery-watch-btn')));
-    if (overWatch) {
+    var overBack  = e.target && (e.target.classList.contains('gallery-back-btn')  || (e.target.closest && e.target.closest('.gallery-back-btn')));
+    if (overWatch || overBack) {
       if (sc) { sc.style.left = e.clientX + 'px'; sc.style.top = e.clientY + 'px'; if (sc.show) sc.show(); else sc.style.opacity = '1'; }
       galleryCursor.style.opacity = '0';
       var invertEl2 = document.getElementById('invert-loupe');
@@ -1181,7 +1188,7 @@ function loupeHide() {
 
 // ---- INVERT LOUPE ----
 (function() {
-  var size    = 150;
+  var size    = 75;
   var loupeEl = null;
 
   function init() {
