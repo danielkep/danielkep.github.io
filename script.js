@@ -983,9 +983,13 @@ function galleryRender(fade) {
       }
       var titleStr = work.title || '';
       var metaStr  = [work.medium, work.size, work.year].filter(Boolean).join(' · ');
+      var mobileWatchHtml = getVimeoId(work.vimeoID)
+        ? '<button class="gallery-mobile-watch" onclick="openVideoPlayer(\'' + getVimeoId(work.vimeoID) + '\')">&#9654; Watch here</button>'
+        : '';
       infoEl.innerHTML =
         (titleStr ? '<div class="gallery-mobile-title">' + titleStr + '</div>' : '') +
-        (metaStr  ? '<div class="gallery-mobile-meta">'  + metaStr  + '</div>' : '');
+        (metaStr  ? '<div class="gallery-mobile-meta">'  + metaStr  + '</div>' : '') +
+        mobileWatchHtml;
     }
 
     // detect orientation after image loads

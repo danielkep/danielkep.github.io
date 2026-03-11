@@ -634,8 +634,8 @@ nav.transparent .nav-right a:hover {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 32px;
-    height: 32px;
+    width: 22px;
+    height: 22px;
     border-radius: 50%;
     border: 1px solid rgba(0,0,0,0.35);
     background: none;
@@ -661,7 +661,7 @@ nav.transparent .nav-right a:hover {
 
   /* ---- WORKS PAGE ---- */
   #works {
-    padding: 80px 0 80px;
+    padding: 120px 0 80px;
   }
   .works-list {
     gap: 0;
@@ -673,6 +673,16 @@ nav.transparent .nav-right a:hover {
     grid-template-columns: 1fr;
     gap: 0;
     padding: 0 0 72px 0;
+  }
+  /* 4. הסר קו מפריד במובייל */
+  .work-item + .work-item {
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 0;
+    padding-right: 0;
+  }
+  .work-item + .work-item::before {
+    display: none;
   }
   .work-image {
     order: 1;
@@ -1032,8 +1042,9 @@ nav.transparent {
     height: auto;
     max-height: 100%;
     max-width: 100vw;
-    object-fit: contain;
+    object-fit: cover;
     object-position: center center;
+    display: block;
   }
 
   /* Text — hidden on mobile (shown in bottom bar instead) */
@@ -1104,6 +1115,20 @@ nav.transparent {
     letter-spacing: 0.08em;
     display: block;
     margin-top: 2px;
+  }
+  .gallery-mobile-watch {
+    display: inline-block;
+    margin-top: 6px;
+    background: none;
+    border: none;
+    padding: 0;
+    font-family: var(--font-body);
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #5f5f5f;
+    cursor: pointer;
   }
 
   /* Back button stays */
