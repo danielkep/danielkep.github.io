@@ -108,7 +108,6 @@ nav.transparent .nav-right a:hover {
   position: relative;
   display: inline-block;
   line-height: 1;
-  padding-bottom: 4px;
   transition: color 0.2s;
 }
 
@@ -116,7 +115,7 @@ nav.transparent .nav-right a:hover {
 .nav-right a::after {
   content: "";
   position: absolute;
-  bottom: 0;
+  bottom: -4px;
   left: 0;
   width: 0;
   height: 1px;
