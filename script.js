@@ -861,25 +861,27 @@ function galleryBuild() {
     if (overWatch || overBack) {
       if (sc) { sc.style.left = e.clientX + 'px'; sc.style.top = e.clientY + 'px'; if (sc.show) sc.show(); else sc.style.opacity = '1'; }
       galleryCursor.style.opacity = '0';
+      galleryCursor.style.left = '-500px';
       if (window._mriHideFn) window._mriHideFn();
       return;
     }
 
     // בגלריה — העיגול הרגיל תמיד מוסתר
-    if (sc) { sc.style.left = e.clientX + 'px'; sc.style.top = e.clientY + 'px'; if (sc.hide) sc.hide(); else sc.style.opacity = '0'; }
+    if (sc) { sc.style.left = '-500px'; sc.style.top = '-500px'; if (sc.hide) sc.hide(); else sc.style.opacity = '0'; }
 
     var onImg = isOnImage(e);
     if (onImg) {
-      // מעל תמונה — רק MRI loupe, ללא חץ וללא עיגול
+      // מעל תמונה — רק MRI loupe
       galleryCursor.style.opacity = '0';
-      if (window._mriHideFn) window._mriHideFn(); // מנקה frame קודם
+      galleryCursor.style.left = '-500px';
       var imgEl = document.getElementById('gallery-img');
       if (imgEl && imgEl.complete && imgEl.naturalWidth) {
         if (window._mriShowFn) window._mriShowFn(e, imgEl);
       }
     } else {
-      // מחוץ לתמונה — רק חץ טקסט, ללא MRI וללא עיגול
+      // מחוץ לתמונה — רק חץ טקסט, עיגול מוסתר לגמרי
       if (window._mriHideFn) window._mriHideFn();
+      if (sc) { sc.style.left = '-500px'; sc.style.top = '-500px'; if (sc.hide) sc.hide(); else sc.style.opacity = '0'; }
       galleryCursor.textContent   = e.clientX < window.innerWidth / 2 ? '\u2190' : '\u2192';
       galleryCursor.style.left    = e.clientX + 'px';
       galleryCursor.style.top     = e.clientY + 'px';
@@ -888,6 +890,7 @@ function galleryBuild() {
   });
   el.addEventListener('mouseleave', function() {
     galleryCursor.style.opacity = '0';
+    galleryCursor.style.left = '-500px';
     if (window._mriHideFn) window._mriHideFn();
     var sc = document.getElementById('site-cursor');
     if (sc && sc.show) sc.show(); else if (sc) sc.style.opacity = '1';
@@ -1214,32 +1217,37 @@ function loupeHide() {
   var offCtx    = offCanvas.getContext('2d');
   var mriCanvas = null;
 
-  function initCanvas(size) {
+  var RATIO = 1.75; // height = width × RATIO
+
+  function initCanvas(w) {
+    var h = Math.round(w * RATIO);
     if (!mriCanvas) {
       mriCanvas = document.createElement('canvas');
       mriCanvas.id = 'mri-loupe';
       mriCanvas.style.cssText = [
         'position:fixed','pointer-events:none','z-index:9998',
-        'border-radius:50%','opacity:0',
+        'border-radius:0',          // קצוות חדים — מלבן
+        'opacity:0',
         'transform:translate(-50%,-50%)',
         'transition:opacity 0.10s'
       ].join(';');
       document.body.appendChild(mriCanvas);
     }
-    if (mriCanvas.width !== size) {
-      mriCanvas.width  = size;
-      mriCanvas.height = size;
-      mriCanvas.style.width  = size + 'px';
-      mriCanvas.style.height = size + 'px';
+    if (mriCanvas.width !== w || mriCanvas.height !== h) {
+      mriCanvas.width  = w;
+      mriCanvas.height = h;
+      mriCanvas.style.width  = w + 'px';
+      mriCanvas.style.height = h + 'px';
     }
   }
 
-  function drawMRI(e, imgEl, size) {
+  function drawMRI(e, imgEl, w) {
     if (!imgEl || !imgEl.complete || !imgEl.naturalWidth) return;
-    size = size || sizeSmall;
-    initCanvas(size);
+    w = w || sizeSmall;
+    var h = Math.round(w * RATIO);
+    initCanvas(w);
 
-    var half  = size / 2;
+    var halfW = w / 2, halfH = h / 2;
     var r     = imgEl.getBoundingClientRect();
     var natW  = imgEl.naturalWidth,  natH  = imgEl.naturalHeight;
     var dispW = r.width,             dispH = r.height;
@@ -1251,56 +1259,37 @@ function loupeHide() {
       rendW = dispW; rendH = dispW / natR; offX = 0; offY = (dispH - rendH) / 2;
     }
 
-    // cursor in rendered-image coordinates
     var cx = e.clientX - r.left - offX;
     var cy = e.clientY - r.top  - offY;
 
-    // source rectangle in natural pixels
     var scaleX = natW / rendW, scaleY = natH / rendH;
-    var srcW   = half * scaleX,  srcH  = half * scaleY;
+    var srcW   = halfW * scaleX, srcH  = halfH * scaleY;
     var sx     = cx * scaleX - srcW;
     var sy     = cy * scaleY - srcH;
 
-    // draw source patch to offscreen canvas
-    offCanvas.width  = size;
-    offCanvas.height = size;
-    offCtx.clearRect(0, 0, size, size);
+    offCanvas.width  = w;
+    offCanvas.height = h;
+    offCtx.clearRect(0, 0, w, h);
     try {
-      offCtx.drawImage(imgEl, sx, sy, srcW * 2, srcH * 2, 0, 0, size, size);
+      offCtx.drawImage(imgEl, sx, sy, srcW * 2, srcH * 2, 0, 0, w, h);
     } catch(err) {
-      // CORS not yet ready — silently skip this frame
       return;
     }
 
-    var imgData = offCtx.getImageData(0, 0, size, size);
+    var imgData = offCtx.getImageData(0, 0, w, h);
     var d       = imgData.data;
 
     for (var p = 0; p < d.length; p += 4) {
       var idx = p >> 2;
-      var px  = idx % size;
-      var py  = (idx - px) / size;
-      var dx  = (px - half) / half;
-      var dy  = (py - half) / half;
-      var dist = Math.sqrt(dx * dx + dy * dy); // 0=centre 1=edge
+      var px  = idx % w;
+      var py  = (idx - px) / w;
 
-      if (dist >= 1) { d[p+3] = 0; continue; }
-
-      // luminance
-      var lum = (d[p] * 77 + d[p+1] * 150 + d[p+2] * 29) >> 8; // 0-255
-
-      // MRI remap via LUT
+      // luminance → MRI remap (כל הפיקסלים, ללא clipping)
+      var lum = (d[p] * 77 + d[p+1] * 150 + d[p+2] * 29) >> 8;
       d[p]   = LUT_R[lum];
       d[p+1] = LUT_G[lum];
       d[p+2] = LUT_B[lum];
-
-      // radial fade: full at centre, smooth-step to 0 at edge
-      // fade zone starts at 40% of radius
-      var alpha = 1;
-      if (dist > 0.4) {
-        var t = (dist - 0.4) / 0.6;
-        alpha = 1 - t * t * (3 - 2 * t); // smoothstep
-      }
-      d[p+3] = Math.round(255 * alpha);
+      d[p+3] = 255; // אטום לגמרי — קצוות חדים
     }
 
     var ctx = mriCanvas.getContext('2d');
