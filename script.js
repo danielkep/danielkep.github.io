@@ -488,7 +488,7 @@ function renderWorks() {
         '</div>' +
         '<div class="work-image" onclick="galleryOpen(' + i + ', 0)">' +
           '<div class="img-wrapper" data-key="work-' + i + '">' +
-            '<img class="stored-img" src="' + imgurResizeThumb(firstImg) + '" alt="' + work.title + '">' +
+            '<img class="stored-img" crossorigin="anonymous" src="' + imgurResizeThumb(firstImg) + '" alt="' + work.title + '">' +
             '<div class="img-placeholder"' + ph + '>Image</div>' +
             countBadge +
           '</div>' +
@@ -506,7 +506,7 @@ function renderSlideshow() {
     return (
       '<div class="slide' + (i === 0 ? ' active' : '') + '">' +
         '<div class="slide-inner" data-key="slide-' + i + '" style="background:' + (SLIDE_BG[i] || '#e0ddd9') + ';">' +
-          '<img class="stored-img" src="' + imgurResize(url || '') + '" alt="">' +
+          '<img class="stored-img" crossorigin="anonymous" src="' + imgurResize(url || '') + '" alt="">' +
           '<span class="img-placeholder"' + ph + '>Slide ' + (i + 1) + '</span>' +
         '</div>' +
       '</div>'
@@ -556,7 +556,7 @@ function applyImage(key, url) {
   var wrapper = document.querySelector('[data-key="' + key + '"]');
   if (!wrapper) return;
   var img = wrapper.querySelector('.stored-img');
-  if (img) img.src = url;
+  if (img) { img.crossOrigin = 'anonymous'; img.src = url; }
   var ph = wrapper.querySelector('.img-placeholder');
   if (ph) ph.style.display = 'none';
 }
@@ -806,7 +806,7 @@ function galleryBuild() {
     '<button class="gallery-back-btn" onclick="galleryClose()">← Back</button>' +
     '<div class="gallery-left" id="gallery-text"></div>' +
     '<div class="gallery-right">' +
-      '<img id="gallery-img" src="" alt="">' +
+      '<img id="gallery-img" crossorigin="anonymous" src="" alt="">' +
     '</div>' +
     '<div class="gallery-zone gallery-zone-left"  id="gz-left"></div>' +
     '<div class="gallery-zone gallery-zone-right" id="gz-right"></div>' +
@@ -1154,59 +1154,83 @@ function loupeHide() {
 }
 
 
-// ---- MRI LOUPE ----
-// CSS-filter thermal effect. Two sizes:
-//   sizeSmall = Works / Info pages (matches old invert-loupe: 75px)
-//   sizeLarge = Full gallery overlay (matches old gallery-invert-loupe: 150px)
-// Fade: very wide radial-gradient mask so the circle edge is invisible.
+// ---- MRI LOUPE (true canvas pixel-mapping) ----
+// Maps each pixel's luminance through the classic MRI thermal palette.
+// Requires crossOrigin="anonymous" on all <img> elements (set above).
+// Fade: smooth radial alpha falloff per pixel — no visible circle edge.
 (function() {
   var sizeSmall = 75;
   var sizeLarge = 150;
-  var loupeEl   = null;
-  var curSize   = sizeSmall;
 
-  // Warm thermal palette matching reference image:
-  // dark areas → deep blue/indigo, mid → green/yellow-green,
-  // bright areas → yellow → orange → red-orange.
-  // Formula: grayscale + sepia shifts to amber base,
-  // then hue-rotate(100deg) pushes greens/yellows to the fore,
-  // high saturation + slight brightness boost completes the look.
-  var MRI_FILTER =
-    'grayscale(1) contrast(1.3) sepia(1) ' +
-    'hue-rotate(100deg) saturate(5) brightness(0.95)';
+  // Classic MRI thermal palette — [luminance 0-1, r, g, b]
+  var STOPS = [
+    [0.00,   0,   0,   0],   // black
+    [0.12,   0,   0, 160],   // deep blue
+    [0.25,   0,  60, 220],   // blue
+    [0.38,   0, 180, 210],   // cyan
+    [0.50,   0, 210,  80],   // green
+    [0.63, 180, 220,   0],   // yellow-green
+    [0.75, 255, 200,   0],   // yellow
+    [0.85, 255, 100,   0],   // orange
+    [0.93, 240,  20,   0],   // red
+    [1.00, 255, 255, 255],   // white
+  ];
 
-  // Very soft edge: opaque in the inner 15%, fades to nothing by 100%
-  var MASK_GRADIENT =
-    'radial-gradient(circle, black 0%, black 15%, transparent 75%)';
-
-  function init(size) {
-    if (!loupeEl) {
-      loupeEl = document.createElement('div');
-      loupeEl.id = 'mri-loupe';
-      loupeEl.style.cssText = [
-        'position:fixed','pointer-events:none','z-index:9998',
-        'border-radius:50%','overflow:visible','opacity:0',
-        'transform:translate(-50%,-50%)',
-        'transition:opacity 0.12s'
-      ].join(';');
-      document.body.appendChild(loupeEl);
+  function mriRGB(v) {
+    if (v <= 0) return [STOPS[0][1], STOPS[0][2], STOPS[0][3]];
+    if (v >= 1) return [255, 255, 255];
+    for (var i = 1; i < STOPS.length; i++) {
+      if (v <= STOPS[i][0]) {
+        var t = (v - STOPS[i-1][0]) / (STOPS[i][0] - STOPS[i-1][0]);
+        return [
+          Math.round(STOPS[i-1][1] + t * (STOPS[i][1] - STOPS[i-1][1])),
+          Math.round(STOPS[i-1][2] + t * (STOPS[i][2] - STOPS[i-1][2])),
+          Math.round(STOPS[i-1][3] + t * (STOPS[i][3] - STOPS[i-1][3])),
+        ];
+      }
     }
-    if (curSize !== size) {
-      curSize = size;
-      loupeEl.style.width  = size + 'px';
-      loupeEl.style.height = size + 'px';
-    }
-    loupeEl.style.webkitMaskImage = MASK_GRADIENT;
-    loupeEl.style.maskImage       = MASK_GRADIENT;
-    loupeEl.style.webkitMaskSize  = '100% 100%';
-    loupeEl.style.maskSize        = '100% 100%';
+    return [255, 255, 255];
   }
 
-  function showMRI(e, imgEl, size) {
+  // Pre-build a 256-entry lookup table for speed
+  var LUT_R = new Uint8Array(256);
+  var LUT_G = new Uint8Array(256);
+  var LUT_B = new Uint8Array(256);
+  for (var i = 0; i < 256; i++) {
+    var c = mriRGB(i / 255);
+    LUT_R[i] = c[0]; LUT_G[i] = c[1]; LUT_B[i] = c[2];
+  }
+
+  var offCanvas = document.createElement('canvas');
+  var offCtx    = offCanvas.getContext('2d');
+  var mriCanvas = null;
+
+  function initCanvas(size) {
+    if (!mriCanvas) {
+      mriCanvas = document.createElement('canvas');
+      mriCanvas.id = 'mri-loupe';
+      mriCanvas.style.cssText = [
+        'position:fixed','pointer-events:none','z-index:9998',
+        'border-radius:50%','opacity:0',
+        'transform:translate(-50%,-50%)',
+        'transition:opacity 0.10s'
+      ].join(';');
+      document.body.appendChild(mriCanvas);
+    }
+    if (mriCanvas.width !== size) {
+      mriCanvas.width  = size;
+      mriCanvas.height = size;
+      mriCanvas.style.width  = size + 'px';
+      mriCanvas.style.height = size + 'px';
+    }
+  }
+
+  function drawMRI(e, imgEl, size) {
     if (!imgEl || !imgEl.complete || !imgEl.naturalWidth) return;
     size = size || sizeSmall;
-    init(size);
+    initCanvas(size);
 
+    var half  = size / 2;
     var r     = imgEl.getBoundingClientRect();
     var natW  = imgEl.naturalWidth,  natH  = imgEl.naturalHeight;
     var dispW = r.width,             dispH = r.height;
@@ -1217,23 +1241,72 @@ function loupeHide() {
     } else {
       rendW = dispW; rendH = dispW / natR; offX = 0; offY = (dispH - rendH) / 2;
     }
+
+    // cursor in rendered-image coordinates
     var cx = e.clientX - r.left - offX;
     var cy = e.clientY - r.top  - offY;
 
-    loupeEl.style.left            = e.clientX + 'px';
-    loupeEl.style.top             = e.clientY + 'px';
-    loupeEl.style.opacity         = '1';
-    loupeEl.style.backgroundImage = 'url(' + imgEl.src + ')';
-    loupeEl.style.backgroundSize  = rendW + 'px ' + rendH + 'px';
-    loupeEl.style.backgroundPosition = (size/2 - cx) + 'px ' + (size/2 - cy) + 'px';
-    loupeEl.style.filter          = MRI_FILTER;
+    // source rectangle in natural pixels
+    var scaleX = natW / rendW, scaleY = natH / rendH;
+    var srcW   = half * scaleX,  srcH  = half * scaleY;
+    var sx     = cx * scaleX - srcW;
+    var sy     = cy * scaleY - srcH;
+
+    // draw source patch to offscreen canvas
+    offCanvas.width  = size;
+    offCanvas.height = size;
+    offCtx.clearRect(0, 0, size, size);
+    try {
+      offCtx.drawImage(imgEl, sx, sy, srcW * 2, srcH * 2, 0, 0, size, size);
+    } catch(err) {
+      // CORS not yet ready — silently skip this frame
+      return;
+    }
+
+    var imgData = offCtx.getImageData(0, 0, size, size);
+    var d       = imgData.data;
+
+    for (var p = 0; p < d.length; p += 4) {
+      var idx = p >> 2;
+      var px  = idx % size;
+      var py  = (idx - px) / size;
+      var dx  = (px - half) / half;
+      var dy  = (py - half) / half;
+      var dist = Math.sqrt(dx * dx + dy * dy); // 0=centre 1=edge
+
+      if (dist >= 1) { d[p+3] = 0; continue; }
+
+      // luminance
+      var lum = (d[p] * 77 + d[p+1] * 150 + d[p+2] * 29) >> 8; // 0-255
+
+      // MRI remap via LUT
+      d[p]   = LUT_R[lum];
+      d[p+1] = LUT_G[lum];
+      d[p+2] = LUT_B[lum];
+
+      // radial fade: full at centre, smooth-step to 0 at edge
+      // fade zone starts at 40% of radius
+      var alpha = 1;
+      if (dist > 0.4) {
+        var t = (dist - 0.4) / 0.6;
+        alpha = 1 - t * t * (3 - 2 * t); // smoothstep
+      }
+      d[p+3] = Math.round(255 * alpha);
+    }
+
+    var ctx = mriCanvas.getContext('2d');
+    ctx.putImageData(imgData, 0, 0);
+
+    mriCanvas.style.left    = e.clientX + 'px';
+    mriCanvas.style.top     = e.clientY + 'px';
+    mriCanvas.style.opacity = '1';
 
     var sc = document.getElementById('site-cursor');
     if (sc && sc.hide) sc.hide(); else if (sc) sc.style.opacity = '0';
   }
 
   function hideMRI() {
-    if (loupeEl) loupeEl.style.opacity = '0';
+    if (mriCanvas) mriCanvas.style.opacity = '0';
     var sc = document.getElementById('site-cursor');
     if (sc && sc.show) sc.show(); else if (sc) sc.style.opacity = '1';
   }
@@ -1250,7 +1323,7 @@ function loupeHide() {
   function attach(el, getImg, size) {
     el.addEventListener('mouseenter', hideCursor);
     el.addEventListener('mouseleave', function() { hideMRI(); showCursor(); });
-    el.addEventListener('mousemove',  function(e) { showMRI(e, getImg(), size); });
+    el.addEventListener('mousemove',  function(e) { drawMRI(e, getImg(), size); });
   }
 
   function attachToWorks() {
@@ -1258,9 +1331,7 @@ function loupeHide() {
       attach(el, function() { return el.querySelector('.stored-img'); }, sizeSmall);
     });
   }
-
   function attachToSlideshow() { /* no-op */ }
-
   function attachToInfo() {
     var ip = document.querySelector('.info-photo');
     if (!ip) return;
@@ -1287,9 +1358,9 @@ function loupeHide() {
     };
   }
 
-  // expose for gallery — passes sizeLarge
-  window._mriShowFn  = function(e, imgEl) { showMRI(e, imgEl, sizeLarge); };
-  window._mriHideFn  = hideMRI;
+  // gallery uses sizeLarge
+  window._mriShowFn = function(e, imgEl) { drawMRI(e, imgEl, sizeLarge); };
+  window._mriHideFn = hideMRI;
 })();
 
 // =============================================================
