@@ -869,11 +869,11 @@ function galleryBuild() {
     if (sc) { sc.style.left = e.clientX + 'px'; sc.style.top = e.clientY + 'px'; if (sc.hide) sc.hide(); else sc.style.opacity = '0'; }
 
     if (onImg) {
-      // on image: show MRI loupe (canvas-based), hide arrow cursor
+      // on image: show MRI loupe, hide arrow cursor
       galleryCursor.style.opacity = '0';
       var imgEl = document.getElementById('gallery-img');
       if (imgEl && imgEl.complete && imgEl.naturalWidth) {
-        if (window._mriDrawFn) window._mriDrawFn(e, imgEl);
+        if (window._mriShowFn) window._mriShowFn(e, imgEl);
       }
     } else {
       // outside image: show arrow text cursor only (no circle)
@@ -1155,161 +1155,71 @@ function loupeHide() {
 
 
 // ---- MRI LOUPE ----
-// Replaces the invert-loupe with a medical-scanner colour-mapping effect.
-// Pixels inside the circle are remapped through the classic MRI palette
-// (black → deep blue → cyan → green → yellow → red → white).
-// The edge of the circle fades softly with a radial gradient so there is
-// no hard boundary between the MRI circle and the original image.
+// Uses CSS filters to simulate MRI thermal palette.
+// Avoids Canvas pixel-read (blocked by CORS on cross-origin images).
 (function() {
-  var size     = 75;   // diameter in px  (same as old invert loupe)
-  var halfSize = size / 2;
-  var fadeZone = 0.38; // fraction of radius where fade begins (0 = centre, 1 = edge)
+  var size     = 75;
+  var loupeEl  = null;
 
-  // MRI colour stops – classic thermal / false-colour palette
-  // Each entry: [normalised intensity 0-1, r, g, b]
-  var MRI_STOPS = [
-    [0.00,   0,   0,   0],
-    [0.12,   0,   0, 128],
-    [0.25,   0,  80, 220],
-    [0.38,   0, 200, 200],
-    [0.52,   0, 220,  60],
-    [0.65, 200, 220,   0],
-    [0.78, 255, 160,   0],
-    [0.88, 255,  60,   0],
-    [0.94, 255, 255, 255],
-    [1.00, 255, 255, 255],
-  ];
-
-  function mriColor(v) {
-    // v in [0,1] → {r,g,b}
-    if (v <= 0) return MRI_STOPS[0];
-    if (v >= 1) return MRI_STOPS[MRI_STOPS.length - 1];
-    for (var i = 1; i < MRI_STOPS.length; i++) {
-      if (v <= MRI_STOPS[i][0]) {
-        var t0 = MRI_STOPS[i-1][0], t1 = MRI_STOPS[i][0];
-        var t  = (v - t0) / (t1 - t0);
-        return [
-          Math.round(MRI_STOPS[i-1][1] + t * (MRI_STOPS[i][1] - MRI_STOPS[i-1][1])),
-          Math.round(MRI_STOPS[i-1][2] + t * (MRI_STOPS[i][2] - MRI_STOPS[i-1][2])),
-          Math.round(MRI_STOPS[i-1][3] + t * (MRI_STOPS[i][3] - MRI_STOPS[i-1][3])),
-        ];
-      }
-    }
-    return MRI_STOPS[MRI_STOPS.length - 1];
-  }
-
-  // Off-screen canvas that feeds pixels to the loupe
-  var offCanvas  = document.createElement('canvas');
-  var offCtx     = offCanvas.getContext('2d');
-  // Loupe canvas that shows on screen
-  var loupeCanvas = null;
-
-  function initCanvas() {
-    if (loupeCanvas) return;
-    loupeCanvas = document.createElement('canvas');
-    loupeCanvas.id = 'mri-loupe';
-    loupeCanvas.width  = size;
-    loupeCanvas.height = size;
-    loupeCanvas.style.cssText = [
+  function init() {
+    if (loupeEl) return;
+    loupeEl = document.createElement('div');
+    loupeEl.id = 'mri-loupe';
+    loupeEl.style.cssText = [
       'position:fixed','pointer-events:none','z-index:9998',
-      'border-radius:50%','opacity:0',
+      'width:' + size + 'px','height:' + size + 'px',
+      'border-radius:50%','overflow:hidden','opacity:0',
       'transform:translate(-50%,-50%)',
       'transition:opacity 0.12s'
     ].join(';');
-    document.body.appendChild(loupeCanvas);
+
+    // Soft fade overlay — radial gradient mask on top
+    loupeEl.style.webkitMaskImage =
+      'radial-gradient(circle, black 30%, transparent 100%)';
+    loupeEl.style.maskImage =
+      'radial-gradient(circle, black 30%, transparent 100%)';
+
+    document.body.appendChild(loupeEl);
   }
 
-  // last drawn image src — lets us skip re-reading pixels when the image hasn't changed
-  var _cachedSrc = null;
-  var _cachedNatW = 0, _cachedNatH = 0;
-
-  function drawMRI(e, imgEl) {
+  function showMRI(e, imgEl) {
     if (!imgEl || !imgEl.complete || !imgEl.naturalWidth) return;
-    initCanvas();
+    init();
 
     var r     = imgEl.getBoundingClientRect();
     var natW  = imgEl.naturalWidth,  natH  = imgEl.naturalHeight;
     var dispW = r.width,             dispH = r.height;
-
-    // figure out rendered size & offset inside the element (object-fit: contain logic)
-    var natR = natW / natH, dispR = dispW / dispH;
+    var natR  = natW / natH,         dispR = dispW / dispH;
     var rendW, rendH, offX, offY;
     if (natR > dispR) {
       rendH = dispH; rendW = dispH * natR; offX = (dispW - rendW) / 2; offY = 0;
     } else {
       rendW = dispW; rendH = dispW / natR; offX = 0; offY = (dispH - rendH) / 2;
     }
-
-    // cursor position relative to rendered image
-    var cx = e.clientX - r.left - offX;  // px in rendered image
+    var cx = e.clientX - r.left - offX;
     var cy = e.clientY - r.top  - offY;
 
-    // Map cursor to natural-pixel coordinates at the centre of the loupe
-    var scaleX = natW / rendW;
-    var scaleY = natH / rendH;
-    var srcCX  = cx * scaleX;
-    var srcCY  = cy * scaleY;
+    loupeEl.style.left            = e.clientX + 'px';
+    loupeEl.style.top             = e.clientY + 'px';
+    loupeEl.style.opacity         = '1';
+    loupeEl.style.backgroundImage = 'url(' + imgEl.src + ')';
+    loupeEl.style.backgroundSize  = rendW + 'px ' + rendH + 'px';
+    loupeEl.style.backgroundPosition = (size/2 - cx) + 'px ' + (size/2 - cy) + 'px';
+    // MRI thermal palette via CSS filters:
+    // grayscale → high contrast → hue-rotate → saturate gives the
+    // classic false-colour thermal look (blues/greens/yellows/reds)
+    loupeEl.style.filter =
+      'grayscale(1) contrast(1.4) brightness(1.1) ' +
+      'sepia(1) hue-rotate(180deg) saturate(4) brightness(0.85)';
 
-    // Source rectangle (natural px) that the loupe covers
-    var srcW = halfSize * scaleX;
-    var srcH = halfSize * scaleY;
-    var sx   = srcCX - srcW;
-    var sy   = srcCY - srcH;
-
-    // Draw the patch onto an off-screen canvas then read pixels
-    offCanvas.width  = size;
-    offCanvas.height = size;
-    offCtx.clearRect(0, 0, size, size);
-    try {
-      offCtx.drawImage(imgEl, sx, sy, srcW * 2, srcH * 2, 0, 0, size, size);
-    } catch(err) { return; }
-
-    var imageData = offCtx.getImageData(0, 0, size, size);
-    var data      = imageData.data;
-
-    for (var i = 0; i < data.length; i += 4) {
-      var pi  = i / 4;
-      var px  = pi % size;
-      var py  = Math.floor(pi / size);
-      var dx  = (px - halfSize) / halfSize;
-      var dy  = (py - halfSize) / halfSize;
-      var d   = Math.sqrt(dx*dx + dy*dy); // 0 at centre, 1 at edge
-
-      if (d > 1) {
-        data[i+3] = 0;
-        continue;
-      }
-
-      // Convert to luminance (0-1)
-      var lum = (data[i]*0.299 + data[i+1]*0.587 + data[i+2]*0.114) / 255;
-
-      // MRI remap
-      var col = mriColor(lum);
-
-      // Soft radial fade: full effect in the centre, fading to transparent at the edge
-      var alpha = 1;
-      if (d > fadeZone) {
-        // smooth-step from 1→0 over the fade zone
-        var t = (d - fadeZone) / (1 - fadeZone);
-        alpha = 1 - (t * t * (3 - 2 * t)); // smoothstep
-      }
-
-      data[i]   = col[0];
-      data[i+1] = col[1];
-      data[i+2] = col[2];
-      data[i+3] = Math.round(255 * alpha);
-    }
-
-    var ctx = loupeCanvas.getContext('2d');
-    ctx.putImageData(imageData, 0, 0);
-
-    loupeCanvas.style.left    = e.clientX + 'px';
-    loupeCanvas.style.top     = e.clientY + 'px';
-    loupeCanvas.style.opacity = '1';
+    var sc = document.getElementById('site-cursor');
+    if (sc && sc.hide) sc.hide(); else if (sc) sc.style.opacity = '0';
   }
 
   function hideMRI() {
-    if (loupeCanvas) loupeCanvas.style.opacity = '0';
+    if (loupeEl) loupeEl.style.opacity = '0';
+    var sc = document.getElementById('site-cursor');
+    if (sc && sc.show) sc.show(); else if (sc) sc.style.opacity = '1';
   }
 
   function hideCursor() {
@@ -1324,7 +1234,7 @@ function loupeHide() {
   function attach(el, getImg) {
     el.addEventListener('mouseenter', hideCursor);
     el.addEventListener('mouseleave', function() { hideMRI(); showCursor(); });
-    el.addEventListener('mousemove',  function(e) { drawMRI(e, getImg()); });
+    el.addEventListener('mousemove',  function(e) { showMRI(e, getImg()); });
   }
 
   function attachToWorks() {
@@ -1334,7 +1244,7 @@ function loupeHide() {
   }
 
   function attachToSlideshow() {
-    // no-op: circle cursor remains visible on home page
+    // no-op
   }
 
   function attachToInfo() {
@@ -1363,10 +1273,9 @@ function loupeHide() {
     };
   }
 
-  // expose helpers for gallery loupe (below)
-  window._mriDrawFn   = drawMRI;
-  window._mriHideFn   = hideMRI;
-  window._mriLoupeSize = size;
+  // expose for gallery
+  window._mriShowFn = showMRI;
+  window._mriHideFn = hideMRI;
 })();
 
 // =============================================================
