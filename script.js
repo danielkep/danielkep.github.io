@@ -711,8 +711,11 @@ loadImages();
 
 
 
-// ---- GLOBAL CIRCLE CURSOR ----
+// ---- GLOBAL CIRCLE CURSOR (desktop / mouse only) ----
 (function() {
+  // Only activate on devices with a real pointer (mouse/trackpad), not touch
+  if (!window.matchMedia('(pointer: fine)').matches) return;
+
   var cur = document.createElement('div');
   cur.id = 'site-cursor';
   cur.style.cssText = [
@@ -850,12 +853,9 @@ function galleryBuild() {
 
   // cursor
   el.addEventListener('mousemove', function(e) {
-    var onImg = isOnImage(e);
-    galleryCursor.style.left = e.clientX + 'px';
-    galleryCursor.style.top  = e.clientY + 'px';
     var sc = document.getElementById('site-cursor');
 
-    // show circle cursor when hovering over watch button or back button
+    // כפתורי Back / Watch — רק העיגול הרגיל
     var overWatch = e.target && (e.target.classList.contains('gallery-watch-btn') || (e.target.closest && e.target.closest('.gallery-watch-btn')));
     var overBack  = e.target && (e.target.classList.contains('gallery-back-btn')  || (e.target.closest && e.target.closest('.gallery-back-btn')));
     if (overWatch || overBack) {
@@ -865,26 +865,32 @@ function galleryBuild() {
       return;
     }
 
-    // always hide the circle cursor in gallery
+    // בגלריה — העיגול הרגיל תמיד מוסתר
     if (sc) { sc.style.left = e.clientX + 'px'; sc.style.top = e.clientY + 'px'; if (sc.hide) sc.hide(); else sc.style.opacity = '0'; }
 
+    var onImg = isOnImage(e);
     if (onImg) {
-      // on image: show MRI loupe, hide arrow cursor
+      // מעל תמונה — רק MRI loupe, ללא חץ וללא עיגול
       galleryCursor.style.opacity = '0';
+      if (window._mriHideFn) window._mriHideFn(); // מנקה frame קודם
       var imgEl = document.getElementById('gallery-img');
       if (imgEl && imgEl.complete && imgEl.naturalWidth) {
         if (window._mriShowFn) window._mriShowFn(e, imgEl);
       }
     } else {
-      // outside image: show arrow text cursor only (no circle)
-      galleryCursor.textContent   = e.clientX < window.innerWidth / 2 ? '\u2190' : '\u2192';
-      galleryCursor.style.opacity = '1';
+      // מחוץ לתמונה — רק חץ טקסט, ללא MRI וללא עיגול
       if (window._mriHideFn) window._mriHideFn();
+      galleryCursor.textContent   = e.clientX < window.innerWidth / 2 ? '\u2190' : '\u2192';
+      galleryCursor.style.left    = e.clientX + 'px';
+      galleryCursor.style.top     = e.clientY + 'px';
+      galleryCursor.style.opacity = '1';
     }
   });
   el.addEventListener('mouseleave', function() {
     galleryCursor.style.opacity = '0';
     if (window._mriHideFn) window._mriHideFn();
+    var sc = document.getElementById('site-cursor');
+    if (sc && sc.show) sc.show(); else if (sc) sc.style.opacity = '1';
   });
 
   // swipe
@@ -1159,6 +1165,9 @@ function loupeHide() {
 // Requires crossOrigin="anonymous" on all <img> elements (set above).
 // Fade: smooth radial alpha falloff per pixel — no visible circle edge.
 (function() {
+  // על מובייל/טאץ' — לא מפעילים בכלל
+  if (!window.matchMedia('(pointer: fine)').matches) return;
+
   var sizeSmall = 75;
   var sizeLarge = 150;
 
@@ -1335,7 +1344,7 @@ function loupeHide() {
   function attachToInfo() {
     var ip = document.querySelector('.info-photo');
     if (!ip) return;
-    attach(ip, function() { return ip.querySelector('.stored-img'); }, sizeSmall);
+    attach(ip, function() { return ip.querySelector('.stored-img'); }, sizeLarge);
   }
 
   document.addEventListener('DOMContentLoaded', function() {

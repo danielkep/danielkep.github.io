@@ -4,7 +4,13 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  cursor: none !important;
+}
+
+/* Hide native cursor only on devices that have a real pointer (mouse/trackpad) */
+@media (pointer: fine) {
+  *, *::before, *::after {
+    cursor: none !important;
+  }
 }
 
 :root {
