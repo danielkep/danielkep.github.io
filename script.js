@@ -599,7 +599,7 @@ function showPage(id) {
   var link = document.getElementById('nav-' + id);
   if (link) link.classList.add('active');
   window.scrollTo(0, 0);
-  var _lp = document.getElementById('invert-loupe');
+  var _lp = document.getElementById('mri-loupe');
   if (_lp) _lp.style.opacity = '0';
   var _sc = document.getElementById('site-cursor');
   if (_sc && _sc.show) _sc.show();
@@ -861,8 +861,7 @@ function galleryBuild() {
     if (overWatch || overBack) {
       if (sc) { sc.style.left = e.clientX + 'px'; sc.style.top = e.clientY + 'px'; if (sc.show) sc.show(); else sc.style.opacity = '1'; }
       galleryCursor.style.opacity = '0';
-      var invertEl2 = document.getElementById('invert-loupe');
-      if (invertEl2) invertEl2.style.opacity = '0';
+      if (window._mriHideFn) window._mriHideFn();
       return;
     }
 
@@ -870,54 +869,22 @@ function galleryBuild() {
     if (sc) { sc.style.left = e.clientX + 'px'; sc.style.top = e.clientY + 'px'; if (sc.hide) sc.hide(); else sc.style.opacity = '0'; }
 
     if (onImg) {
-      // on image: show invert loupe, hide arrow cursor
+      // on image: show MRI loupe (canvas-based), hide arrow cursor
       galleryCursor.style.opacity = '0';
       var imgEl = document.getElementById('gallery-img');
       if (imgEl && imgEl.complete && imgEl.naturalWidth) {
-        var invertEl = document.getElementById('gallery-invert-loupe');
-        if (!invertEl) {
-          invertEl = document.createElement('div');
-          invertEl.id = 'gallery-invert-loupe';
-          invertEl.style.cssText = [
-            'position:fixed','pointer-events:none','z-index:9998',
-            'width:150px','height:150px',
-            'border-radius:50%','overflow:hidden','opacity:0',
-            'transform:translate(-50%,-50%)'
-          ].join(';');
-          document.body.appendChild(invertEl);
-        }
-        var r    = imgEl.getBoundingClientRect();
-        var natW = imgEl.naturalWidth, natH = imgEl.naturalHeight;
-        var dispW = r.width, dispH = r.height;
-        var natR  = natW / natH, dispR = dispW / dispH;
-        var rendW, rendH, offX, offY;
-        if (natR > dispR) {
-          rendH = dispH; rendW = dispH * natR; offX = (dispW - rendW) / 2; offY = 0;
-        } else {
-          rendW = dispW; rendH = dispW / natR; offX = 0; offY = (dispH - rendH) / 2;
-        }
-        var cx = e.clientX - r.left - offX;
-        var cy = e.clientY - r.top  - offY;
-        invertEl.style.left               = e.clientX + 'px';
-        invertEl.style.top                = e.clientY + 'px';
-        invertEl.style.opacity            = '1';
-        invertEl.style.backgroundImage    = 'url(' + imgEl.src + ')';
-        invertEl.style.backgroundSize     = rendW + 'px ' + rendH + 'px';
-        invertEl.style.backgroundPosition = (150/2 - cx) + 'px ' + (150/2 - cy) + 'px';
-        invertEl.style.filter             = 'invert(1)';
+        if (window._mriDrawFn) window._mriDrawFn(e, imgEl);
       }
     } else {
       // outside image: show arrow text cursor only (no circle)
       galleryCursor.textContent   = e.clientX < window.innerWidth / 2 ? '\u2190' : '\u2192';
       galleryCursor.style.opacity = '1';
-      var invertEl2 = document.getElementById('gallery-invert-loupe');
-      if (invertEl2) invertEl2.style.opacity = '0';
+      if (window._mriHideFn) window._mriHideFn();
     }
   });
   el.addEventListener('mouseleave', function() {
     galleryCursor.style.opacity = '0';
-    var invertEl = document.getElementById('gallery-invert-loupe');
-    if (invertEl) invertEl.style.opacity = '0';
+    if (window._mriHideFn) window._mriHideFn();
   });
 
   // swipe
@@ -1187,56 +1154,162 @@ function loupeHide() {
 }
 
 
-// ---- INVERT LOUPE ----
+// ---- MRI LOUPE ----
+// Replaces the invert-loupe with a medical-scanner colour-mapping effect.
+// Pixels inside the circle are remapped through the classic MRI palette
+// (black → deep blue → cyan → green → yellow → red → white).
+// The edge of the circle fades softly with a radial gradient so there is
+// no hard boundary between the MRI circle and the original image.
 (function() {
-  var size    = 75;
-  var loupeEl = null;
+  var size     = 75;   // diameter in px  (same as old invert loupe)
+  var halfSize = size / 2;
+  var fadeZone = 0.38; // fraction of radius where fade begins (0 = centre, 1 = edge)
 
-  function init() {
-    if (loupeEl) return;
-    loupeEl = document.createElement('div');
-    loupeEl.id = 'invert-loupe';
-    loupeEl.style.cssText = [
-      'position:fixed','pointer-events:none','z-index:9998',
-      'width:' + size + 'px','height:' + size + 'px',
-      'border-radius:50%','overflow:hidden','opacity:0',
-      'transform:translate(-50%,-50%)'
-    ].join(';');
-    document.body.appendChild(loupeEl);
+  // MRI colour stops – classic thermal / false-colour palette
+  // Each entry: [normalised intensity 0-1, r, g, b]
+  var MRI_STOPS = [
+    [0.00,   0,   0,   0],
+    [0.12,   0,   0, 128],
+    [0.25,   0,  80, 220],
+    [0.38,   0, 200, 200],
+    [0.52,   0, 220,  60],
+    [0.65, 200, 220,   0],
+    [0.78, 255, 160,   0],
+    [0.88, 255,  60,   0],
+    [0.94, 255, 255, 255],
+    [1.00, 255, 255, 255],
+  ];
+
+  function mriColor(v) {
+    // v in [0,1] → {r,g,b}
+    if (v <= 0) return MRI_STOPS[0];
+    if (v >= 1) return MRI_STOPS[MRI_STOPS.length - 1];
+    for (var i = 1; i < MRI_STOPS.length; i++) {
+      if (v <= MRI_STOPS[i][0]) {
+        var t0 = MRI_STOPS[i-1][0], t1 = MRI_STOPS[i][0];
+        var t  = (v - t0) / (t1 - t0);
+        return [
+          Math.round(MRI_STOPS[i-1][1] + t * (MRI_STOPS[i][1] - MRI_STOPS[i-1][1])),
+          Math.round(MRI_STOPS[i-1][2] + t * (MRI_STOPS[i][2] - MRI_STOPS[i-1][2])),
+          Math.round(MRI_STOPS[i-1][3] + t * (MRI_STOPS[i][3] - MRI_STOPS[i-1][3])),
+        ];
+      }
+    }
+    return MRI_STOPS[MRI_STOPS.length - 1];
   }
 
-  function showInvert(e, imgEl) {
+  // Off-screen canvas that feeds pixels to the loupe
+  var offCanvas  = document.createElement('canvas');
+  var offCtx     = offCanvas.getContext('2d');
+  // Loupe canvas that shows on screen
+  var loupeCanvas = null;
+
+  function initCanvas() {
+    if (loupeCanvas) return;
+    loupeCanvas = document.createElement('canvas');
+    loupeCanvas.id = 'mri-loupe';
+    loupeCanvas.width  = size;
+    loupeCanvas.height = size;
+    loupeCanvas.style.cssText = [
+      'position:fixed','pointer-events:none','z-index:9998',
+      'border-radius:50%','opacity:0',
+      'transform:translate(-50%,-50%)',
+      'transition:opacity 0.12s'
+    ].join(';');
+    document.body.appendChild(loupeCanvas);
+  }
+
+  // last drawn image src — lets us skip re-reading pixels when the image hasn't changed
+  var _cachedSrc = null;
+  var _cachedNatW = 0, _cachedNatH = 0;
+
+  function drawMRI(e, imgEl) {
     if (!imgEl || !imgEl.complete || !imgEl.naturalWidth) return;
-    init();
-    var r    = imgEl.getBoundingClientRect();
-    var natW = imgEl.naturalWidth, natH = imgEl.naturalHeight;
-    var dispW = r.width, dispH = r.height;
-    var natR  = natW / natH, dispR = dispW / dispH;
+    initCanvas();
+
+    var r     = imgEl.getBoundingClientRect();
+    var natW  = imgEl.naturalWidth,  natH  = imgEl.naturalHeight;
+    var dispW = r.width,             dispH = r.height;
+
+    // figure out rendered size & offset inside the element (object-fit: contain logic)
+    var natR = natW / natH, dispR = dispW / dispH;
     var rendW, rendH, offX, offY;
     if (natR > dispR) {
       rendH = dispH; rendW = dispH * natR; offX = (dispW - rendW) / 2; offY = 0;
     } else {
       rendW = dispW; rendH = dispW / natR; offX = 0; offY = (dispH - rendH) / 2;
     }
-    var cx = e.clientX - r.left - offX;
+
+    // cursor position relative to rendered image
+    var cx = e.clientX - r.left - offX;  // px in rendered image
     var cy = e.clientY - r.top  - offY;
-    loupeEl.style.left            = e.clientX + 'px';
-    loupeEl.style.top             = e.clientY + 'px';
-    loupeEl.style.opacity         = '1';
-    loupeEl.style.backgroundImage = 'url(' + imgEl.src + ')';
-    loupeEl.style.backgroundSize  = rendW + 'px ' + rendH + 'px';
-    loupeEl.style.backgroundPosition = (size/2 - cx) + 'px ' + (size/2 - cy) + 'px';
-    loupeEl.style.filter          = 'invert(1)';
-    // hide site cursor
-    var sc = document.getElementById('site-cursor');
-    if (sc && sc.hide) sc.hide(); else if (sc) sc.style.opacity = '0';
+
+    // Map cursor to natural-pixel coordinates at the centre of the loupe
+    var scaleX = natW / rendW;
+    var scaleY = natH / rendH;
+    var srcCX  = cx * scaleX;
+    var srcCY  = cy * scaleY;
+
+    // Source rectangle (natural px) that the loupe covers
+    var srcW = halfSize * scaleX;
+    var srcH = halfSize * scaleY;
+    var sx   = srcCX - srcW;
+    var sy   = srcCY - srcH;
+
+    // Draw the patch onto an off-screen canvas then read pixels
+    offCanvas.width  = size;
+    offCanvas.height = size;
+    offCtx.clearRect(0, 0, size, size);
+    try {
+      offCtx.drawImage(imgEl, sx, sy, srcW * 2, srcH * 2, 0, 0, size, size);
+    } catch(err) { return; }
+
+    var imageData = offCtx.getImageData(0, 0, size, size);
+    var data      = imageData.data;
+
+    for (var i = 0; i < data.length; i += 4) {
+      var pi  = i / 4;
+      var px  = pi % size;
+      var py  = Math.floor(pi / size);
+      var dx  = (px - halfSize) / halfSize;
+      var dy  = (py - halfSize) / halfSize;
+      var d   = Math.sqrt(dx*dx + dy*dy); // 0 at centre, 1 at edge
+
+      if (d > 1) {
+        data[i+3] = 0;
+        continue;
+      }
+
+      // Convert to luminance (0-1)
+      var lum = (data[i]*0.299 + data[i+1]*0.587 + data[i+2]*0.114) / 255;
+
+      // MRI remap
+      var col = mriColor(lum);
+
+      // Soft radial fade: full effect in the centre, fading to transparent at the edge
+      var alpha = 1;
+      if (d > fadeZone) {
+        // smooth-step from 1→0 over the fade zone
+        var t = (d - fadeZone) / (1 - fadeZone);
+        alpha = 1 - (t * t * (3 - 2 * t)); // smoothstep
+      }
+
+      data[i]   = col[0];
+      data[i+1] = col[1];
+      data[i+2] = col[2];
+      data[i+3] = Math.round(255 * alpha);
+    }
+
+    var ctx = loupeCanvas.getContext('2d');
+    ctx.putImageData(imageData, 0, 0);
+
+    loupeCanvas.style.left    = e.clientX + 'px';
+    loupeCanvas.style.top     = e.clientY + 'px';
+    loupeCanvas.style.opacity = '1';
   }
 
-  function hideInvert() {
-    if (loupeEl) loupeEl.style.opacity = '0';
-    // restore site cursor
-    var sc = document.getElementById('site-cursor');
-    if (sc && sc.show) sc.show(); else if (sc) sc.style.opacity = '1';
+  function hideMRI() {
+    if (loupeCanvas) loupeCanvas.style.opacity = '0';
   }
 
   function hideCursor() {
@@ -1250,25 +1323,20 @@ function loupeHide() {
 
   function attach(el, getImg) {
     el.addEventListener('mouseenter', hideCursor);
-    el.addEventListener('mouseleave', function() { hideInvert(); showCursor(); });
-    el.addEventListener('mousemove', function(e) { showInvert(e, getImg()); });
+    el.addEventListener('mouseleave', function() { hideMRI(); showCursor(); });
+    el.addEventListener('mousemove',  function(e) { drawMRI(e, getImg()); });
   }
 
-  // Works page — invert only on images
   function attachToWorks() {
     document.querySelectorAll('.work-image').forEach(function(el) {
       attach(el, function() { return el.querySelector('.stored-img'); });
     });
   }
 
-  // Home page — cursor stays visible (no invert on slideshow)
   function attachToSlideshow() {
     // no-op: circle cursor remains visible on home page
   }
 
-  // Full gallery handled directly in galleryBuild mousemove — NOT here
-
-  // Info page — invert on portrait
   function attachToInfo() {
     var ip = document.querySelector('.info-photo');
     if (!ip) return;
@@ -1283,19 +1351,22 @@ function loupeHide() {
     }, 300);
   });
 
-  // gallery handled in galleryBuild — no wrapping needed here
-
   var origShowPage = window.showPage;
   if (origShowPage) {
     window.showPage = function(id) {
       origShowPage(id);
-      hideInvert();
+      hideMRI();
       showCursor();
       if (id === 'works') setTimeout(attachToWorks, 100);
       if (id === 'home')  setTimeout(attachToSlideshow, 100);
       if (id === 'info')  setTimeout(attachToInfo, 100);
     };
   }
+
+  // expose helpers for gallery loupe (below)
+  window._mriDrawFn   = drawMRI;
+  window._mriHideFn   = hideMRI;
+  window._mriLoupeSize = size;
 })();
 
 // =============================================================
