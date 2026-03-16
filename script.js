@@ -1155,36 +1155,57 @@ function loupeHide() {
 
 
 // ---- MRI LOUPE ----
-// Uses CSS filters to simulate MRI thermal palette.
-// Avoids Canvas pixel-read (blocked by CORS on cross-origin images).
+// CSS-filter thermal effect. Two sizes:
+//   sizeSmall = Works / Info pages (matches old invert-loupe: 75px)
+//   sizeLarge = Full gallery overlay (matches old gallery-invert-loupe: 150px)
+// Fade: very wide radial-gradient mask so the circle edge is invisible.
 (function() {
-  var size     = 75;
-  var loupeEl  = null;
+  var sizeSmall = 75;
+  var sizeLarge = 150;
+  var loupeEl   = null;
+  var curSize   = sizeSmall;
 
-  function init() {
-    if (loupeEl) return;
-    loupeEl = document.createElement('div');
-    loupeEl.id = 'mri-loupe';
-    loupeEl.style.cssText = [
-      'position:fixed','pointer-events:none','z-index:9998',
-      'width:' + size + 'px','height:' + size + 'px',
-      'border-radius:50%','overflow:hidden','opacity:0',
-      'transform:translate(-50%,-50%)',
-      'transition:opacity 0.12s'
-    ].join(';');
+  // Warm thermal palette matching reference image:
+  // dark areas → deep blue/indigo, mid → green/yellow-green,
+  // bright areas → yellow → orange → red-orange.
+  // Formula: grayscale + sepia shifts to amber base,
+  // then hue-rotate(100deg) pushes greens/yellows to the fore,
+  // high saturation + slight brightness boost completes the look.
+  var MRI_FILTER =
+    'grayscale(1) contrast(1.3) sepia(1) ' +
+    'hue-rotate(100deg) saturate(5) brightness(0.95)';
 
-    // Soft fade overlay — radial gradient mask on top
-    loupeEl.style.webkitMaskImage =
-      'radial-gradient(circle, black 30%, transparent 100%)';
-    loupeEl.style.maskImage =
-      'radial-gradient(circle, black 30%, transparent 100%)';
+  // Very soft edge: opaque in the inner 15%, fades to nothing by 100%
+  var MASK_GRADIENT =
+    'radial-gradient(circle, black 0%, black 15%, transparent 75%)';
 
-    document.body.appendChild(loupeEl);
+  function init(size) {
+    if (!loupeEl) {
+      loupeEl = document.createElement('div');
+      loupeEl.id = 'mri-loupe';
+      loupeEl.style.cssText = [
+        'position:fixed','pointer-events:none','z-index:9998',
+        'border-radius:50%','overflow:visible','opacity:0',
+        'transform:translate(-50%,-50%)',
+        'transition:opacity 0.12s'
+      ].join(';');
+      document.body.appendChild(loupeEl);
+    }
+    if (curSize !== size) {
+      curSize = size;
+      loupeEl.style.width  = size + 'px';
+      loupeEl.style.height = size + 'px';
+    }
+    loupeEl.style.webkitMaskImage = MASK_GRADIENT;
+    loupeEl.style.maskImage       = MASK_GRADIENT;
+    loupeEl.style.webkitMaskSize  = '100% 100%';
+    loupeEl.style.maskSize        = '100% 100%';
   }
 
-  function showMRI(e, imgEl) {
+  function showMRI(e, imgEl, size) {
     if (!imgEl || !imgEl.complete || !imgEl.naturalWidth) return;
-    init();
+    size = size || sizeSmall;
+    init(size);
 
     var r     = imgEl.getBoundingClientRect();
     var natW  = imgEl.naturalWidth,  natH  = imgEl.naturalHeight;
@@ -1205,12 +1226,7 @@ function loupeHide() {
     loupeEl.style.backgroundImage = 'url(' + imgEl.src + ')';
     loupeEl.style.backgroundSize  = rendW + 'px ' + rendH + 'px';
     loupeEl.style.backgroundPosition = (size/2 - cx) + 'px ' + (size/2 - cy) + 'px';
-    // MRI thermal palette via CSS filters:
-    // grayscale → high contrast → hue-rotate → saturate gives the
-    // classic false-colour thermal look (blues/greens/yellows/reds)
-    loupeEl.style.filter =
-      'grayscale(1) contrast(1.4) brightness(1.1) ' +
-      'sepia(1) hue-rotate(180deg) saturate(4) brightness(0.85)';
+    loupeEl.style.filter          = MRI_FILTER;
 
     var sc = document.getElementById('site-cursor');
     if (sc && sc.hide) sc.hide(); else if (sc) sc.style.opacity = '0';
@@ -1231,26 +1247,24 @@ function loupeHide() {
     if (sc && sc.show) sc.show(); else if (sc) sc.style.opacity = '1';
   }
 
-  function attach(el, getImg) {
+  function attach(el, getImg, size) {
     el.addEventListener('mouseenter', hideCursor);
     el.addEventListener('mouseleave', function() { hideMRI(); showCursor(); });
-    el.addEventListener('mousemove',  function(e) { showMRI(e, getImg()); });
+    el.addEventListener('mousemove',  function(e) { showMRI(e, getImg(), size); });
   }
 
   function attachToWorks() {
     document.querySelectorAll('.work-image').forEach(function(el) {
-      attach(el, function() { return el.querySelector('.stored-img'); });
+      attach(el, function() { return el.querySelector('.stored-img'); }, sizeSmall);
     });
   }
 
-  function attachToSlideshow() {
-    // no-op
-  }
+  function attachToSlideshow() { /* no-op */ }
 
   function attachToInfo() {
     var ip = document.querySelector('.info-photo');
     if (!ip) return;
-    attach(ip, function() { return ip.querySelector('.stored-img'); });
+    attach(ip, function() { return ip.querySelector('.stored-img'); }, sizeSmall);
   }
 
   document.addEventListener('DOMContentLoaded', function() {
@@ -1273,9 +1287,9 @@ function loupeHide() {
     };
   }
 
-  // expose for gallery
-  window._mriShowFn = showMRI;
-  window._mriHideFn = hideMRI;
+  // expose for gallery — passes sizeLarge
+  window._mriShowFn  = function(e, imgEl) { showMRI(e, imgEl, sizeLarge); };
+  window._mriHideFn  = hideMRI;
 })();
 
 // =============================================================
