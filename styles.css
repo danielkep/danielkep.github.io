@@ -375,7 +375,14 @@ nav.transparent .nav-right a:hover {
   margin-bottom: 0;
 }
 
-.info-contact {
+.info-photo-credit {
+  font-size: 11px;
+  font-weight: 300;
+  color: var(--gray);
+  letter-spacing: 0.06em;
+  padding: 8px 0 0 4px;
+}
+
   display: flex;
   flex-direction: column;
   gap: 6px;
