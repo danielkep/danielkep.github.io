@@ -330,7 +330,7 @@ nav.transparent .nav-right a:hover {
   height: calc(100vh - var(--nav-height));
   max-height: 700px;
   flex-shrink: 0;
-  background: #e4e2de;
+  background: #ffffff;
   overflow: visible;
 }
 
@@ -352,6 +352,7 @@ nav.transparent .nav-right a:hover {
   letter-spacing: 0.1em;
   color: #bbb;
   text-transform: uppercase;
+  background: transparent;
 }
 
 .info-content {
